@@ -1,0 +1,61 @@
+{
+	"name": "awesomecoder/plagiarism",
+	"description": "The plagiarism plugin.",
+	"keywords": [
+		"plagiarism",
+		"plugin"
+	],
+	"license": "MIT",
+	"homepage": "https://awesomecoder.dev",
+	"authors": [
+		{
+			"name": "Mohammad Ibrahim",
+			"email": "awesomecoder.dev@gmail.com"
+		}
+	],
+	"require": {
+		"illuminate/contracts": "^10.2",
+		"illuminate/html": "^4.2",
+		"illuminate/container": "^10.2",
+		"illuminate/support": "^4.2",
+		"illuminate/view": "^1.1",
+		"illuminate/validation": "^1.1",
+		"illuminate/session": "^4.2",
+		"illuminate/database": "^1.1",
+		"illuminate/http": "^4.2",
+		"illuminate/filesystem": "^4.2",
+		"illuminate/cookie": "^4.2",
+		"illuminate/cache": "^4.2",
+		"illuminate/config": "^10.2",
+		"illuminate/conditionable": "^10.2",
+		"illuminate/collections": "^10.2",
+		"illuminate/encryption": "^4.2",
+		"illuminate/hashing": "^4.2",
+		"illuminate/macroable": "^10.2",
+		"illuminate/auth": "^1.0",
+		"illuminate/remote": "^4.2",
+		"illuminate/exception": "^4.2"
+	},
+	"autoload": {
+		"files": [],
+		"psr-4": {
+			"AwesomeCoder\\": "backend/"
+		}
+	},
+	"provide": {
+		"psr/container-implementation": "1.1|2.0",
+		"psr/simple-cache-implementation": "1.0|2.0|3.0"
+	},
+	"conflict": {
+		"tightenco/collect": "<5.5.33"
+	},
+	"config": {
+		"sort-packages": true,
+		"allow-plugins": {
+			"composer/package-versions-deprecated": true,
+			"kylekatarnls/update-helper": true
+		}
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true
+}

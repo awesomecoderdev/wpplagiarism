@@ -1,0 +1,28 @@
+<?php
+
+use AwesomeCoder\Database\Migrations\Migration;
+use AwesomeCoder\Database\Schema\Blueprint;
+use AwesomeCoder\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        //
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
+    }
+};

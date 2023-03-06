@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ namespace }};
+
+use AwesomeCoder\Database\Console\Seeds\WithoutModelEvents;
+use AwesomeCoder\Database\Seeder;
+
+class {{ class }} extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        //
+    }
+}

@@ -1,0 +1,32 @@
+<?php
+
+use AwesomeCoder\Database\Migrations\Migration;
+use AwesomeCoder\Database\Schema\Blueprint;
+use AwesomeCoder\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('{{ table }}', function (Blueprint $table) {
+            //
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('{{ table }}', function (Blueprint $table) {
+            //
+        });
+    }
+};
