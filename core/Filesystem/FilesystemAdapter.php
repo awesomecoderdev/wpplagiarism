@@ -1,35 +1,17 @@
 <?php
 
-namespace AwesomeCoder\Filesystem;
+namespace Illuminate\Filesystem;
 
 use Closure;
-use AwesomeCoder\Contracts\Filesystem\Cloud as CloudFilesystemContract;
-use AwesomeCoder\Contracts\Filesystem\Filesystem as FilesystemContract;
-use AwesomeCoder\Http\File;
-use AwesomeCoder\Http\UploadedFile;
-use AwesomeCoder\Support\Arr;
-use AwesomeCoder\Support\Str;
-use AwesomeCoder\Support\Traits\Conditionable;
-use AwesomeCoder\Support\Traits\Macroable;
+use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
+use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
+use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
-use League\Flysystem\FilesystemAdapter as FlysystemAdapter;
-use League\Flysystem\FilesystemOperator;
-use League\Flysystem\Ftp\FtpAdapter;
-use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
-use League\Flysystem\PathPrefixer;
-use League\Flysystem\PhpseclibV3\SftpAdapter;
-use League\Flysystem\StorageAttributes;
-use League\Flysystem\UnableToCopyFile;
-use League\Flysystem\UnableToCreateDirectory;
-use League\Flysystem\UnableToDeleteDirectory;
-use League\Flysystem\UnableToDeleteFile;
-use League\Flysystem\UnableToMoveFile;
-use League\Flysystem\UnableToProvideChecksum;
-use League\Flysystem\UnableToReadFile;
-use League\Flysystem\UnableToRetrieveMetadata;
-use League\Flysystem\UnableToSetVisibility;
-use League\Flysystem\UnableToWriteFile;
-use League\Flysystem\Visibility;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -336,7 +318,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Write the contents of a file.
      *
      * @param  string  $path
-     * @param  \Psr\Http\Message\StreamInterface|\AwesomeCoder\Http\File|\AwesomeCoder\Http\UploadedFile|string|resource  $contents
+     * @param  \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource  $contents
      * @param  mixed  $options
      * @return string|bool
      */
@@ -379,7 +361,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Store the uploaded file on the disk.
      *
      * @param  string  $path
-     * @param  \AwesomeCoder\Http\File|\AwesomeCoder\Http\UploadedFile|string  $file
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $file
      * @param  mixed  $options
      * @return string|false
      */
@@ -394,7 +376,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Store the uploaded file on the disk with a given name.
      *
      * @param  string  $path
-     * @param  \AwesomeCoder\Http\File|\AwesomeCoder\Http\UploadedFile|string  $file
+     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $file
      * @param  string  $name
      * @param  mixed  $options
      * @return string|false

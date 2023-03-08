@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 /**
  * @method static bool supported(string $key, string $cipher)
@@ -11,7 +11,7 @@ namespace AwesomeCoder\Support\Facades;
  * @method static string decryptString(string $payload)
  * @method static string getKey()
  *
- * @see \AwesomeCoder\Encryption\Encrypter
+ * @see \Illuminate\Encryption\Encrypter
  */
 class Crypt extends Facade
 {

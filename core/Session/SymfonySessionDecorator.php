@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
 use BadMethodCallException;
-use AwesomeCoder\Contracts\Session\Session;
+use Illuminate\Contracts\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
@@ -11,16 +11,16 @@ use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 class SymfonySessionDecorator implements SessionInterface
 {
     /**
-     * The underlying Wordpress Plugin session store.
+     * The underlying Laravel session store.
      *
-     * @var \AwesomeCoder\Session\Store
+     * @var \Illuminate\Session\Store
      */
     protected $store;
 
     /**
      * Create a new session decorator.
      *
-     * @param  \AwesomeCoder\Contracts\Session\Session  $store
+     * @param  \Illuminate\Contracts\Session\Session  $store
      * @return void
      */
     public function __construct(Session $store)

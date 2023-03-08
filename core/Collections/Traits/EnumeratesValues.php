@@ -1,16 +1,16 @@
 <?php
 
-namespace AwesomeCoder\Support\Traits;
+namespace Illuminate\Support\Traits;
 
 use CachingIterator;
 use Closure;
 use Exception;
-use AwesomeCoder\Contracts\Support\Arrayable;
-use AwesomeCoder\Contracts\Support\Jsonable;
-use AwesomeCoder\Support\Arr;
-use AwesomeCoder\Support\Collection;
-use AwesomeCoder\Support\Enumerable;
-use AwesomeCoder\Support\HigherOrderCollectionProxy;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
+use Illuminate\Support\HigherOrderCollectionProxy;
 use JsonSerializable;
 use Symfony\Component\VarDumper\VarDumper;
 use Traversable;
@@ -103,7 +103,7 @@ trait EnumeratesValues
      * @template TMakeKey of array-key
      * @template TMakeValue
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TMakeKey, TMakeValue>|iterable<TMakeKey, TMakeValue>|null  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TMakeKey, TMakeValue>|iterable<TMakeKey, TMakeValue>|null  $items
      * @return static<TMakeKey, TMakeValue>
      */
     public static function make($items = [])
@@ -269,7 +269,7 @@ trait EnumeratesValues
             $callback = $this->valueRetriever($key);
 
             foreach ($this as $k => $v) {
-                if (!$callback($v, $k)) {
+                if (! $callback($v, $k)) {
                     return false;
                 }
             }
@@ -316,7 +316,7 @@ trait EnumeratesValues
      */
     public function isNotEmpty()
     {
-        return !$this->isEmpty();
+        return ! $this->isEmpty();
     }
 
     /**
@@ -360,7 +360,7 @@ trait EnumeratesValues
      * @template TFlatMapKey of array-key
      * @template TFlatMapValue
      *
-     * @param  callable(TValue, TKey): (\AwesomeCoder\Support\Collection<TFlatMapKey, TFlatMapValue>|array<TFlatMapKey, TFlatMapValue>)  $callback
+     * @param  callable(TValue, TKey): (\Illuminate\Support\Collection<TFlatMapKey, TFlatMapValue>|array<TFlatMapKey, TFlatMapValue>)  $callback
      * @return static<TFlatMapKey, TFlatMapValue>
      */
     public function flatMap(callable $callback)
@@ -392,7 +392,7 @@ trait EnumeratesValues
         $callback = $this->valueRetriever($callback);
 
         return $this->map(fn ($value) => $callback($value))
-            ->filter(fn ($value) => !is_null($value))
+            ->filter(fn ($value) => ! is_null($value))
             ->reduce(fn ($result, $value) => is_null($result) || $value < $result ? $value : $result);
     }
 
@@ -406,7 +406,7 @@ trait EnumeratesValues
     {
         $callback = $this->valueRetriever($callback);
 
-        return $this->filter(fn ($value) => !is_null($value))->reduce(function ($result, $item) use ($callback) {
+        return $this->filter(fn ($value) => ! is_null($value))->reduce(function ($result, $item) use ($callback) {
             $value = $callback($item);
 
             return is_null($result) || $value > $result ? $value : $result;
@@ -441,8 +441,8 @@ trait EnumeratesValues
         $failed = [];
 
         $callback = func_num_args() === 1
-            ? $this->valueRetriever($key)
-            : $this->operatorForWhere(...func_get_args());
+                ? $this->valueRetriever($key)
+                : $this->operatorForWhere(...func_get_args());
 
         foreach ($this as $key => $item) {
             if ($callback($item, $key)) {
@@ -577,7 +577,7 @@ trait EnumeratesValues
      * Filter items by the given key value pair.
      *
      * @param  string  $key
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable|iterable  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|iterable  $values
      * @param  bool  $strict
      * @return static
      */
@@ -592,7 +592,7 @@ trait EnumeratesValues
      * Filter items by the given key value pair using strict comparison.
      *
      * @param  string  $key
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable|iterable  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|iterable  $values
      * @return static
      */
     public function whereInStrict($key, $values)
@@ -604,7 +604,7 @@ trait EnumeratesValues
      * Filter items such that the value of the given key is between the given values.
      *
      * @param  string  $key
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable|iterable  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|iterable  $values
      * @return static
      */
     public function whereBetween($key, $values)
@@ -616,7 +616,7 @@ trait EnumeratesValues
      * Filter items such that the value of the given key is not between the given values.
      *
      * @param  string  $key
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable|iterable  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|iterable  $values
      * @return static
      */
     public function whereNotBetween($key, $values)
@@ -630,7 +630,7 @@ trait EnumeratesValues
      * Filter items by the given key value pair.
      *
      * @param  string  $key
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable|iterable  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|iterable  $values
      * @param  bool  $strict
      * @return static
      */
@@ -645,7 +645,7 @@ trait EnumeratesValues
      * Filter items by the given key value pair using strict comparison.
      *
      * @param  string  $key
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable|iterable  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable|iterable  $values
      * @return static
      */
     public function whereNotInStrict($key, $values)
@@ -753,11 +753,10 @@ trait EnumeratesValues
         foreach ($this as $key => $value) {
             $result = call_user_func_array($callback, array_merge($result, [$value, $key]));
 
-            if (!is_array($result)) {
+            if (! is_array($result)) {
                 throw new UnexpectedValueException(sprintf(
                     "%s::reduceSpread expects reducer to return an array, but got a '%s' instead.",
-                    class_basename(static::class),
-                    gettype($result)
+                    class_basename(static::class), gettype($result)
                 ));
             }
         }
@@ -777,7 +776,7 @@ trait EnumeratesValues
 
         return $this->filter(function ($value, $key) use ($callback, $useAsCallable) {
             return $useAsCallable
-                ? !$callback($value, $key)
+                ? ! $callback($value, $key)
                 : $value != $callback;
         });
     }
@@ -831,7 +830,7 @@ trait EnumeratesValues
     /**
      * Collect the values into a collection.
      *
-     * @return \AwesomeCoder\Support\Collection<TKey, TValue>
+     * @return \Illuminate\Support\Collection<TKey, TValue>
      */
     public function collect()
     {
@@ -898,8 +897,8 @@ trait EnumeratesValues
     public function __toString()
     {
         return $this->escapeWhenCastingToString
-            ? e($this->toJson())
-            : $this->toJson();
+                    ? e($this->toJson())
+                    : $this->toJson();
     }
 
     /**
@@ -936,7 +935,7 @@ trait EnumeratesValues
      */
     public function __get($key)
     {
-        if (!in_array($key, static::$proxies)) {
+        if (! in_array($key, static::$proxies)) {
             throw new Exception("Property [{$key}] does not exist on this collection instance.");
         }
 
@@ -1010,25 +1009,16 @@ trait EnumeratesValues
             switch ($operator) {
                 default:
                 case '=':
-                case '==':
-                    return $retrieved == $value;
+                case '==':  return $retrieved == $value;
                 case '!=':
-                case '<>':
-                    return $retrieved != $value;
-                case '<':
-                    return $retrieved < $value;
-                case '>':
-                    return $retrieved > $value;
-                case '<=':
-                    return $retrieved <= $value;
-                case '>=':
-                    return $retrieved >= $value;
-                case '===':
-                    return $retrieved === $value;
-                case '!==':
-                    return $retrieved !== $value;
-                case '<=>':
-                    return $retrieved <=> $value;
+                case '<>':  return $retrieved != $value;
+                case '<':   return $retrieved < $value;
+                case '>':   return $retrieved > $value;
+                case '<=':  return $retrieved <= $value;
+                case '>=':  return $retrieved >= $value;
+                case '===': return $retrieved === $value;
+                case '!==': return $retrieved !== $value;
+                case '<=>': return $retrieved <=> $value;
             }
         };
     }
@@ -1041,7 +1031,7 @@ trait EnumeratesValues
      */
     protected function useAsCallable($value)
     {
-        return !is_string($value) && is_callable($value);
+        return ! is_string($value) && is_callable($value);
     }
 
     /**
@@ -1078,7 +1068,7 @@ trait EnumeratesValues
      */
     protected function negate(Closure $callback)
     {
-        return fn (...$params) => !$callback(...$params);
+        return fn (...$params) => ! $callback(...$params);
     }
 
     /**

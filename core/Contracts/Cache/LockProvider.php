@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Cache;
+namespace Illuminate\Contracts\Cache;
 
 interface LockProvider
 {
@@ -10,7 +10,7 @@ interface LockProvider
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \AwesomeCoder\Contracts\Cache\Lock
+     * @return \Illuminate\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null);
 
@@ -19,7 +19,7 @@ interface LockProvider
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \AwesomeCoder\Contracts\Cache\Lock
+     * @return \Illuminate\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner);
 }

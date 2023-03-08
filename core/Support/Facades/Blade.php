@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 /**
  * @method static void compile(string|null $path = null)
@@ -8,7 +8,7 @@ namespace AwesomeCoder\Support\Facades;
  * @method static void setPath(string $path)
  * @method static string compileString(string $value)
  * @method static string render(string $string, array $data = [], bool $deleteCachedView = false)
- * @method static string renderComponent(\AwesomeCoder\View\Component $component)
+ * @method static string renderComponent(\Illuminate\View\Component $component)
  * @method static string stripParentheses(string $expression)
  * @method static void extend(callable $compiler)
  * @method static array getExtensions()
@@ -44,7 +44,7 @@ namespace AwesomeCoder\Support\Facades;
  * @method static string compileEchos(string $value)
  * @method static string applyEchoHandler(string $value)
  *
- * @see \AwesomeCoder\View\Compilers\BladeCompiler
+ * @see \Illuminate\View\Compilers\BladeCompiler
  */
 class Blade extends Facade
 {

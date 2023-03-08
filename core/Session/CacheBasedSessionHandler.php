@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
-use AwesomeCoder\Contracts\Cache\Repository as CacheContract;
+use Illuminate\Contracts\Cache\Repository as CacheContract;
 use SessionHandlerInterface;
 
 class CacheBasedSessionHandler implements SessionHandlerInterface
@@ -10,7 +10,7 @@ class CacheBasedSessionHandler implements SessionHandlerInterface
     /**
      * The cache repository instance.
      *
-     * @var \AwesomeCoder\Contracts\Cache\Repository
+     * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
@@ -24,7 +24,7 @@ class CacheBasedSessionHandler implements SessionHandlerInterface
     /**
      * Create a new cache driven handler instance.
      *
-     * @param  \AwesomeCoder\Contracts\Cache\Repository  $cache
+     * @param  \Illuminate\Contracts\Cache\Repository  $cache
      * @param  int  $minutes
      * @return void
      */
@@ -97,7 +97,7 @@ class CacheBasedSessionHandler implements SessionHandlerInterface
     /**
      * Get the underlying cache repository.
      *
-     * @return \AwesomeCoder\Contracts\Cache\Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     public function getCache()
     {

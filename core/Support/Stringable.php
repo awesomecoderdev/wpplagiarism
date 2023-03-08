@@ -1,12 +1,12 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 use Closure;
-use AwesomeCoder\Support\Facades\Date;
-use AwesomeCoder\Support\Traits\Conditionable;
-use AwesomeCoder\Support\Traits\Macroable;
-use AwesomeCoder\Support\Traits\Tappable;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Support\Traits\Tappable;
 use JsonSerializable;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -62,7 +62,7 @@ class Stringable implements JsonSerializable
      */
     public function append(...$values)
     {
-        return new static($this->value . implode('', $values));
+        return new static($this->value.implode('', $values));
     }
 
     /**
@@ -213,7 +213,7 @@ class Stringable implements JsonSerializable
     /**
      * Determine if the string is an exact match with the given value.
      *
-     * @param  \AwesomeCoder\Support\Stringable|string  $value
+     * @param  \Illuminate\Support\Stringable|string  $value
      * @return bool
      */
     public function exactly($value)
@@ -242,7 +242,7 @@ class Stringable implements JsonSerializable
      *
      * @param  string  $delimiter
      * @param  int  $limit
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function explode($delimiter, $limit = PHP_INT_MAX)
     {
@@ -255,7 +255,7 @@ class Stringable implements JsonSerializable
      * @param  string|int  $pattern
      * @param  int  $limit
      * @param  int  $flags
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function split($pattern, $limit = -1, $flags = 0)
     {
@@ -265,7 +265,7 @@ class Stringable implements JsonSerializable
 
         $segments = preg_split($pattern, $this->value, $limit, $flags);
 
-        return !empty($segments) ? collect($segments) : collect();
+        return ! empty($segments) ? collect($segments) : collect();
     }
 
     /**
@@ -347,7 +347,7 @@ class Stringable implements JsonSerializable
      */
     public function isNotEmpty()
     {
-        return !$this->isEmpty();
+        return ! $this->isEmpty();
     }
 
     /**
@@ -444,7 +444,7 @@ class Stringable implements JsonSerializable
      * Get the string matching the given pattern.
      *
      * @param  string  $pattern
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function matchAll($pattern)
     {
@@ -550,7 +550,7 @@ class Stringable implements JsonSerializable
      */
     public function prepend(...$values)
     {
-        return new static(implode('', $values) . $this->value);
+        return new static(implode('', $values).$this->value);
     }
 
     /**
@@ -655,7 +655,7 @@ class Stringable implements JsonSerializable
      * Parse input from a string to a collection, according to a format.
      *
      * @param  string  $format
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function scan($format)
     {
@@ -885,7 +885,7 @@ class Stringable implements JsonSerializable
     /**
      * Split a string by uppercase characters.
      *
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function ucsplit()
     {
@@ -978,7 +978,7 @@ class Stringable implements JsonSerializable
      */
     public function whenNotExactly($value, $callback, $default = null)
     {
-        return $this->when(!$this->exactly($value), $callback, $default);
+        return $this->when(! $this->exactly($value), $callback, $default);
     }
 
     /**
@@ -1094,7 +1094,7 @@ class Stringable implements JsonSerializable
     /**
      * Convert the string into a `HtmlString` instance.
      *
-     * @return \AwesomeCoder\Support\HtmlString
+     * @return \Illuminate\Support\HtmlString
      */
     public function toHtmlString()
     {
@@ -1182,7 +1182,7 @@ class Stringable implements JsonSerializable
      *
      * @param  string|null  $format
      * @param  string|null  $tz
-     * @return \AwesomeCoder\Support\Carbon
+     * @return \Illuminate\Support\Carbon
      *
      * @throws \Carbon\Exceptions\InvalidFormatException
      */

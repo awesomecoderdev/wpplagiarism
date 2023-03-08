@@ -1,27 +1,27 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 use Aws\DynamoDb\DynamoDbClient;
 use Closure;
-use AwesomeCoder\Contracts\Cache\Factory as FactoryContract;
-use AwesomeCoder\Contracts\Cache\Store;
-use AwesomeCoder\Contracts\Events\Dispatcher as DispatcherContract;
-use AwesomeCoder\Support\Arr;
+use Illuminate\Contracts\Cache\Factory as FactoryContract;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 /**
- * @mixin \AwesomeCoder\Cache\Repository
- * @mixin \AwesomeCoder\Contracts\Cache\LockProvider
+ * @mixin \Illuminate\Cache\Repository
+ * @mixin \Illuminate\Contracts\Cache\LockProvider
  */
 class CacheManager implements FactoryContract
 {
     /**
      * The application instance.
      *
-     * @var \AwesomeCoder\Contracts\Foundation\Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
-    protected $plugin;
+    protected $app;
 
     /**
      * The array of resolved cache stores.
@@ -40,19 +40,19 @@ class CacheManager implements FactoryContract
     /**
      * Create a new Cache manager instance.
      *
-     * @param  \AwesomeCoder\Contracts\Foundation\Application  $plugin
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
-    public function __construct($plugin)
+    public function __construct($app)
     {
-        $this->plugin = $plugin;
+        $this->app = $app;
     }
 
     /**
      * Get a cache store instance by name, wrapped in a repository.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Cache\Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     public function store($name = null)
     {
@@ -65,7 +65,7 @@ class CacheManager implements FactoryContract
      * Get a cache driver instance.
      *
      * @param  string|null  $driver
-     * @return \AwesomeCoder\Contracts\Cache\Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     public function driver($driver = null)
     {
@@ -76,7 +76,7 @@ class CacheManager implements FactoryContract
      * Attempt to get the store from the local cache.
      *
      * @param  string  $name
-     * @return \AwesomeCoder\Contracts\Cache\Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     protected function get($name)
     {
@@ -87,7 +87,7 @@ class CacheManager implements FactoryContract
      * Resolve the given store.
      *
      * @param  string  $name
-     * @return \AwesomeCoder\Contracts\Cache\Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      *
      * @throws \InvalidArgumentException
      */
@@ -102,7 +102,7 @@ class CacheManager implements FactoryContract
         if (isset($this->customCreators[$config['driver']])) {
             return $this->callCustomCreator($config);
         } else {
-            $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
+            $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
 
             if (method_exists($this, $driverMethod)) {
                 return $this->{$driverMethod}($config);
@@ -127,7 +127,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the APC cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createApcDriver(array $config)
     {
@@ -140,7 +140,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the array cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createArrayDriver(array $config)
     {
@@ -151,7 +151,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the file cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createFileDriver(array $config)
     {
@@ -162,7 +162,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the Memcached cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createMemcachedDriver(array $config)
     {
@@ -181,7 +181,7 @@ class CacheManager implements FactoryContract
     /**
      * Create an instance of the Null cache driver.
      *
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createNullDriver()
     {
@@ -192,7 +192,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the Redis cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createRedisDriver(array $config)
     {
@@ -211,7 +211,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the database cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createDatabaseDriver(array $config)
     {
@@ -234,7 +234,7 @@ class CacheManager implements FactoryContract
      * Create an instance of the DynamoDB cache driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Cache\Repository
+     * @return \Illuminate\Cache\Repository
      */
     protected function createDynamodbDriver(array $config)
     {
@@ -267,8 +267,7 @@ class CacheManager implements FactoryContract
 
         if (isset($config['key'], $config['secret'])) {
             $dynamoConfig['credentials'] = Arr::only(
-                $config,
-                ['key', 'secret', 'token']
+                $config, ['key', 'secret', 'token']
             );
         }
 
@@ -278,8 +277,8 @@ class CacheManager implements FactoryContract
     /**
      * Create a new cache repository with the given implementation.
      *
-     * @param  \AwesomeCoder\Contracts\Cache\Store  $store
-     * @return \AwesomeCoder\Cache\Repository
+     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @return \Illuminate\Cache\Repository
      */
     public function repository(Store $store)
     {
@@ -291,12 +290,12 @@ class CacheManager implements FactoryContract
     /**
      * Set the event dispatcher on the given repository instance.
      *
-     * @param  \AwesomeCoder\Cache\Repository  $repository
+     * @param  \Illuminate\Cache\Repository  $repository
      * @return void
      */
     protected function setEventDispatcher(Repository $repository)
     {
-        if (!$this->app->bound(DispatcherContract::class)) {
+        if (! $this->app->bound(DispatcherContract::class)) {
             return;
         }
 
@@ -334,7 +333,7 @@ class CacheManager implements FactoryContract
      */
     protected function getConfig($name)
     {
-        if (!is_null($name) && $name !== 'null') {
+        if (! is_null($name) && $name !== 'null') {
             return $this->app['config']["cache.stores.{$name}"];
         }
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
-use AwesomeCoder\Support\Manager;
+use Illuminate\Support\Manager;
 
 /**
- * @mixin \AwesomeCoder\Session\Store
+ * @mixin \Illuminate\Session\Store
  */
 class SessionManager extends Manager
 {
@@ -13,7 +13,7 @@ class SessionManager extends Manager
      * Call a custom driver creator.
      *
      * @param  string  $driver
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function callCustomCreator($driver)
     {
@@ -23,7 +23,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the "null" session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createNullDriver()
     {
@@ -33,7 +33,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the "array" session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createArrayDriver()
     {
@@ -45,20 +45,19 @@ class SessionManager extends Manager
     /**
      * Create an instance of the "cookie" session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createCookieDriver()
     {
         return $this->buildSession(new CookieSessionHandler(
-            $this->container->make('cookie'),
-            $this->config->get('session.lifetime')
+            $this->container->make('cookie'), $this->config->get('session.lifetime')
         ));
     }
 
     /**
      * Create an instance of the file session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createFileDriver()
     {
@@ -68,23 +67,21 @@ class SessionManager extends Manager
     /**
      * Create an instance of the file session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createNativeDriver()
     {
         $lifetime = $this->config->get('session.lifetime');
 
         return $this->buildSession(new FileSessionHandler(
-            $this->container->make('files'),
-            $this->config->get('session.files'),
-            $lifetime
+            $this->container->make('files'), $this->config->get('session.files'), $lifetime
         ));
     }
 
     /**
      * Create an instance of the database session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createDatabaseDriver()
     {
@@ -93,17 +90,14 @@ class SessionManager extends Manager
         $lifetime = $this->config->get('session.lifetime');
 
         return $this->buildSession(new DatabaseSessionHandler(
-            $this->getDatabaseConnection(),
-            $table,
-            $lifetime,
-            $this->container
+            $this->getDatabaseConnection(), $table, $lifetime, $this->container
         ));
     }
 
     /**
      * Get the database connection for the database driver.
      *
-     * @return \AwesomeCoder\Database\Connection
+     * @return \Illuminate\Database\Connection
      */
     protected function getDatabaseConnection()
     {
@@ -115,7 +109,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the APC session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createApcDriver()
     {
@@ -125,7 +119,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the Memcached session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createMemcachedDriver()
     {
@@ -135,7 +129,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the Redis session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createRedisDriver()
     {
@@ -151,7 +145,7 @@ class SessionManager extends Manager
     /**
      * Create an instance of the DynamoDB session driver.
      *
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createDynamodbDriver()
     {
@@ -162,7 +156,7 @@ class SessionManager extends Manager
      * Create an instance of a cache driven driver.
      *
      * @param  string  $driver
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function createCacheBased($driver)
     {
@@ -173,7 +167,7 @@ class SessionManager extends Manager
      * Create the cache based session handler instance.
      *
      * @param  string  $driver
-     * @return \AwesomeCoder\Session\CacheBasedSessionHandler
+     * @return \Illuminate\Session\CacheBasedSessionHandler
      */
     protected function createCacheHandler($driver)
     {
@@ -189,25 +183,25 @@ class SessionManager extends Manager
      * Build the session instance.
      *
      * @param  \SessionHandlerInterface  $handler
-     * @return \AwesomeCoder\Session\Store
+     * @return \Illuminate\Session\Store
      */
     protected function buildSession($handler)
     {
         return $this->config->get('session.encrypt')
-            ? $this->buildEncryptedSession($handler)
-            : new Store(
-                $this->config->get('session.cookie'),
-                $handler,
-                $id = null,
-                $this->config->get('session.serialization', 'php')
-            );
+                ? $this->buildEncryptedSession($handler)
+                : new Store(
+                    $this->config->get('session.cookie'),
+                    $handler,
+                    $id = null,
+                    $this->config->get('session.serialization', 'php')
+                );
     }
 
     /**
      * Build the encrypted session instance.
      *
      * @param  \SessionHandlerInterface  $handler
-     * @return \AwesomeCoder\Session\EncryptedStore
+     * @return \Illuminate\Session\EncryptedStore
      */
     protected function buildEncryptedSession($handler)
     {

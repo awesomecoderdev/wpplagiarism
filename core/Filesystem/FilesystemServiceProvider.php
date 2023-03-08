@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Filesystem;
+namespace Illuminate\Filesystem;
 
-use AwesomeCoder\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class FilesystemServiceProvider extends ServiceProvider
 {
@@ -39,12 +39,12 @@ class FilesystemServiceProvider extends ServiceProvider
     {
         $this->registerManager();
 
-        $this->app->singleton('filesystem.disk', function ($plugin) {
-            return $plugin['filesystem']->disk($this->getDefaultDriver());
+        $this->app->singleton('filesystem.disk', function ($app) {
+            return $app['filesystem']->disk($this->getDefaultDriver());
         });
 
-        $this->app->singleton('filesystem.cloud', function ($plugin) {
-            return $plugin['filesystem']->disk($this->getCloudDriver());
+        $this->app->singleton('filesystem.cloud', function ($app) {
+            return $app['filesystem']->disk($this->getCloudDriver());
         });
     }
 
@@ -55,8 +55,8 @@ class FilesystemServiceProvider extends ServiceProvider
      */
     protected function registerManager()
     {
-        $this->app->singleton('filesystem', function ($plugin) {
-            return new FilesystemManager($plugin);
+        $this->app->singleton('filesystem', function ($app) {
+            return new FilesystemManager($app);
         });
     }
 

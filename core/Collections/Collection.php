@@ -1,12 +1,12 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 use ArrayAccess;
 use ArrayIterator;
-use AwesomeCoder\Contracts\Support\CanBeEscapedWhenCastToString;
-use AwesomeCoder\Support\Traits\EnumeratesValues;
-use AwesomeCoder\Support\Traits\Macroable;
+use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
+use Illuminate\Support\Traits\EnumeratesValues;
+use Illuminate\Support\Traits\Macroable;
 use stdClass;
 use Traversable;
 
@@ -15,12 +15,12 @@ use Traversable;
  * @template TValue
  *
  * @implements \ArrayAccess<TKey, TValue>
- * @implements \AwesomeCoder\Support\Enumerable<TKey, TValue>
+ * @implements \Illuminate\Support\Enumerable<TKey, TValue>
  */
 class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerable
 {
     /**
-     * @use \AwesomeCoder\Support\Traits\EnumeratesValues<TKey, TValue>
+     * @use \Illuminate\Support\Traits\EnumeratesValues<TKey, TValue>
      */
     use EnumeratesValues, Macroable;
 
@@ -34,7 +34,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Create a new collection.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $items
      * @return void
      */
     public function __construct($items = [])
@@ -67,7 +67,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get a lazy collection for the items in this collection.
      *
-     * @return \AwesomeCoder\Support\LazyCollection<TKey, TValue>
+     * @return \Illuminate\Support\LazyCollection<TKey, TValue>
      */
     public function lazy()
     {
@@ -86,7 +86,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
 
         $items = $this
             ->map(fn ($value) => $callback($value))
-            ->filter(fn ($value) => !is_null($value));
+            ->filter(fn ($value) => ! is_null($value));
 
         if ($count = $items->count()) {
             return $items->sum() / $count;
@@ -102,7 +102,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     public function median($key = null)
     {
         $values = (isset($key) ? $this->pluck($key) : $this)
-            ->filter(fn ($item) => !is_null($item))
+            ->filter(fn ($item) => ! is_null($item))
             ->sort()->values();
 
         $count = $values->count();
@@ -195,7 +195,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
         }
 
         if ($this->useAsCallable($key)) {
-            return !is_null($this->first($key));
+            return ! is_null($this->first($key));
         }
 
         return in_array($key, $this->items, true);
@@ -211,7 +211,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      */
     public function doesntContain($key, $operator = null, $value = null)
     {
-        return !$this->contains(...func_get_args());
+        return ! $this->contains(...func_get_args());
     }
 
     /**
@@ -220,21 +220,20 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      * @template TCrossJoinKey
      * @template TCrossJoinValue
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TCrossJoinKey, TCrossJoinValue>|iterable<TCrossJoinKey, TCrossJoinValue>  ...$lists
+     * @param  \Illuminate\Contracts\Support\Arrayable<TCrossJoinKey, TCrossJoinValue>|iterable<TCrossJoinKey, TCrossJoinValue>  ...$lists
      * @return static<int, array<int, TValue|TCrossJoinValue>>
      */
     public function crossJoin(...$lists)
     {
         return new static(Arr::crossJoin(
-            $this->items,
-            ...array_map([$this, 'getArrayableItems'], $lists)
+            $this->items, ...array_map([$this, 'getArrayableItems'], $lists)
         ));
     }
 
     /**
      * Get the items in the collection that are not present in the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
      * @return static
      */
     public function diff($items)
@@ -245,7 +244,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items in the collection that are not present in the given items, using the callback.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
      * @param  callable(TValue, TValue): int  $callback
      * @return static
      */
@@ -257,7 +256,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items in the collection whose keys and values are not present in the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function diffAssoc($items)
@@ -268,7 +267,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items in the collection whose keys and values are not present in the given items, using the callback.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @param  callable(TKey, TKey): int  $callback
      * @return static
      */
@@ -280,7 +279,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items in the collection whose keys are not present in the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function diffKeys($items)
@@ -291,7 +290,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items in the collection whose keys are not present in the given items, using the callback.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @param  callable(TKey, TKey): int  $callback
      * @return static
      */
@@ -357,14 +356,14 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get all items except for those with the specified keys.
      *
-     * @param  \AwesomeCoder\Support\Enumerable<array-key, TKey>|array<array-key, TKey>  $keys
+     * @param  \Illuminate\Support\Enumerable<array-key, TKey>|array<array-key, TKey>  $keys
      * @return static
      */
     public function except($keys)
     {
         if ($keys instanceof Enumerable) {
             $keys = $keys->all();
-        } elseif (!is_array($keys)) {
+        } elseif (! is_array($keys)) {
             $keys = func_get_args();
         }
 
@@ -481,7 +480,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      */
     public function groupBy($groupBy, $preserveKeys = false)
     {
-        if (!$this->useAsCallable($groupBy) && is_array($groupBy)) {
+        if (! $this->useAsCallable($groupBy) && is_array($groupBy)) {
             $nextGroups = $groupBy;
 
             $groupBy = array_shift($nextGroups);
@@ -494,7 +493,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
         foreach ($this->items as $key => $value) {
             $groupKeys = $groupBy($value, $key);
 
-            if (!is_array($groupKeys)) {
+            if (! is_array($groupKeys)) {
                 $groupKeys = [$groupKeys];
             }
 
@@ -505,7 +504,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
                     default => $groupKey,
                 };
 
-                if (!array_key_exists($groupKey, $results)) {
+                if (! array_key_exists($groupKey, $results)) {
                     $results[$groupKey] = new static;
                 }
 
@@ -515,7 +514,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
 
         $result = new static($results);
 
-        if (!empty($nextGroups)) {
+        if (! empty($nextGroups)) {
             return $result->map->groupBy($nextGroups, $preserveKeys);
         }
 
@@ -558,7 +557,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
         $keys = is_array($key) ? $key : func_get_args();
 
         foreach ($keys as $value) {
-            if (!array_key_exists($value, $this->items)) {
+            if (! array_key_exists($value, $this->items)) {
                 return false;
             }
         }
@@ -604,7 +603,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
 
         $first = $this->first();
 
-        if (is_array($first) || (is_object($first) && !$first instanceof Stringable)) {
+        if (is_array($first) || (is_object($first) && ! $first instanceof Stringable)) {
             return implode($glue ?? '', $this->pluck($value)->all());
         }
 
@@ -614,7 +613,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Intersect the collection with the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function intersect($items)
@@ -625,7 +624,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Intersect the collection with the given items, using the callback.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
      * @param  callable(TValue, TValue): int  $callback
      * @return static
      */
@@ -637,7 +636,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Intersect the collection with the given items with additional index check.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function intersectAssoc($items)
@@ -648,7 +647,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Intersect the collection with the given items with additional index check, using the callback.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TValue>|iterable<array-key, TValue>  $items
      * @param  callable(TValue, TValue): int  $callback
      * @return static
      */
@@ -660,14 +659,13 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Intersect the collection with the given items by key.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function intersectByKeys($items)
     {
         return new static(array_intersect_key(
-            $this->items,
-            $this->getArrayableItems($items)
+            $this->items, $this->getArrayableItems($items)
         ));
     }
 
@@ -718,7 +716,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
 
         $finalItem = $collection->pop();
 
-        return $collection->implode($glue) . $finalGlue . $finalItem;
+        return $collection->implode($glue).$finalGlue.$finalItem;
     }
 
     /**
@@ -792,7 +790,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
 
             $value = reset($pair);
 
-            if (!isset($dictionary[$key])) {
+            if (! isset($dictionary[$key])) {
                 $dictionary[$key] = [];
             }
 
@@ -831,7 +829,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Merge the collection with the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function merge($items)
@@ -844,7 +842,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      *
      * @template TMergeRecursiveValue
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TMergeRecursiveValue>|iterable<TKey, TMergeRecursiveValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TMergeRecursiveValue>|iterable<TKey, TMergeRecursiveValue>  $items
      * @return static<TKey, TValue|TMergeRecursiveValue>
      */
     public function mergeRecursive($items)
@@ -857,7 +855,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      *
      * @template TCombineValue
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<array-key, TCombineValue>|iterable<array-key, TCombineValue>  $values
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TCombineValue>|iterable<array-key, TCombineValue>  $values
      * @return static<TValue, TCombineValue>
      */
     public function combine($values)
@@ -868,7 +866,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Union the collection with the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function union($items)
@@ -903,7 +901,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items with the specified keys.
      *
-     * @param  \AwesomeCoder\Support\Enumerable<array-key, TKey>|array<array-key, TKey>|string|null  $keys
+     * @param  \Illuminate\Support\Enumerable<array-key, TKey>|array<array-key, TKey>|string|null  $keys
      * @return static
      */
     public function only($keys)
@@ -1046,7 +1044,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Replace the collection items with the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function replace($items)
@@ -1057,7 +1055,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Recursively replace the collection items with the given items.
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
+     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>  $items
      * @return static
      */
     public function replaceRecursive($items)
@@ -1084,7 +1082,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      */
     public function search($value, $strict = false)
     {
-        if (!$this->useAsCallable($value)) {
+        if (! $this->useAsCallable($value)) {
             return array_search($value, $this->items, $strict);
         }
 
@@ -1252,8 +1250,8 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      * @param  mixed  $value
      * @return TValue
      *
-     * @throws \AwesomeCoder\Support\ItemNotFoundException
-     * @throws \AwesomeCoder\Support\MultipleItemsFoundException
+     * @throws \Illuminate\Support\ItemNotFoundException
+     * @throws \Illuminate\Support\MultipleItemsFoundException
      */
     public function sole($key = null, $operator = null, $value = null)
     {
@@ -1284,7 +1282,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      * @param  mixed  $value
      * @return TValue
      *
-     * @throws \AwesomeCoder\Support\ItemNotFoundException
+     * @throws \Illuminate\Support\ItemNotFoundException
      */
     public function firstOrFail($key = null, $operator = null, $value = null)
     {
@@ -1379,7 +1377,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      */
     public function sortBy($callback, $options = SORT_REGULAR, $descending = false)
     {
-        if (is_array($callback) && !is_callable($callback)) {
+        if (is_array($callback) && ! is_callable($callback)) {
             return $this->sortByMany($callback);
         }
 
@@ -1424,14 +1422,14 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
                 $prop = $comparison[0];
 
                 $ascending = Arr::get($comparison, 1, true) === true ||
-                    Arr::get($comparison, 1, true) === 'asc';
+                             Arr::get($comparison, 1, true) === 'asc';
 
-                if (!is_string($prop) && is_callable($prop)) {
+                if (! is_string($prop) && is_callable($prop)) {
                     $result = $prop($a, $b);
                 } else {
                     $values = [data_get($a, $prop), data_get($b, $prop)];
 
-                    if (!$ascending) {
+                    if (! $ascending) {
                         $values = array_reverse($values);
                     }
 
@@ -1624,7 +1622,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
      *
      * @template TZipValue
      *
-     * @param  \AwesomeCoder\Contracts\Support\Arrayable<array-key, TZipValue>|iterable<array-key, TZipValue>  ...$items
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key, TZipValue>|iterable<array-key, TZipValue>  ...$items
      * @return static<int, static<int, TValue|TZipValue>>
      */
     public function zip($items)
@@ -1697,7 +1695,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get a base Support collection instance from this collection.
      *
-     * @return \AwesomeCoder\Support\Collection<TKey, TValue>
+     * @return \Illuminate\Support\Collection<TKey, TValue>
      */
     public function toBase()
     {

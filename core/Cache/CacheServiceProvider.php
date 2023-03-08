@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
-use AwesomeCoder\Contracts\Support\DeferrableProvider;
-use AwesomeCoder\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Cache\Adapter\Psr16Adapter;
 
 class CacheServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -15,25 +15,25 @@ class CacheServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->singleton('cache', function ($plugin) {
-            return new CacheManager($plugin);
+        $this->app->singleton('cache', function ($app) {
+            return new CacheManager($app);
         });
 
-        $this->app->singleton('cache.store', function ($plugin) {
-            return $plugin['cache']->driver();
+        $this->app->singleton('cache.store', function ($app) {
+            return $app['cache']->driver();
         });
 
-        $this->app->singleton('cache.psr6', function ($plugin) {
-            return new Psr16Adapter($plugin['cache.store']);
+        $this->app->singleton('cache.psr6', function ($app) {
+            return new Psr16Adapter($app['cache.store']);
         });
 
         $this->app->singleton('memcached.connector', function () {
             return new MemcachedConnector;
         });
 
-        $this->app->singleton(RateLimiter::class, function ($plugin) {
-            return new RateLimiter($plugin->make('cache')->driver(
-                $plugin['config']->get('cache.limiter')
+        $this->app->singleton(RateLimiter::class, function ($app) {
+            return new RateLimiter($app->make('cache')->driver(
+                $app['config']->get('cache.limiter')
             ));
         });
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Database\Eloquent;
+namespace Illuminate\Contracts\Database\Eloquent;
 
 interface SerializesCastableAttributes
 {
     /**
      * Serialize the attribute when converting the model to an array.
      *
-     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes

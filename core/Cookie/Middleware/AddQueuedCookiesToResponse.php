@@ -1,23 +1,23 @@
 <?php
 
-namespace AwesomeCoder\Cookie\Middleware;
+namespace Illuminate\Cookie\Middleware;
 
 use Closure;
-use AwesomeCoder\Contracts\Cookie\QueueingFactory as CookieJar;
+use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
 
 class AddQueuedCookiesToResponse
 {
     /**
      * The cookie jar instance.
      *
-     * @var \AwesomeCoder\Contracts\Cookie\QueueingFactory
+     * @var \Illuminate\Contracts\Cookie\QueueingFactory
      */
     protected $cookies;
 
     /**
      * Create a new CookieQueue instance.
      *
-     * @param  \AwesomeCoder\Contracts\Cookie\QueueingFactory  $cookies
+     * @param  \Illuminate\Contracts\Cookie\QueueingFactory  $cookies
      * @return void
      */
     public function __construct(CookieJar $cookies)
@@ -28,7 +28,7 @@ class AddQueuedCookiesToResponse
     /**
      * Handle an incoming request.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
      */

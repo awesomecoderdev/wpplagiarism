@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Auth;
+namespace Illuminate\Contracts\Auth;
 
 interface MustVerifyEmail
 {

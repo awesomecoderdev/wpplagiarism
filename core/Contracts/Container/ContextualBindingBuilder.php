@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Container;
+namespace Illuminate\Contracts\Container;
 
 interface ContextualBindingBuilder
 {

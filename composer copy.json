@@ -1,10 +1,7 @@
 {
 	"name": "awesomecoder/plagiarism",
 	"description": "The plagiarism plugin.",
-	"keywords": [
-		"plagiarism",
-		"plugin"
-	],
+	"keywords": ["plagiarism", "plugin"],
 	"license": "MIT",
 	"homepage": "https://awesomecoder.dev",
 	"authors": [

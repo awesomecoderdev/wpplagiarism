@@ -1,20 +1,20 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 class CacheLock extends Lock
 {
     /**
      * The cache store implementation.
      *
-     * @var \AwesomeCoder\Contracts\Cache\Store
+     * @var \Illuminate\Contracts\Cache\Store
      */
     protected $store;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \AwesomeCoder\Contracts\Cache\Store  $store
+     * @param  \Illuminate\Contracts\Cache\Store  $store
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
@@ -36,19 +36,17 @@ class CacheLock extends Lock
     {
         if (method_exists($this->store, 'add') && $this->seconds > 0) {
             return $this->store->add(
-                $this->name,
-                $this->owner,
-                $this->seconds
+                $this->name, $this->owner, $this->seconds
             );
         }
 
-        if (!is_null($this->store->get($this->name))) {
+        if (! is_null($this->store->get($this->name))) {
             return false;
         }
 
         return ($this->seconds > 0)
-            ? $this->store->put($this->name, $this->owner, $this->seconds)
-            : $this->store->forever($this->name, $this->owner);
+                ? $this->store->put($this->name, $this->owner, $this->seconds)
+                : $this->store->forever($this->name, $this->owner);
     }
 
     /**

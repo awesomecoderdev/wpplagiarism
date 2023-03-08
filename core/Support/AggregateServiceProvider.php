@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 class AggregateServiceProvider extends ServiceProvider
 {

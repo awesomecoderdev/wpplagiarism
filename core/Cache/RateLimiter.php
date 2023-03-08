@@ -1,10 +1,10 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 use Closure;
-use AwesomeCoder\Contracts\Cache\Repository as Cache;
-use AwesomeCoder\Support\InteractsWithTime;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Support\InteractsWithTime;
 
 class RateLimiter
 {
@@ -13,7 +13,7 @@ class RateLimiter
     /**
      * The cache store implementation.
      *
-     * @var \AwesomeCoder\Contracts\Cache\Repository
+     * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
@@ -27,7 +27,7 @@ class RateLimiter
     /**
      * Create a new rate limiter instance.
      *
-     * @param  \AwesomeCoder\Contracts\Cache\Repository  $cache
+     * @param  \Illuminate\Contracts\Cache\Repository  $cache
      * @return void
      */
     public function __construct(Cache $cache)
@@ -90,7 +90,7 @@ class RateLimiter
     public function tooManyAttempts($key, $maxAttempts)
     {
         if ($this->attempts($key) >= $maxAttempts) {
-            if ($this->cache->has($this->cleanRateLimiterKey($key) . ':timer')) {
+            if ($this->cache->has($this->cleanRateLimiterKey($key).':timer')) {
                 return true;
             }
 
@@ -112,16 +112,14 @@ class RateLimiter
         $key = $this->cleanRateLimiterKey($key);
 
         $this->cache->add(
-            $key . ':timer',
-            $this->availableAt($decaySeconds),
-            $decaySeconds
+            $key.':timer', $this->availableAt($decaySeconds), $decaySeconds
         );
 
         $added = $this->cache->add($key, 0, $decaySeconds);
 
         $hits = (int) $this->cache->increment($key);
 
-        if (!$added && $hits == 1) {
+        if (! $added && $hits == 1) {
             $this->cache->put($key, 1, $decaySeconds);
         }
 
@@ -194,7 +192,7 @@ class RateLimiter
 
         $this->resetAttempts($key);
 
-        $this->cache->forget($key . ':timer');
+        $this->cache->forget($key.':timer');
     }
 
     /**
@@ -207,7 +205,7 @@ class RateLimiter
     {
         $key = $this->cleanRateLimiterKey($key);
 
-        return max(0, $this->cache->get($key . ':timer') - $this->currentTime());
+        return max(0, $this->cache->get($key.':timer') - $this->currentTime());
     }
 
     /**

@@ -2,9 +2,6 @@
 
 namespace AwesomeCoder\Plugin\Plagiarism\Core;
 
-use Awesomecoder\Contracts\Http\Kernel;
-use Awesomecoder\Http\Request;
-
 /**
  * Load core of the plugin.
  *
@@ -12,7 +9,7 @@ use Awesomecoder\Http\Request;
  * @since      1.0.0
  *
  * @package    Awesomecoder
- * @subpackage Awesomecoder/controller
+ *
  */
 
 // If this file is called directly, abort.
@@ -76,7 +73,7 @@ class Plugin
 	 * @since    1.0.0
 	 *
 	 */
-	public static function core()
+	public function core()
 	{
 	}
 }

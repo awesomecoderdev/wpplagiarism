@@ -1,23 +1,23 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 use Closure;
-use AwesomeCoder\Console\Application as Artisan;
-use AwesomeCoder\Contracts\Foundation\CachesConfiguration;
-use AwesomeCoder\Contracts\Foundation\CachesRoutes;
-use AwesomeCoder\Contracts\Support\DeferrableProvider;
-use AwesomeCoder\Database\Eloquent\Factory as ModelFactory;
-use AwesomeCoder\View\Compilers\BladeCompiler;
+use Illuminate\Console\Application as Artisan;
+use Illuminate\Contracts\Foundation\CachesConfiguration;
+use Illuminate\Contracts\Foundation\CachesRoutes;
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Database\Eloquent\Factory as ModelFactory;
+use Illuminate\View\Compilers\BladeCompiler;
 
 abstract class ServiceProvider
 {
     /**
      * The application instance.
      *
-     * @var \AwesomeCoder\Contracts\Foundation\Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
-    protected $plugin;
+    protected $app;
 
     /**
      * All of the registered booting callbacks.
@@ -50,12 +50,12 @@ abstract class ServiceProvider
     /**
      * Create a new service provider instance.
      *
-     * @param  \AwesomeCoder\Contracts\Foundation\Application  $plugin
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
-    public function __construct($plugin)
+    public function __construct($app)
     {
-        $this->plugin= $plugin;
+        $this->app = $app;
     }
 
     /**
@@ -131,12 +131,11 @@ abstract class ServiceProvider
      */
     protected function mergeConfigFrom($path, $key)
     {
-        if (!($this->plugininstanceof CachesConfiguration && $this->app->configurationIsCached())) {
+        if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             $config = $this->app->make('config');
 
             $config->set($key, array_merge(
-                require $path,
-                $config->get($key, [])
+                require $path, $config->get($key, [])
             ));
         }
     }
@@ -149,7 +148,7 @@ abstract class ServiceProvider
      */
     protected function loadRoutesFrom($path)
     {
-        if (!($this->plugininstanceof CachesRoutes && $this->app->routesAreCached())) {
+        if (! ($this->app instanceof CachesRoutes && $this->app->routesAreCached())) {
             require $path;
         }
     }
@@ -164,13 +163,11 @@ abstract class ServiceProvider
     protected function loadViewsFrom($path, $namespace)
     {
         $this->callAfterResolving('view', function ($view) use ($path, $namespace) {
-            if (
-                isset($this->app->config['view']['paths']) &&
-                is_array($this->app->config['view']['paths'])
-            ) {
+            if (isset($this->app->config['view']['paths']) &&
+                is_array($this->app->config['view']['paths'])) {
                 foreach ($this->app->config['view']['paths'] as $viewPath) {
-                    if (is_dir($pluginPath = $viewPath . '/vendor/' . $namespace)) {
-                        $view->addNamespace($namespace, $pluginPath);
+                    if (is_dir($appPath = $viewPath.'/vendor/'.$namespace)) {
+                        $view->addNamespace($namespace, $appPath);
                     }
                 }
             }
@@ -240,7 +237,7 @@ abstract class ServiceProvider
     /**
      * Register Eloquent model factory paths.
      *
-     * @deprecated Will be removed in a future Wordpress Plugin version.
+     * @deprecated Will be removed in a future Laravel version.
      *
      * @param  array|string  $paths
      * @return void
@@ -296,7 +293,7 @@ abstract class ServiceProvider
      */
     protected function ensurePublishArrayInitialized($class)
     {
-        if (!array_key_exists($class, static::$publishes)) {
+        if (! array_key_exists($class, static::$publishes)) {
             static::$publishes[$class] = [];
         }
     }
@@ -310,13 +307,12 @@ abstract class ServiceProvider
      */
     protected function addPublishGroup($group, $paths)
     {
-        if (!array_key_exists($group, static::$publishGroups)) {
+        if (! array_key_exists($group, static::$publishGroups)) {
             static::$publishGroups[$group] = [];
         }
 
         static::$publishGroups[$group] = array_merge(
-            static::$publishGroups[$group],
-            $paths
+            static::$publishGroups[$group], $paths
         );
     }
 
@@ -329,7 +325,7 @@ abstract class ServiceProvider
      */
     public static function pathsToPublish($provider = null, $group = null)
     {
-        if (!is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
+        if (! is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
             return $paths;
         }
 
@@ -367,7 +363,7 @@ abstract class ServiceProvider
      */
     protected static function pathsForProviderAndGroup($provider, $group)
     {
-        if (!empty(static::$publishes[$provider]) && !empty(static::$publishGroups[$group])) {
+        if (! empty(static::$publishes[$provider]) && ! empty(static::$publishGroups[$group])) {
             return array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
         }
 

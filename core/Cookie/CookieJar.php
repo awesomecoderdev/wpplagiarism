@@ -1,11 +1,11 @@
 <?php
 
-namespace AwesomeCoder\Cookie;
+namespace Illuminate\Cookie;
 
-use AwesomeCoder\Contracts\Cookie\QueueingFactory as JarContract;
-use AwesomeCoder\Support\Arr;
-use AwesomeCoder\Support\InteractsWithTime;
-use AwesomeCoder\Support\Traits\Macroable;
+use Illuminate\Contracts\Cookie\QueueingFactory as JarContract;
+use Illuminate\Support\Arr;
+use Illuminate\Support\InteractsWithTime;
+use Illuminate\Support\Traits\Macroable;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class CookieJar implements JarContract
@@ -110,7 +110,7 @@ class CookieJar implements JarContract
      */
     public function hasQueued($key, $path = null)
     {
-        return !is_null($this->queued($key, null, $path));
+        return ! is_null($this->queued($key, null, $path));
     }
 
     /**
@@ -146,7 +146,7 @@ class CookieJar implements JarContract
             $cookie = $this->make(...array_values($parameters));
         }
 
-        if (!isset($this->queued[$cookie->getName()])) {
+        if (! isset($this->queued[$cookie->getName()])) {
             $this->queued[$cookie->getName()] = [];
         }
 

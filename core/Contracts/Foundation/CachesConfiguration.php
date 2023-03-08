@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Foundation;
+namespace Illuminate\Contracts\Foundation;
 
 interface CachesConfiguration
 {

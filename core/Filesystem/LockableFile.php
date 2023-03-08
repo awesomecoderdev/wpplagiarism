@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Filesystem;
+namespace Illuminate\Filesystem;
 
 use Exception;
-use AwesomeCoder\Contracts\Filesystem\LockTimeoutException;
+use Illuminate\Contracts\Filesystem\LockTimeoutException;
 
 class LockableFile
 {
@@ -51,7 +51,7 @@ class LockableFile
      */
     protected function ensureDirectoryExists($path)
     {
-        if (!file_exists(dirname($path))) {
+        if (! file_exists(dirname($path))) {
             @mkdir(dirname($path), 0777, true);
         }
     }
@@ -69,8 +69,8 @@ class LockableFile
     {
         $this->handle = @fopen($path, $mode);
 
-        if (!$this->handle) {
-            throw new Exception('Unable to create lockable file: ' . $path . '. Please ensure you have permission to create files in this location.');
+        if (! $this->handle) {
+            throw new Exception('Unable to create lockable file: '.$path.'. Please ensure you have permission to create files in this location.');
         }
     }
 
@@ -132,11 +132,11 @@ class LockableFile
      * @param  bool  $block
      * @return $this
      *
-     * @throws \AwesomeCoder\Contracts\Filesystem\LockTimeoutException
+     * @throws \Illuminate\Contracts\Filesystem\LockTimeoutException
      */
     public function getSharedLock($block = false)
     {
-        if (!flock($this->handle, LOCK_SH | ($block ? 0 : LOCK_NB))) {
+        if (! flock($this->handle, LOCK_SH | ($block ? 0 : LOCK_NB))) {
             throw new LockTimeoutException("Unable to acquire file lock at path [{$this->path}].");
         }
 
@@ -151,11 +151,11 @@ class LockableFile
      * @param  bool  $block
      * @return bool
      *
-     * @throws \AwesomeCoder\Contracts\Filesystem\LockTimeoutException
+     * @throws \Illuminate\Contracts\Filesystem\LockTimeoutException
      */
     public function getExclusiveLock($block = false)
     {
-        if (!flock($this->handle, LOCK_EX | ($block ? 0 : LOCK_NB))) {
+        if (! flock($this->handle, LOCK_EX | ($block ? 0 : LOCK_NB))) {
             throw new LockTimeoutException("Unable to acquire file lock at path [{$this->path}].");
         }
 

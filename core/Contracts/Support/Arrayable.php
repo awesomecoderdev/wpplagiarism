@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Support;
+namespace Illuminate\Contracts\Support;
 
 /**
  * @template TKey of array-key

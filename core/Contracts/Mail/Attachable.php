@@ -1,13 +1,13 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Mail;
+namespace Illuminate\Contracts\Mail;
 
 interface Attachable
 {
     /**
      * Get an attachment instance for this entity.
      *
-     * @return \AwesomeCoder\Mail\Attachment
+     * @return \Illuminate\Mail\Attachment
      */
     public function toMailAttachment();
 }

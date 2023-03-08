@@ -1,12 +1,12 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
 use Closure;
-use AwesomeCoder\Contracts\Events\Dispatcher;
-use AwesomeCoder\Support\Arr;
-use AwesomeCoder\Support\Str;
-use AwesomeCoder\Support\Traits\ReflectsClosures;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
 use ReflectionFunction;
 
@@ -17,7 +17,7 @@ class EventFake implements Dispatcher
     /**
      * The original event dispatcher.
      *
-     * @var \AwesomeCoder\Contracts\Events\Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $dispatcher;
 
@@ -45,7 +45,7 @@ class EventFake implements Dispatcher
     /**
      * Create a new event fake instance.
      *
-     * @param  \AwesomeCoder\Contracts\Events\Dispatcher  $dispatcher
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
      * @param  array|string  $eventsToFake
      * @return void
      */
@@ -83,7 +83,7 @@ class EventFake implements Dispatcher
     {
         foreach ($this->dispatcher->getListeners($expectedEvent) as $listenerClosure) {
             $actualListener = (new ReflectionFunction($listenerClosure))
-                ->getStaticVariables()['listener'];
+                        ->getStaticVariables()['listener'];
 
             $normalizedListener = $expectedListener;
 
@@ -99,11 +99,9 @@ class EventFake implements Dispatcher
                 }
             }
 
-            if (
-                $actualListener === $normalizedListener ||
+            if ($actualListener === $normalizedListener ||
                 ($actualListener instanceof Closure &&
-                    $normalizedListener === Closure::class)
-            ) {
+                $normalizedListener === Closure::class)) {
                 PHPUnit::assertTrue(true);
 
                 return;
@@ -155,8 +153,7 @@ class EventFake implements Dispatcher
         $count = $this->dispatched($event)->count();
 
         PHPUnit::assertSame(
-            $times,
-            $count,
+            $times, $count,
             "The expected [{$event}] event was dispatched {$count} times instead of {$times} times."
         );
     }
@@ -175,8 +172,7 @@ class EventFake implements Dispatcher
         }
 
         PHPUnit::assertCount(
-            0,
-            $this->dispatched($event, $callback),
+            0, $this->dispatched($event, $callback),
             "The unexpected [{$event}] event was dispatched."
         );
     }
@@ -191,8 +187,7 @@ class EventFake implements Dispatcher
         $count = count(Arr::flatten($this->events));
 
         PHPUnit::assertSame(
-            0,
-            $count,
+            0, $count,
             "{$count} unexpected events were dispatched."
         );
     }
@@ -202,11 +197,11 @@ class EventFake implements Dispatcher
      *
      * @param  string  $event
      * @param  callable|null  $callback
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function dispatched($event, $callback = null)
     {
-        if (!$this->hasDispatched($event)) {
+        if (! $this->hasDispatched($event)) {
             return collect();
         }
 
@@ -225,7 +220,7 @@ class EventFake implements Dispatcher
      */
     public function hasDispatched($event)
     {
-        return isset($this->events[$event]) && !empty($this->events[$event]);
+        return isset($this->events[$event]) && ! empty($this->events[$event]);
     }
 
     /**
@@ -324,8 +319,8 @@ class EventFake implements Dispatcher
         return collect($this->eventsToFake)
             ->filter(function ($event) use ($eventName, $payload) {
                 return $event instanceof Closure
-                    ? $event($eventName, $payload)
-                    : $event === $eventName;
+                            ? $event($eventName, $payload)
+                            : $event === $eventName;
             })
             ->isNotEmpty();
     }

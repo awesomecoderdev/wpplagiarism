@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Database\Eloquent;
+namespace Illuminate\Contracts\Database\Eloquent;
 
 interface SupportsPartialRelations
 {
@@ -24,7 +24,7 @@ interface SupportsPartialRelations
     /**
      * Get the one of many inner join subselect query builder instance.
      *
-     * @return \AwesomeCoder\Database\Eloquent\Builder|void
+     * @return \Illuminate\Database\Eloquent\Builder|void
      */
     public function getOneOfManySubQuery();
 }

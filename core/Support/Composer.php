@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
-use AwesomeCoder\Filesystem\Filesystem;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -11,7 +11,7 @@ class Composer
     /**
      * The filesystem instance.
      *
-     * @var \AwesomeCoder\Filesystem\Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -25,7 +25,7 @@ class Composer
     /**
      * Create a new Composer manager instance.
      *
-     * @param  \AwesomeCoder\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string|null  $workingPath
      * @return void
      */
@@ -67,7 +67,7 @@ class Composer
      */
     public function findComposer()
     {
-        if ($this->files->exists($this->workingPath . '/composer.phar')) {
+        if ($this->files->exists($this->workingPath.'/composer.phar')) {
             return [$this->phpBinary(), 'composer.phar'];
         }
 

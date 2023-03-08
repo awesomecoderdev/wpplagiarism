@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Encryption;
+namespace Illuminate\Contracts\Encryption;
 
 interface StringEncrypter
 {
@@ -10,7 +10,7 @@ interface StringEncrypter
      * @param  string  $value
      * @return string
      *
-     * @throws \AwesomeCoder\Contracts\Encryption\EncryptException
+     * @throws \Illuminate\Contracts\Encryption\EncryptException
      */
     public function encryptString($value);
 
@@ -20,7 +20,7 @@ interface StringEncrypter
      * @param  string  $payload
      * @return string
      *
-     * @throws \AwesomeCoder\Contracts\Encryption\DecryptException
+     * @throws \Illuminate\Contracts\Encryption\DecryptException
      */
     public function decryptString($payload);
 }

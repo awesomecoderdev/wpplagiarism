@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
 interface ExistenceAwareInterface
 {

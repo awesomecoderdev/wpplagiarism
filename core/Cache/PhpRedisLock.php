@@ -1,15 +1,15 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
-use AwesomeCoder\Redis\Connections\PhpRedisConnection;
+use Illuminate\Redis\Connections\PhpRedisConnection;
 
 class PhpRedisLock extends RedisLock
 {
     /**
      * Create a new phpredis lock instance.
      *
-     * @param  \AwesomeCoder\Redis\Connections\PhpRedisConnection  $redis
+     * @param  \Illuminate\Redis\Connections\PhpRedisConnection  $redis
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

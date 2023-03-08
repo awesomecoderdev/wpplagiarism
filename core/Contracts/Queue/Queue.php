@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Queue;
+namespace Illuminate\Contracts\Queue;
 
 interface Queue
 {
@@ -78,7 +78,7 @@ interface Queue
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return \AwesomeCoder\Contracts\Queue\Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null);
 

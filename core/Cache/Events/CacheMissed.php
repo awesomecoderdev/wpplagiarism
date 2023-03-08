@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Cache\Events;
+namespace Illuminate\Cache\Events;
 
 class CacheMissed extends CacheEvent
 {

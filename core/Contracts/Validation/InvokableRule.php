@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Validation;
+namespace Illuminate\Contracts\Validation;
 
 interface InvokableRule
 {
@@ -9,7 +9,7 @@ interface InvokableRule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @param  \Closure(string): \AwesomeCoder\Translation\PotentiallyTranslatedString  $fail
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      * @return void
      */
     public function __invoke($attribute, $value, $fail);

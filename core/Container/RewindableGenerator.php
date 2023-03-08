@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Container;
+namespace Illuminate\Container;
 
 use Countable;
 use IteratorAggregate;

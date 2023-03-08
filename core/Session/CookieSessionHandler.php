@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
-use AwesomeCoder\Contracts\Cookie\QueueingFactory as CookieJar;
-use AwesomeCoder\Support\InteractsWithTime;
+use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
+use Illuminate\Support\InteractsWithTime;
 use SessionHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +14,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * The cookie jar instance.
      *
-     * @var \AwesomeCoder\Contracts\Cookie\Factory
+     * @var \Illuminate\Contracts\Cookie\Factory
      */
     protected $cookie;
 
@@ -35,7 +35,7 @@ class CookieSessionHandler implements SessionHandlerInterface
     /**
      * Create a new cookie driven handler instance.
      *
-     * @param  \AwesomeCoder\Contracts\Cookie\QueueingFactory  $cookie
+     * @param  \Illuminate\Contracts\Cookie\QueueingFactory  $cookie
      * @param  int  $minutes
      * @return void
      */
@@ -74,10 +74,8 @@ class CookieSessionHandler implements SessionHandlerInterface
     {
         $value = $this->request->cookies->get($sessionId) ?: '';
 
-        if (
-            !is_null($decoded = json_decode($value, true)) && is_array($decoded) &&
-            isset($decoded['expires']) && $this->currentTime() <= $decoded['expires']
-        ) {
+        if (! is_null($decoded = json_decode($value, true)) && is_array($decoded) &&
+            isset($decoded['expires']) && $this->currentTime() <= $decoded['expires']) {
             return $decoded['data'];
         }
 

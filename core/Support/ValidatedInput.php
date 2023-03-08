@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 use ArrayIterator;
-use AwesomeCoder\Contracts\Support\ValidatedData;
+use Illuminate\Contracts\Support\ValidatedData;
 use stdClass;
 use Traversable;
 
@@ -38,7 +38,7 @@ class ValidatedInput implements ValidatedData
         $keys = is_array($keys) ? $keys : func_get_args();
 
         foreach ($keys as $key) {
-            if (!Arr::has($this->input, $key)) {
+            if (! Arr::has($this->input, $key)) {
                 return false;
             }
         }
@@ -54,7 +54,7 @@ class ValidatedInput implements ValidatedData
      */
     public function missing($keys)
     {
-        return !$this->has($keys);
+        return ! $this->has($keys);
     }
 
     /**
@@ -113,7 +113,7 @@ class ValidatedInput implements ValidatedData
     /**
      * Get the input as a collection.
      *
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function collect()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Session;
+namespace Illuminate\Contracts\Session;
 
 interface Session
 {
@@ -197,7 +197,7 @@ interface Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     public function setRequestOnHandler($request);

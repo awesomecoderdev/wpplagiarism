@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 /**
  * @method static bool has(string $key)
@@ -15,7 +15,7 @@ namespace AwesomeCoder\Support\Facades;
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see \AwesomeCoder\Config\Repository
+ * @see \Illuminate\Config\Repository
  */
 class Config extends Facade
 {

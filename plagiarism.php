@@ -68,4 +68,5 @@ register_deactivation_hook(__FILE__, [AwesomeCoder\Plugin\Plagiarism\Core\Plugin
  * @package    Awesomecoder
  * @subpackage Awesomecoder/controller
  */
-AwesomeCoder\Plugin\Plagiarism\Core\Plugin::core();
+$plugin = new AwesomeCoder\Plugin\Plagiarism\Core\Plugin();
+$plugin->core();

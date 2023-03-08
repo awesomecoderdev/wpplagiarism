@@ -1,25 +1,25 @@
 <?php
 
-namespace AwesomeCoder\Session\Middleware;
+namespace Illuminate\Session\Middleware;
 
 use Closure;
-use AwesomeCoder\Auth\AuthenticationException;
-use AwesomeCoder\Contracts\Auth\Factory as AuthFactory;
-use AwesomeCoder\Contracts\Session\Middleware\AuthenticatesSessions;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Session\Middleware\AuthenticatesSessions;
 
 class AuthenticateSession implements AuthenticatesSessions
 {
     /**
      * The authentication factory implementation.
      *
-     * @var \AwesomeCoder\Contracts\Auth\Factory
+     * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
 
     /**
      * Create a new middleware instance.
      *
-     * @param  \AwesomeCoder\Contracts\Auth\Factory  $auth
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
     public function __construct(AuthFactory $auth)
@@ -30,34 +30,34 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Handle an incoming request.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->hasSession() || !$request->user()) {
+        if (! $request->hasSession() || ! $request->user()) {
             return $next($request);
         }
 
         if ($this->guard()->viaRemember()) {
             $passwordHash = explode('|', $request->cookies->get($this->guard()->getRecallerName()))[2] ?? null;
 
-            if (!$passwordHash || $passwordHash != $request->user()->getAuthPassword()) {
+            if (! $passwordHash || $passwordHash != $request->user()->getAuthPassword()) {
                 $this->logout($request);
             }
         }
 
-        if (!$request->session()->has('password_hash_' . $this->auth->getDefaultDriver())) {
+        if (! $request->session()->has('password_hash_'.$this->auth->getDefaultDriver())) {
             $this->storePasswordHashInSession($request);
         }
 
-        if ($request->session()->get('password_hash_' . $this->auth->getDefaultDriver()) !== $request->user()->getAuthPassword()) {
+        if ($request->session()->get('password_hash_'.$this->auth->getDefaultDriver()) !== $request->user()->getAuthPassword()) {
             $this->logout($request);
         }
 
         return tap($next($request), function () use ($request) {
-            if (!is_null($this->guard()->user())) {
+            if (! is_null($this->guard()->user())) {
                 $this->storePasswordHashInSession($request);
             }
         });
@@ -66,27 +66,27 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Store the user's current password hash in the session.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function storePasswordHashInSession($request)
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             return;
         }
 
         $request->session()->put([
-            'password_hash_' . $this->auth->getDefaultDriver() => $request->user()->getAuthPassword(),
+            'password_hash_'.$this->auth->getDefaultDriver() => $request->user()->getAuthPassword(),
         ]);
     }
 
     /**
      * Log the user out of the application.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      *
-     * @throws \AwesomeCoder\Auth\AuthenticationException
+     * @throws \Illuminate\Auth\AuthenticationException
      */
     protected function logout($request)
     {
@@ -100,7 +100,7 @@ class AuthenticateSession implements AuthenticatesSessions
     /**
      * Get the guard instance that should be used by the middleware.
      *
-     * @return \AwesomeCoder\Contracts\Auth\Factory|\AwesomeCoder\Contracts\Auth\Guard
+     * @return \Illuminate\Contracts\Auth\Factory|\Illuminate\Contracts\Auth\Guard
      */
     protected function guard()
     {

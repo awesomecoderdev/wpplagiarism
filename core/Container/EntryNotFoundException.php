@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Container;
+namespace Illuminate\Container;
 
 use Exception;
 use Psr\Container\NotFoundExceptionInterface;

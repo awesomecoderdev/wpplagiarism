@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Database\Eloquent;
+namespace Illuminate\Contracts\Database\Eloquent;
 
 interface Castable
 {

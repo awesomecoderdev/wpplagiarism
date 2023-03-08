@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
-use AwesomeCoder\Contracts\Support\Htmlable;
+use Illuminate\Contracts\Support\Htmlable;
 
 class HtmlString implements Htmlable
 {
@@ -51,7 +51,7 @@ class HtmlString implements Htmlable
      */
     public function isNotEmpty()
     {
-        return !$this->isEmpty();
+        return ! $this->isEmpty();
     }
 
     /**

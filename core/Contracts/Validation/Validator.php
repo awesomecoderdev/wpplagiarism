@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Validation;
+namespace Illuminate\Contracts\Validation;
 
-use AwesomeCoder\Contracts\Support\MessageProvider;
+use Illuminate\Contracts\Support\MessageProvider;
 
 interface Validator extends MessageProvider
 {
@@ -11,7 +11,7 @@ interface Validator extends MessageProvider
      *
      * @return array
      *
-     * @throws \AwesomeCoder\Validation\ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validate();
 
@@ -20,7 +20,7 @@ interface Validator extends MessageProvider
      *
      * @return array
      *
-     * @throws \AwesomeCoder\Validation\ValidationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validated();
 
@@ -59,7 +59,7 @@ interface Validator extends MessageProvider
     /**
      * Get all of the validation error messages.
      *
-     * @return \AwesomeCoder\Support\MessageBag
+     * @return \Illuminate\Support\MessageBag
      */
     public function errors();
 }

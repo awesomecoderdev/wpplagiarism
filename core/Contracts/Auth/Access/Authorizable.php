@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Auth\Access;
+namespace Illuminate\Contracts\Auth\Access;
 
 interface Authorizable
 {

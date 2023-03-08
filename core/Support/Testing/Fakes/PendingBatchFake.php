@@ -1,24 +1,24 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
-use AwesomeCoder\Bus\PendingBatch;
-use AwesomeCoder\Support\Collection;
+use Illuminate\Bus\PendingBatch;
+use Illuminate\Support\Collection;
 
 class PendingBatchFake extends PendingBatch
 {
     /**
      * The fake bus instance.
      *
-     * @var \AwesomeCoder\Support\Testing\Fakes\BusFake
+     * @var \Illuminate\Support\Testing\Fakes\BusFake
      */
     protected $bus;
 
     /**
      * Create a new pending batch instance.
      *
-     * @param  \AwesomeCoder\Support\Testing\Fakes\BusFake  $bus
-     * @param  \AwesomeCoder\Support\Collection  $jobs
+     * @param  \Illuminate\Support\Testing\Fakes\BusFake  $bus
+     * @param  \Illuminate\Support\Collection  $jobs
      * @return void
      */
     public function __construct(BusFake $bus, Collection $jobs)
@@ -30,7 +30,7 @@ class PendingBatchFake extends PendingBatch
     /**
      * Dispatch the batch.
      *
-     * @return \AwesomeCoder\Bus\Batch
+     * @return \Illuminate\Bus\Batch
      */
     public function dispatch()
     {
@@ -40,7 +40,7 @@ class PendingBatchFake extends PendingBatch
     /**
      * Dispatch the batch after the response is sent to the browser.
      *
-     * @return \AwesomeCoder\Bus\Batch
+     * @return \Illuminate\Bus\Batch
      */
     public function dispatchAfterResponse()
     {

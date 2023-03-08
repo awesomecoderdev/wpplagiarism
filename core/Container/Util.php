@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Container;
+namespace Illuminate\Container;
 
 use Closure;
 use ReflectionNamedType;
@@ -13,7 +13,7 @@ class Util
     /**
      * If the given value is not an array and not null, wrap it in one.
      *
-     * From Arr::wrap() in AwesomeCoder\Support.
+     * From Arr::wrap() in Illuminate\Support.
      *
      * @param  mixed  $value
      * @return array
@@ -30,7 +30,7 @@ class Util
     /**
      * Return the default value of the given value.
      *
-     * From global value() helper in AwesomeCoder\Support.
+     * From global value() helper in Illuminate\Support.
      *
      * @param  mixed  $value
      * @param  mixed  ...$args
@@ -44,7 +44,7 @@ class Util
     /**
      * Get the class name of the given parameter's type, if possible.
      *
-     * From Reflector::getParameterClassName() in AwesomeCoder\Support.
+     * From Reflector::getParameterClassName() in Illuminate\Support.
      *
      * @param  \ReflectionParameter  $parameter
      * @return string|null
@@ -53,13 +53,13 @@ class Util
     {
         $type = $parameter->getType();
 
-        if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
+        if (! $type instanceof ReflectionNamedType || $type->isBuiltin()) {
             return null;
         }
 
         $name = $type->getName();
 
-        if (!is_null($class = $parameter->getDeclaringClass())) {
+        if (! is_null($class = $parameter->getDeclaringClass())) {
             if ($name === 'self') {
                 return $class->getName();
             }

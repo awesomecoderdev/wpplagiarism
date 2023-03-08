@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Database;
+namespace Illuminate\Contracts\Database;
 
 class ModelIdentifier
 {

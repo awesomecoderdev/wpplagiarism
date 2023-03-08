@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
-use AwesomeCoder\Contracts\Cache\Store;
+use Illuminate\Contracts\Cache\Store;
 
 abstract class TaggableStore implements Store
 {
@@ -10,7 +10,7 @@ abstract class TaggableStore implements Store
      * Begin executing a new tags operation.
      *
      * @param  array|mixed  $names
-     * @return \AwesomeCoder\Cache\TaggedCache
+     * @return \Illuminate\Cache\TaggedCache
      */
     public function tags($names)
     {

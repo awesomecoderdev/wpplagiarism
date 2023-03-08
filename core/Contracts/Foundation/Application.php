@@ -1,8 +1,8 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Foundation;
+namespace Illuminate\Contracts\Foundation;
 
-use AwesomeCoder\Contracts\Container\Container;
+use Illuminate\Contracts\Container\Container;
 
 interface Application extends Container
 {
@@ -14,7 +14,7 @@ interface Application extends Container
     public function version();
 
     /**
-     * Get the base path of the Wordpress Plugin installation.
+     * Get the base path of the Laravel installation.
      *
      * @param  string  $path
      * @return string
@@ -86,7 +86,7 @@ interface Application extends Container
     /**
      * Get an instance of the maintenance mode manager implementation.
      *
-     * @return \AwesomeCoder\Contracts\Foundation\MaintenanceMode
+     * @return \Illuminate\Contracts\Foundation\MaintenanceMode
      */
     public function maintenanceMode();
 
@@ -107,9 +107,9 @@ interface Application extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param  \AwesomeCoder\Support\ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
      * @param  bool  $force
-     * @return \AwesomeCoder\Support\ServiceProvider
+     * @return \Illuminate\Support\ServiceProvider
      */
     public function register($provider, $force = false);
 
@@ -126,7 +126,7 @@ interface Application extends Container
      * Resolve a service provider instance from the class name.
      *
      * @param  string  $provider
-     * @return \AwesomeCoder\Support\ServiceProvider
+     * @return \Illuminate\Support\ServiceProvider
      */
     public function resolveProvider($provider);
 
@@ -180,7 +180,7 @@ interface Application extends Container
     /**
      * Get the registered service provider instances if any exist.
      *
-     * @param  \AwesomeCoder\Support\ServiceProvider|string  $provider
+     * @param  \Illuminate\Support\ServiceProvider|string  $provider
      * @return array
      */
     public function getProviders($provider);
@@ -218,7 +218,7 @@ interface Application extends Container
      * Register a terminating callback with the application.
      *
      * @param  callable|string  $callback
-     * @return \AwesomeCoder\Contracts\Foundation\Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function terminating($callback);
 

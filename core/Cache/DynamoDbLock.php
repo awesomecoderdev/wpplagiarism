@@ -1,20 +1,20 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 class DynamoDbLock extends Lock
 {
     /**
      * The DynamoDB client instance.
      *
-     * @var \AwesomeCoder\Cache\DynamoDbStore
+     * @var \Illuminate\Cache\DynamoDbStore
      */
     protected $dynamo;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \AwesomeCoder\Cache\DynamoDbStore  $dynamo
+     * @param  \Illuminate\Cache\DynamoDbStore  $dynamo
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

@@ -1,10 +1,10 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
-use AwesomeCoder\Contracts\Cache\Factory as CacheFactory;
-use AwesomeCoder\Session\Middleware\StartSession;
-use AwesomeCoder\Support\ServiceProvider;
+use Illuminate\Contracts\Cache\Factory as CacheFactory;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\ServiceProvider;
 
 class SessionServiceProvider extends ServiceProvider
 {
@@ -19,9 +19,9 @@ class SessionServiceProvider extends ServiceProvider
 
         $this->registerSessionDriver();
 
-        $this->app->singleton(StartSession::class, function ($plugin) {
-            return new StartSession($plugin->make(SessionManager::class), function () use ($plugin) {
-                return $plugin->make(CacheFactory::class);
+        $this->app->singleton(StartSession::class, function ($app) {
+            return new StartSession($app->make(SessionManager::class), function () use ($app) {
+                return $app->make(CacheFactory::class);
             });
         });
     }
@@ -33,8 +33,8 @@ class SessionServiceProvider extends ServiceProvider
      */
     protected function registerSessionManager()
     {
-        $this->app->singleton('session', function ($plugin) {
-            return new SessionManager($plugin);
+        $this->app->singleton('session', function ($app) {
+            return new SessionManager($app);
         });
     }
 
@@ -45,11 +45,11 @@ class SessionServiceProvider extends ServiceProvider
      */
     protected function registerSessionDriver()
     {
-        $this->app->singleton('session.store', function ($plugin) {
+        $this->app->singleton('session.store', function ($app) {
             // First, we will create the session manager which is responsible for the
             // creation of the various session drivers when they are needed by the
             // application instance, and will resolve them on a lazy load basis.
-            return $plugin->make('session')->driver();
+            return $app->make('session')->driver();
         });
     }
 }

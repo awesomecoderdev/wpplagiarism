@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 /**
  * @method static string version()
@@ -9,24 +9,24 @@ namespace AwesomeCoder\Support\Facades;
  * @method static void beforeBootstrapping(string $bootstrapper, \Closure $callback)
  * @method static void afterBootstrapping(string $bootstrapper, \Closure $callback)
  * @method static bool hasBeenBootstrapped()
- * @method static \AwesomeCoder\Foundation\Application setBasePath(string $basePath)
+ * @method static \Illuminate\Foundation\Application setBasePath(string $basePath)
  * @method static string path(string $path = '')
- * @method static \AwesomeCoder\Foundation\Application useAppPath(string $path)
+ * @method static \Illuminate\Foundation\Application useAppPath(string $path)
  * @method static string basePath(string $path = '')
  * @method static string bootstrapPath(string $path = '')
  * @method static string configPath(string $path = '')
  * @method static string databasePath(string $path = '')
- * @method static \AwesomeCoder\Foundation\Application useDatabasePath(string $path)
+ * @method static \Illuminate\Foundation\Application useDatabasePath(string $path)
  * @method static string langPath(string $path = '')
- * @method static \AwesomeCoder\Foundation\Application useLangPath(string $path)
+ * @method static \Illuminate\Foundation\Application useLangPath(string $path)
  * @method static string publicPath()
  * @method static string storagePath(string $path = '')
- * @method static \AwesomeCoder\Foundation\Application useStoragePath(string $path)
+ * @method static \Illuminate\Foundation\Application useStoragePath(string $path)
  * @method static string resourcePath(string $path = '')
  * @method static string viewPath(string $path = '')
  * @method static string environmentPath()
- * @method static \AwesomeCoder\Foundation\Application useEnvironmentPath(string $path)
- * @method static \AwesomeCoder\Foundation\Application loadEnvironmentFrom(string $file)
+ * @method static \Illuminate\Foundation\Application useEnvironmentPath(string $path)
+ * @method static \Illuminate\Foundation\Application loadEnvironmentFrom(string $file)
  * @method static string environmentFile()
  * @method static string environmentFilePath()
  * @method static string|bool environment(string|array ...$environments)
@@ -37,10 +37,10 @@ namespace AwesomeCoder\Support\Facades;
  * @method static bool runningUnitTests()
  * @method static bool hasDebugModeEnabled()
  * @method static void registerConfiguredProviders()
- * @method static \AwesomeCoder\Support\ServiceProvider register(\AwesomeCoder\Support\ServiceProvider|string $provider, bool $force = false)
- * @method static \AwesomeCoder\Support\ServiceProvider|null getProvider(\AwesomeCoder\Support\ServiceProvider|string $provider)
- * @method static array getProviders(\AwesomeCoder\Support\ServiceProvider|string $provider)
- * @method static \AwesomeCoder\Support\ServiceProvider resolveProvider(string $provider)
+ * @method static \Illuminate\Support\ServiceProvider register(\Illuminate\Support\ServiceProvider|string $provider, bool $force = false)
+ * @method static \Illuminate\Support\ServiceProvider|null getProvider(\Illuminate\Support\ServiceProvider|string $provider)
+ * @method static array getProviders(\Illuminate\Support\ServiceProvider|string $provider)
+ * @method static \Illuminate\Support\ServiceProvider resolveProvider(string $provider)
  * @method static void loadDeferredProviders()
  * @method static void loadDeferredProvider(string $service)
  * @method static void registerDeferredProvider(string $provider, string|null $service = null)
@@ -60,11 +60,11 @@ namespace AwesomeCoder\Support\Facades;
  * @method static string getCachedRoutesPath()
  * @method static bool eventsAreCached()
  * @method static string getCachedEventsPath()
- * @method static \AwesomeCoder\Foundation\Application addAbsoluteCachePathPrefix(string $prefix)
- * @method static \AwesomeCoder\Contracts\Foundation\MaintenanceMode maintenanceMode()
+ * @method static \Illuminate\Foundation\Application addAbsoluteCachePathPrefix(string $prefix)
+ * @method static \Illuminate\Contracts\Foundation\MaintenanceMode maintenanceMode()
  * @method static bool isDownForMaintenance()
  * @method static never abort(int $code, string $message = '', array $headers = [])
- * @method static \AwesomeCoder\Foundation\Application terminating(callable|string $callback)
+ * @method static \Illuminate\Foundation\Application terminating(callable|string $callback)
  * @method static void terminate()
  * @method static array getLoadedProviders()
  * @method static bool providerIsLoaded(string $provider)
@@ -82,7 +82,7 @@ namespace AwesomeCoder\Support\Facades;
  * @method static void registerCoreContainerAliases()
  * @method static void flush()
  * @method static string getNamespace()
- * @method static \AwesomeCoder\Contracts\Container\ContextualBindingBuilder when(array|string $concrete)
+ * @method static \Illuminate\Contracts\Container\ContextualBindingBuilder when(array|string $concrete)
  * @method static bool has(string $id)
  * @method static bool isShared(string $abstract)
  * @method static bool isAlias(string $name)
@@ -118,16 +118,16 @@ namespace AwesomeCoder\Support\Facades;
  * @method static void forgetInstance(string $abstract)
  * @method static void forgetInstances()
  * @method static void forgetScopedInstances()
- * @method static \AwesomeCoder\Foundation\Application getInstance()
- * @method static \AwesomeCoder\Contracts\Container\Container|\AwesomeCoder\Foundation\Application setInstance(\AwesomeCoder\Contracts\Container\Container|null $container = null)
+ * @method static \Illuminate\Foundation\Application getInstance()
+ * @method static \Illuminate\Contracts\Container\Container|\Illuminate\Foundation\Application setInstance(\Illuminate\Contracts\Container\Container|null $container = null)
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see \AwesomeCoder\Foundation\Application
+ * @see \Illuminate\Foundation\Application
  */
-class Plugin extends Facade
+class App extends Facade
 {
     /**
      * Get the registered name of the component.

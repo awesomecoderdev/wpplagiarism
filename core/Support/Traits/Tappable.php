@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Traits;
+namespace Illuminate\Support\Traits;
 
 trait Tappable
 {
@@ -8,7 +8,7 @@ trait Tappable
      * Call the given Closure with this instance then return the instance.
      *
      * @param  callable|null  $callback
-     * @return $this|\AwesomeCoder\Support\HigherOrderTapProxy
+     * @return $this|\Illuminate\Support\HigherOrderTapProxy
      */
     public function tap($callback = null)
     {

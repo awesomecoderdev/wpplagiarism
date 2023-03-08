@@ -1,14 +1,14 @@
 <?php
 
-namespace AwesomeCoder\Session;
+namespace Illuminate\Session;
 
 use Closure;
-use AwesomeCoder\Contracts\Session\Session;
-use AwesomeCoder\Support\Arr;
-use AwesomeCoder\Support\MessageBag;
-use AwesomeCoder\Support\Str;
-use AwesomeCoder\Support\Traits\Macroable;
-use AwesomeCoder\Support\ViewErrorBag;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Arr;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Support\ViewErrorBag;
 use SessionHandlerInterface;
 use stdClass;
 
@@ -84,7 +84,7 @@ class Store implements Session
     {
         $this->loadSession();
 
-        if (!$this->has('_token')) {
+        if (! $this->has('_token')) {
             $this->regenerateToken();
         }
 
@@ -255,7 +255,7 @@ class Store implements Session
     {
         $placeholder = new stdClass;
 
-        return !collect(is_array($key) ? $key : func_get_args())->contains(function ($key) use ($placeholder) {
+        return ! collect(is_array($key) ? $key : func_get_args())->contains(function ($key) use ($placeholder) {
             return $this->get($key, $placeholder) === $placeholder;
         });
     }
@@ -268,7 +268,7 @@ class Store implements Session
      */
     public function missing($key)
     {
-        return !$this->exists($key);
+        return ! $this->exists($key);
     }
 
     /**
@@ -279,7 +279,7 @@ class Store implements Session
      */
     public function has($key)
     {
-        return !collect(is_array($key) ? $key : func_get_args())->contains(function ($key) {
+        return ! collect(is_array($key) ? $key : func_get_args())->contains(function ($key) {
             return is_null($this->get($key));
         });
     }
@@ -318,7 +318,7 @@ class Store implements Session
     {
         $old = $this->getOldInput($key);
 
-        return is_null($key) ? count($old) > 0 : !is_null($old);
+        return is_null($key) ? count($old) > 0 : ! is_null($old);
     }
 
     /**
@@ -353,7 +353,7 @@ class Store implements Session
      */
     public function put($key, $value = null)
     {
-        if (!is_array($key)) {
+        if (! is_array($key)) {
             $key = [$key => $value];
         }
 
@@ -371,7 +371,7 @@ class Store implements Session
      */
     public function remember($key, Closure $callback)
     {
-        if (!is_null($value = $this->get($key))) {
+        if (! is_null($value = $this->get($key))) {
             return $value;
         }
 
@@ -759,7 +759,7 @@ class Store implements Session
     /**
      * Set the request on the handler instance.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     public function setRequestOnHandler($request)

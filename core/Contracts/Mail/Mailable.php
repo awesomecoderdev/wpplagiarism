@@ -1,23 +1,23 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Mail;
+namespace Illuminate\Contracts\Mail;
 
-use AwesomeCoder\Contracts\Queue\Factory as Queue;
+use Illuminate\Contracts\Queue\Factory as Queue;
 
 interface Mailable
 {
     /**
      * Send the message using the given mailer.
      *
-     * @param  \AwesomeCoder\Contracts\Mail\Factory|\AwesomeCoder\Contracts\Mail\Mailer  $mailer
-     * @return \AwesomeCoder\Mail\SentMessage|null
+     * @param  \Illuminate\Contracts\Mail\Factory|\Illuminate\Contracts\Mail\Mailer  $mailer
+     * @return \Illuminate\Mail\SentMessage|null
      */
     public function send($mailer);
 
     /**
      * Queue the given message.
      *
-     * @param  \AwesomeCoder\Contracts\Queue\Factory  $queue
+     * @param  \Illuminate\Contracts\Queue\Factory  $queue
      * @return mixed
      */
     public function queue(Queue $queue);
@@ -26,7 +26,7 @@ interface Mailable
      * Deliver the queued message after (n) seconds.
      *
      * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  \AwesomeCoder\Contracts\Queue\Factory  $queue
+     * @param  \Illuminate\Contracts\Queue\Factory  $queue
      * @return mixed
      */
     public function later($delay, Queue $queue);

@@ -1,12 +1,12 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 use Closure;
-use AwesomeCoder\Database\Eloquent\Model;
-use AwesomeCoder\Support\Arr;
-use AwesomeCoder\Support\Js;
-use AwesomeCoder\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Js;
+use Illuminate\Support\Str;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use RuntimeException;
@@ -16,9 +16,9 @@ abstract class Facade
     /**
      * The application instance being facaded.
      *
-     * @var \AwesomeCoder\Contracts\Foundation\Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
-    protected static $plugin;
+    protected static $app;
 
     /**
      * The resolved object instances.
@@ -44,11 +44,11 @@ abstract class Facade
     {
         $accessor = static::getFacadeAccessor();
 
-        if (static::$plugin->resolved($accessor) === true) {
+        if (static::$app->resolved($accessor) === true) {
             $callback(static::getFacadeRoot());
         }
 
-        static::$plugin->afterResolving($accessor, function ($service) use ($callback) {
+        static::$app->afterResolving($accessor, function ($service) use ($callback) {
             $callback($service);
         });
     }
@@ -178,8 +178,8 @@ abstract class Facade
     {
         static::$resolvedInstance[static::getFacadeAccessor()] = $instance;
 
-        if (isset(static::$plugin)) {
-            static::$plugin->instance(static::getFacadeAccessor(), $instance);
+        if (isset(static::$app)) {
+            static::$app->instance(static::getFacadeAccessor(), $instance);
         }
     }
 
@@ -217,12 +217,12 @@ abstract class Facade
             return static::$resolvedInstance[$name];
         }
 
-        if (static::$plugin) {
+        if (static::$app) {
             if (static::$cached) {
-                return static::$resolvedInstance[$name] = static::$plugin[$name];
+                return static::$resolvedInstance[$name] = static::$app[$name];
             }
 
-            return static::$plugin[$name];
+            return static::$app[$name];
         }
     }
 
@@ -250,12 +250,12 @@ abstract class Facade
     /**
      * Get the application default aliases.
      *
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public static function defaultAliases()
     {
         return collect([
-            'App' => Plugin::class,
+            'App' => App::class,
             'Arr' => Arr::class,
             'Artisan' => Artisan::class,
             'Auth' => Auth::class,
@@ -271,51 +271,43 @@ abstract class Facade
             'Eloquent' => Model::class,
             'Event' => Event::class,
             'File' => File::class,
-            'Gate' => Gate::class,
             'Hash' => Hash::class,
             'Http' => Http::class,
             'Js' => Js::class,
-            'Lang' => Lang::class,
             'Log' => Log::class,
             'Mail' => Mail::class,
-            'Notification' => Notification::class,
             'Password' => Password::class,
             'Queue' => Queue::class,
             'RateLimiter' => RateLimiter::class,
             'Redirect' => Redirect::class,
             'Request' => Request::class,
             'Response' => Response::class,
-            'Route' => Route::class,
-            'Schema' => Schema::class,
             'Session' => Session::class,
-            'Storage' => Storage::class,
             'Str' => Str::class,
             'URL' => URL::class,
             'Validator' => Validator::class,
-            'View' => View::class,
-            'Vite' => Vite::class,
         ]);
     }
 
     /**
      * Get the application instance behind the facade.
      *
-     * @return \AwesomeCoder\Contracts\Foundation\Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public static function getFacadeApplication()
     {
-        return static::$plugin;
+        return static::$app;
     }
 
     /**
      * Set the application instance.
      *
-     * @param  \AwesomeCoder\Contracts\Foundation\Application  $plugin
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
-    public static function setFacadeApplication($plugin)
+    public static function setFacadeApplication($app)
     {
-        static::$plugin = $plugin;
+        static::$app = $app;
     }
 
     /**

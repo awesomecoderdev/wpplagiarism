@@ -1,13 +1,13 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Support;
+namespace Illuminate\Contracts\Support;
 
 interface MessageProvider
 {
     /**
      * Get the messages for the instance.
      *
-     * @return \AwesomeCoder\Contracts\Support\MessageBag
+     * @return \Illuminate\Contracts\Support\MessageBag
      */
     public function getMessageBag();
 }

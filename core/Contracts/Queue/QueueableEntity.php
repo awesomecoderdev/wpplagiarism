@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Queue;
+namespace Illuminate\Contracts\Queue;
 
 interface QueueableEntity
 {

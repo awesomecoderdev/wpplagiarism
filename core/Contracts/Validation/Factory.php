@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Validation;
+namespace Illuminate\Contracts\Validation;
 
 interface Factory
 {
@@ -11,7 +11,7 @@ interface Factory
      * @param  array  $rules
      * @param  array  $messages
      * @param  array  $customAttributes
-     * @return \AwesomeCoder\Contracts\Validation\Validator
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     public function make(array $data, array $rules, array $messages = [], array $customAttributes = []);
 

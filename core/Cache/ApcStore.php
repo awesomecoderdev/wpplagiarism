@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 class ApcStore extends TaggableStore
 {
@@ -9,7 +9,7 @@ class ApcStore extends TaggableStore
     /**
      * The APC wrapper instance.
      *
-     * @var \AwesomeCoder\Cache\ApcWrapper
+     * @var \Illuminate\Cache\ApcWrapper
      */
     protected $apc;
 
@@ -23,7 +23,7 @@ class ApcStore extends TaggableStore
     /**
      * Create a new APC store.
      *
-     * @param  \AwesomeCoder\Cache\ApcWrapper  $apc
+     * @param  \Illuminate\Cache\ApcWrapper  $apc
      * @param  string  $prefix
      * @return void
      */
@@ -41,7 +41,7 @@ class ApcStore extends TaggableStore
      */
     public function get($key)
     {
-        $value = $this->apc->get($this->prefix . $key);
+        $value = $this->apc->get($this->prefix.$key);
 
         if ($value !== false) {
             return $value;
@@ -58,7 +58,7 @@ class ApcStore extends TaggableStore
      */
     public function put($key, $value, $seconds)
     {
-        return $this->apc->put($this->prefix . $key, $value, $seconds);
+        return $this->apc->put($this->prefix.$key, $value, $seconds);
     }
 
     /**
@@ -70,7 +70,7 @@ class ApcStore extends TaggableStore
      */
     public function increment($key, $value = 1)
     {
-        return $this->apc->increment($this->prefix . $key, $value);
+        return $this->apc->increment($this->prefix.$key, $value);
     }
 
     /**
@@ -82,7 +82,7 @@ class ApcStore extends TaggableStore
      */
     public function decrement($key, $value = 1)
     {
-        return $this->apc->decrement($this->prefix . $key, $value);
+        return $this->apc->decrement($this->prefix.$key, $value);
     }
 
     /**
@@ -105,7 +105,7 @@ class ApcStore extends TaggableStore
      */
     public function forget($key)
     {
-        return $this->apc->delete($this->prefix . $key);
+        return $this->apc->delete($this->prefix.$key);
     }
 
     /**

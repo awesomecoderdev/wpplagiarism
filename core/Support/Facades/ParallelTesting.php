@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 /**
  * @method static void resolveOptionsUsing(\Closure|null $resolver)
@@ -11,14 +11,14 @@ namespace AwesomeCoder\Support\Facades;
  * @method static void tearDownProcess(callable $callback)
  * @method static void tearDownTestCase(callable $callback)
  * @method static void callSetUpProcessCallbacks()
- * @method static void callSetUpTestCaseCallbacks(\AwesomeCoder\Foundation\Testing\TestCase $testCase)
+ * @method static void callSetUpTestCaseCallbacks(\Illuminate\Foundation\Testing\TestCase $testCase)
  * @method static void callSetUpTestDatabaseCallbacks(string $database)
  * @method static void callTearDownProcessCallbacks()
- * @method static void callTearDownTestCaseCallbacks(\AwesomeCoder\Foundation\Testing\TestCase $testCase)
+ * @method static void callTearDownTestCaseCallbacks(\Illuminate\Foundation\Testing\TestCase $testCase)
  * @method static mixed option(string $option)
  * @method static string|false token()
  *
- * @see \AwesomeCoder\Testing\ParallelTesting
+ * @see \Illuminate\Testing\ParallelTesting
  */
 class ParallelTesting extends Facade
 {
@@ -29,6 +29,6 @@ class ParallelTesting extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return \AwesomeCoder\Testing\ParallelTesting::class;
+        return \Illuminate\Testing\ParallelTesting::class;
     }
 }

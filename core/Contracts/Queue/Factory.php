@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Queue;
+namespace Illuminate\Contracts\Queue;
 
 interface Factory
 {
@@ -8,7 +8,7 @@ interface Factory
      * Resolve a queue connection instance.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Queue\Queue
+     * @return \Illuminate\Contracts\Queue\Queue
      */
     public function connection($name = null);
 }

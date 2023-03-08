@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support\Exceptions;
+namespace Illuminate\Support\Exceptions;
 
 use RuntimeException;
 

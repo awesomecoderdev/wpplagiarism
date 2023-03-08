@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Auth;
+namespace Illuminate\Contracts\Auth;
 
 interface PasswordBrokerFactory
 {
@@ -8,7 +8,7 @@ interface PasswordBrokerFactory
      * Get a password broker instance by name.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Auth\PasswordBroker
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
      */
     public function broker($name = null);
 }

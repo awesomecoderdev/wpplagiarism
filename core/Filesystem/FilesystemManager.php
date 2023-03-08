@@ -1,38 +1,24 @@
 <?php
 
-namespace AwesomeCoder\Filesystem;
+namespace Illuminate\Filesystem;
 
-use Aws\S3\S3Client;
 use Closure;
-use AwesomeCoder\Contracts\Filesystem\Factory as FactoryContract;
-use AwesomeCoder\Support\Arr;
+use Illuminate\Contracts\Filesystem\Factory as FactoryContract;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use League\Flysystem\AwsS3V3\AwsS3V3Adapter as S3Adapter;
-use League\Flysystem\AwsS3V3\PortableVisibilityConverter as AwsS3PortableVisibilityConverter;
-use League\Flysystem\Filesystem as Flysystem;
-use League\Flysystem\FilesystemAdapter as FlysystemAdapter;
-use League\Flysystem\Ftp\FtpAdapter;
-use League\Flysystem\Ftp\FtpConnectionOptions;
-use League\Flysystem\Local\LocalFilesystemAdapter as LocalAdapter;
-use League\Flysystem\PathPrefixing\PathPrefixedAdapter;
-use League\Flysystem\PhpseclibV3\SftpAdapter;
-use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
-use League\Flysystem\ReadOnly\ReadOnlyFilesystemAdapter;
-use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
-use League\Flysystem\Visibility;
 
 /**
- * @mixin \AwesomeCoder\Contracts\Filesystem\Filesystem
- * @mixin \AwesomeCoder\Filesystem\FilesystemAdapter
+ * @mixin \Illuminate\Contracts\Filesystem\Filesystem
+ * @mixin \Illuminate\Filesystem\FilesystemAdapter
  */
 class FilesystemManager implements FactoryContract
 {
     /**
      * The application instance.
      *
-     * @var \AwesomeCoder\Contracts\Foundation\Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
-    protected $plugin;
+    protected $app;
 
     /**
      * The array of resolved filesystem drivers.
@@ -51,19 +37,19 @@ class FilesystemManager implements FactoryContract
     /**
      * Create a new filesystem manager instance.
      *
-     * @param  \AwesomeCoder\Contracts\Foundation\Application  $plugin
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
-    public function __construct($plugin)
+    public function __construct($app)
     {
-        $this->plugin = $plugin;
+        $this->app = $app;
     }
 
     /**
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function drive($name = null)
     {
@@ -74,7 +60,7 @@ class FilesystemManager implements FactoryContract
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function disk($name = null)
     {
@@ -86,7 +72,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Get a default cloud filesystem instance.
      *
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function cloud()
     {
@@ -99,7 +85,7 @@ class FilesystemManager implements FactoryContract
      * Build an on-demand disk.
      *
      * @param  string|array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function build($config)
     {
@@ -113,7 +99,7 @@ class FilesystemManager implements FactoryContract
      * Attempt to get the disk from the local cache.
      *
      * @param  string  $name
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     protected function get($name)
     {
@@ -125,7 +111,7 @@ class FilesystemManager implements FactoryContract
      *
      * @param  string  $name
      * @param  array|null  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      *
      * @throws \InvalidArgumentException
      */
@@ -156,7 +142,7 @@ class FilesystemManager implements FactoryContract
      * Call a custom driver creator.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     protected function callCustomCreator(array $config)
     {
@@ -164,122 +150,10 @@ class FilesystemManager implements FactoryContract
     }
 
     /**
-     * Create an instance of the local driver.
-     *
-     * @param  array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
-     */
-    public function createLocalDriver(array $config)
-    {
-        $visibility = PortableVisibilityConverter::fromArray(
-            $config['permissions'] ?? [],
-            $config['directory_visibility'] ?? $config['visibility'] ?? Visibility::PRIVATE
-        );
-
-        $links = ($config['links'] ?? null) === 'skip'
-            ? LocalAdapter::SKIP_LINKS
-            : LocalAdapter::DISALLOW_LINKS;
-
-        $adapter = new LocalAdapter(
-            $config['root'],
-            $visibility,
-            $config['lock'] ?? LOCK_EX,
-            $links
-        );
-
-        return new FilesystemAdapter($this->createFlysystem($adapter, $config), $adapter, $config);
-    }
-
-    /**
-     * Create an instance of the ftp driver.
-     *
-     * @param  array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
-     */
-    public function createFtpDriver(array $config)
-    {
-        if (!isset($config['root'])) {
-            $config['root'] = '';
-        }
-
-        $adapter = new FtpAdapter(FtpConnectionOptions::fromArray($config));
-
-        return new FilesystemAdapter($this->createFlysystem($adapter, $config), $adapter, $config);
-    }
-
-    /**
-     * Create an instance of the sftp driver.
-     *
-     * @param  array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
-     */
-    public function createSftpDriver(array $config)
-    {
-        $provider = SftpConnectionProvider::fromArray($config);
-
-        $root = $config['root'] ?? '/';
-
-        $visibility = PortableVisibilityConverter::fromArray(
-            $config['permissions'] ?? []
-        );
-
-        $adapter = new SftpAdapter($provider, $root, $visibility);
-
-        return new FilesystemAdapter($this->createFlysystem($adapter, $config), $adapter, $config);
-    }
-
-    /**
-     * Create an instance of the Amazon S3 driver.
-     *
-     * @param  array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Cloud
-     */
-    public function createS3Driver(array $config)
-    {
-        $s3Config = $this->formatS3Config($config);
-
-        $root = (string) ($s3Config['root'] ?? '');
-
-        $visibility = new AwsS3PortableVisibilityConverter(
-            $config['visibility'] ?? Visibility::PUBLIC
-        );
-
-        $streamReads = $s3Config['stream_reads'] ?? false;
-
-        $client = new S3Client($s3Config);
-
-        $adapter = new S3Adapter($client, $s3Config['bucket'], $root, $visibility, null, $config['options'] ?? [], $streamReads);
-
-        return new AwsS3V3Adapter(
-            $this->createFlysystem($adapter, $config),
-            $adapter,
-            $s3Config,
-            $client
-        );
-    }
-
-    /**
-     * Format the given S3 configuration with the default options.
-     *
-     * @param  array  $config
-     * @return array
-     */
-    protected function formatS3Config(array $config)
-    {
-        $config += ['version' => 'latest'];
-
-        if (!empty($config['key']) && !empty($config['secret'])) {
-            $config['credentials'] = Arr::only($config, ['key', 'secret', 'token']);
-        }
-
-        return Arr::except($config, ['token']);
-    }
-
-    /**
      * Create a scoped driver.
      *
      * @param  array  $config
-     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
     public function createScopedDriver(array $config)
     {
@@ -293,32 +167,6 @@ class FilesystemManager implements FactoryContract
             $this->getConfig($config['disk']),
             fn (&$parent) => $parent['prefix'] = $config['prefix']
         ));
-    }
-
-    /**
-     * Create a Flysystem instance with the given adapter.
-     *
-     * @param  \League\Flysystem\FilesystemAdapter  $adapter
-     * @param  array  $config
-     * @return \League\Flysystem\FilesystemOperator
-     */
-    protected function createFlysystem(FlysystemAdapter $adapter, array $config)
-    {
-        if ($config['read-only'] ?? false === true) {
-            $adapter = new ReadOnlyFilesystemAdapter($adapter);
-        }
-
-        if (!empty($config['prefix'])) {
-            $adapter = new PathPrefixedAdapter($adapter, $config['prefix']);
-        }
-
-        return new Flysystem($adapter, Arr::only($config, [
-            'directory_visibility',
-            'disable_asserts',
-            'temporary_url',
-            'url',
-            'visibility',
-        ]));
     }
 
     /**
@@ -411,12 +259,12 @@ class FilesystemManager implements FactoryContract
     /**
      * Set the application instance used by the manager.
      *
-     * @param  \AwesomeCoder\Contracts\Foundation\Application  $plugin
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return $this
      */
-    public function setApplication($plugin)
+    public function setApplication($app)
     {
-        $this->plugin = $plugin;
+        $this->app = $app;
 
         return $this;
     }

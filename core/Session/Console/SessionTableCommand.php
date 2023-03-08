@@ -1,10 +1,10 @@
 <?php
 
-namespace AwesomeCoder\Session\Console;
+namespace Illuminate\Session\Console;
 
-use AwesomeCoder\Console\Command;
-use AwesomeCoder\Filesystem\Filesystem;
-use AwesomeCoder\Support\Composer;
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'session:table')]
@@ -38,20 +38,20 @@ class SessionTableCommand extends Command
     /**
      * The filesystem instance.
      *
-     * @var \AwesomeCoder\Filesystem\Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
     /**
-     * @var \AwesomeCoder\Support\Composer
+     * @var \Illuminate\Support\Composer
      */
     protected $composer;
 
     /**
      * Create a new session table command instance.
      *
-     * @param  \AwesomeCoder\Filesystem\Filesystem  $files
-     * @param  \AwesomeCoder\Support\Composer  $composer
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Support\Composer  $composer
      * @return void
      */
     public function __construct(Filesystem $files, Composer $composer)
@@ -71,7 +71,7 @@ class SessionTableCommand extends Command
     {
         $fullPath = $this->createBaseMigration();
 
-        $this->files->put($fullPath, $this->files->get(__DIR__ . '/stubs/database.stub'));
+        $this->files->put($fullPath, $this->files->get(__DIR__.'/stubs/database.stub'));
 
         $this->components->info('Migration created successfully.');
 
@@ -87,8 +87,8 @@ class SessionTableCommand extends Command
     {
         $name = 'create_sessions_table';
 
-        $path = $this->plugin->databasePath() . '/migrations';
+        $path = $this->laravel->databasePath().'/migrations';
 
-        return $this->plugin['migration.creator']->create($name, $path);
+        return $this->laravel['migration.creator']->create($name, $path);
     }
 }

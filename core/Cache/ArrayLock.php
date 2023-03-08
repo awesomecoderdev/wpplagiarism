@@ -1,22 +1,22 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
-use AwesomeCoder\Support\Carbon;
+use Illuminate\Support\Carbon;
 
 class ArrayLock extends Lock
 {
     /**
      * The parent array cache store.
      *
-     * @var \AwesomeCoder\Cache\ArrayStore
+     * @var \Illuminate\Cache\ArrayStore
      */
     protected $store;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \AwesomeCoder\Cache\ArrayStore  $store
+     * @param  \Illuminate\Cache\ArrayStore  $store
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
@@ -67,11 +67,11 @@ class ArrayLock extends Lock
      */
     public function release()
     {
-        if (!$this->exists()) {
+        if (! $this->exists()) {
             return false;
         }
 
-        if (!$this->isOwnedByCurrentProcess()) {
+        if (! $this->isOwnedByCurrentProcess()) {
             return false;
         }
 

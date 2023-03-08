@@ -14,32 +14,21 @@
 		}
 	],
 	"require": {
-		"illuminate/contracts": "^10.2",
-		"illuminate/html": "^4.2",
-		"illuminate/container": "^10.2",
-		"illuminate/support": "^4.2",
-		"illuminate/view": "^1.1",
-		"illuminate/validation": "^1.1",
-		"illuminate/session": "^4.2",
-		"illuminate/database": "^1.1",
-		"illuminate/http": "^4.2",
-		"illuminate/filesystem": "^4.2",
-		"illuminate/cookie": "^4.2",
-		"illuminate/cache": "^4.2",
-		"illuminate/config": "^10.2",
-		"illuminate/conditionable": "^10.2",
-		"illuminate/collections": "^10.2",
-		"illuminate/encryption": "^4.2",
-		"illuminate/hashing": "^4.2",
-		"illuminate/macroable": "^10.2",
-		"illuminate/auth": "^1.0",
-		"illuminate/remote": "^4.2",
-		"illuminate/exception": "^4.2"
+		"php": "^8.0.2",
+		"league/flysystem": "^3.12"
 	},
 	"autoload": {
-		"files": [],
+		"files": [
+			"core/Collections/helpers.php",
+			"core/Support/helpers.php"
+		],
 		"psr-4": {
-			"AwesomeCoder\\": "backend/"
+			"Illuminate\\": "core/",
+			"Illuminate\\Support\\": [
+				"core/Macroable/",
+				"core/Collections/",
+				"core/Conditionable/"
+			]
 		}
 	},
 	"provide": {

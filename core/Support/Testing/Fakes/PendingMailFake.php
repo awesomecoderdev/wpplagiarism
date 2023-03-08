@@ -1,16 +1,16 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
-use AwesomeCoder\Contracts\Mail\Mailable;
-use AwesomeCoder\Mail\PendingMail;
+use Illuminate\Contracts\Mail\Mailable;
+use Illuminate\Mail\PendingMail;
 
 class PendingMailFake extends PendingMail
 {
     /**
      * Create a new instance.
      *
-     * @param  \AwesomeCoder\Support\Testing\Fakes\MailFake  $mailer
+     * @param  \Illuminate\Support\Testing\Fakes\MailFake  $mailer
      * @return void
      */
     public function __construct($mailer)
@@ -21,7 +21,7 @@ class PendingMailFake extends PendingMail
     /**
      * Send a new mailable message instance.
      *
-     * @param  \AwesomeCoder\Contracts\Mail\Mailable  $mailable
+     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
      * @return void
      */
     public function send(Mailable $mailable)
@@ -32,7 +32,7 @@ class PendingMailFake extends PendingMail
     /**
      * Push the given mailable onto the queue.
      *
-     * @param  \AwesomeCoder\Contracts\Mail\Mailable  $mailable
+     * @param  \Illuminate\Contracts\Mail\Mailable  $mailable
      * @return mixed
      */
     public function queue(Mailable $mailable)

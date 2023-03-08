@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Database\Eloquent;
+namespace Illuminate\Contracts\Database\Eloquent;
 
 /**
  * @template TGet
@@ -11,7 +11,7 @@ interface CastsAttributes
     /**
      * Transform the attribute from the underlying model values.
      *
-     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
@@ -22,7 +22,7 @@ interface CastsAttributes
     /**
      * Transform the attribute to its underlying model values.
      *
-     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  TSet|null  $value
      * @param  array  $attributes

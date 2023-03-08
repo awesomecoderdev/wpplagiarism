@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Auth;
+namespace Illuminate\Contracts\Auth;
 
 interface Factory
 {
@@ -8,7 +8,7 @@ interface Factory
      * Get a guard instance by name.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Auth\Guard|\AwesomeCoder\Contracts\Auth\StatefulGuard
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
      */
     public function guard($name = null);
 

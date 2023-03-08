@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Session\Middleware;
+namespace Illuminate\Contracts\Session\Middleware;
 
 interface AuthenticatesSessions
 {

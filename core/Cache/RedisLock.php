@@ -1,20 +1,20 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 class RedisLock extends Lock
 {
     /**
      * The Redis factory implementation.
      *
-     * @var \AwesomeCoder\Redis\Connections\Connection
+     * @var \Illuminate\Redis\Connections\Connection
      */
     protected $redis;
 
     /**
      * Create a new lock instance.
      *
-     * @param  \AwesomeCoder\Redis\Connections\Connection  $redis
+     * @param  \Illuminate\Redis\Connections\Connection  $redis
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner

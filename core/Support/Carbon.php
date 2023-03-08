@@ -1,10 +1,10 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 use Carbon\Carbon as BaseCarbon;
 use Carbon\CarbonImmutable as BaseCarbonImmutable;
-use AwesomeCoder\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Conditionable;
 
 class Carbon extends BaseCarbon
 {

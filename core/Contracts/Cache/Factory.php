@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Cache;
+namespace Illuminate\Contracts\Cache;
 
 interface Factory
 {
@@ -8,7 +8,7 @@ interface Factory
      * Get a cache store instance by name.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Cache\Repository
+     * @return \Illuminate\Contracts\Cache\Repository
      */
     public function store($name = null);
 }

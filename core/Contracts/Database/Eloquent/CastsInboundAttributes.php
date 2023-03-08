@@ -1,13 +1,13 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Database\Eloquent;
+namespace Illuminate\Contracts\Database\Eloquent;
 
 interface CastsInboundAttributes
 {
     /**
      * Transform the attribute to its underlying model values.
      *
-     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes

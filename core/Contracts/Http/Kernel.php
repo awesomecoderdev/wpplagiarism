@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Http;
+namespace Illuminate\Contracts\Http;
 
 interface Kernel
 {
@@ -29,9 +29,9 @@ interface Kernel
     public function terminate($request, $response);
 
     /**
-     * Get the Wordpress plugin instance.
+     * Get the Laravel application instance.
      *
-     * @return \AwesomeCoder\Contracts\Foundation\Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function getApplication();
 }

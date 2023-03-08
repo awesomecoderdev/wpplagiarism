@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Support\Facades;
+namespace Illuminate\Support\Facades;
 
 /**
- * @method static \AwesomeCoder\Cache\RateLimiter for(string $name, \Closure $callback)
+ * @method static \Illuminate\Cache\RateLimiter for(string $name, \Closure $callback)
  * @method static \Closure limiter(string $name)
  * @method static mixed attempt(string $key, int $maxAttempts, \Closure $callback, int $decaySeconds = 60)
  * @method static bool tooManyAttempts(string $key, int $maxAttempts)
@@ -16,7 +16,7 @@ namespace AwesomeCoder\Support\Facades;
  * @method static int availableIn(string $key)
  * @method static string cleanRateLimiterKey(string $key)
  *
- * @see \AwesomeCoder\Cache\RateLimiter
+ * @see \Illuminate\Cache\RateLimiter
  */
 class RateLimiter extends Facade
 {
@@ -27,6 +27,6 @@ class RateLimiter extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return \AwesomeCoder\Cache\RateLimiter::class;
+        return \Illuminate\Cache\RateLimiter::class;
     }
 }

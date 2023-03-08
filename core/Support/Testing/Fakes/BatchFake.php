@@ -1,11 +1,11 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
 use Carbon\CarbonImmutable;
-use AwesomeCoder\Bus\Batch;
-use AwesomeCoder\Bus\UpdatedBatchJobCounts;
-use AwesomeCoder\Support\Carbon;
+use Illuminate\Bus\Batch;
+use Illuminate\Bus\UpdatedBatchJobCounts;
+use Illuminate\Support\Carbon;
 
 class BatchFake extends Batch
 {
@@ -38,18 +38,17 @@ class BatchFake extends Batch
      * @param  \Carbon\CarbonImmutable|null  $finishedAt
      * @return void
      */
-    public function __construct(
-        string $id,
-        string $name,
-        int $totalJobs,
-        int $pendingJobs,
-        int $failedJobs,
-        array $failedJobIds,
-        array $options,
-        CarbonImmutable $createdAt,
-        ?CarbonImmutable $cancelledAt = null,
-        ?CarbonImmutable $finishedAt = null
-    ) {
+    public function __construct(string $id,
+                                string $name,
+                                int $totalJobs,
+                                int $pendingJobs,
+                                int $failedJobs,
+                                array $failedJobIds,
+                                array $options,
+                                CarbonImmutable $createdAt,
+                                ?CarbonImmutable $cancelledAt = null,
+                                ?CarbonImmutable $finishedAt = null)
+    {
         $this->id = $id;
         $this->name = $name;
         $this->totalJobs = $totalJobs;
@@ -75,7 +74,7 @@ class BatchFake extends Batch
     /**
      * Add additional jobs to the batch.
      *
-     * @param  \AwesomeCoder\Support\Enumerable|object|array  $jobs
+     * @param  \Illuminate\Support\Enumerable|object|array  $jobs
      * @return self
      */
     public function add($jobs)
@@ -102,7 +101,7 @@ class BatchFake extends Batch
      * Decrement the pending jobs for the batch.
      *
      * @param  string  $jobId
-     * @return \AwesomeCoder\Bus\UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $jobId)
     {
@@ -125,7 +124,7 @@ class BatchFake extends Batch
      * Increment the failed jobs for the batch.
      *
      * @param  string  $jobId
-     * @return \AwesomeCoder\Bus\UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $jobId)
     {

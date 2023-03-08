@@ -1,14 +1,14 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 use Exception;
-use AwesomeCoder\Contracts\Cache\LockProvider;
-use AwesomeCoder\Contracts\Cache\Store;
-use AwesomeCoder\Contracts\Filesystem\LockTimeoutException;
-use AwesomeCoder\Filesystem\Filesystem;
-use AwesomeCoder\Filesystem\LockableFile;
-use AwesomeCoder\Support\InteractsWithTime;
+use Illuminate\Contracts\Cache\LockProvider;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Contracts\Filesystem\LockTimeoutException;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\LockableFile;
+use Illuminate\Support\InteractsWithTime;
 
 class FileStore implements Store, LockProvider
 {
@@ -17,7 +17,7 @@ class FileStore implements Store, LockProvider
     /**
      * The Illuminate Filesystem instance.
      *
-     * @var \AwesomeCoder\Filesystem\Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -38,7 +38,7 @@ class FileStore implements Store, LockProvider
     /**
      * Create a new file cache store instance.
      *
-     * @param  \AwesomeCoder\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string  $directory
      * @param  int|null  $filePermission
      * @return void
@@ -74,9 +74,7 @@ class FileStore implements Store, LockProvider
         $this->ensureCacheDirectoryExists($path = $this->path($key));
 
         $result = $this->files->put(
-            $path,
-            $this->expiration($seconds) . serialize($value),
-            true
+            $path, $this->expiration($seconds).serialize($value), true
         );
 
         if ($result !== false && $result > 0) {
@@ -114,7 +112,7 @@ class FileStore implements Store, LockProvider
 
         if (empty($expire) || $this->currentTime() >= $expire) {
             $file->truncate()
-                ->write($this->expiration($seconds) . serialize($value))
+                ->write($this->expiration($seconds).serialize($value))
                 ->close();
 
             $this->ensurePermissionsAreCorrect($path);
@@ -137,7 +135,7 @@ class FileStore implements Store, LockProvider
     {
         $directory = dirname($path);
 
-        if (!$this->files->exists($directory)) {
+        if (! $this->files->exists($directory)) {
             $this->files->makeDirectory($directory, 0777, true, true);
 
             // We're creating two levels of directories (e.g. 7e/24), so we check them both...
@@ -154,10 +152,8 @@ class FileStore implements Store, LockProvider
      */
     protected function ensurePermissionsAreCorrect($path)
     {
-        if (
-            is_null($this->filePermission) ||
-            intval($this->files->chmod($path), 8) == $this->filePermission
-        ) {
+        if (is_null($this->filePermission) ||
+            intval($this->files->chmod($path), 8) == $this->filePermission) {
             return;
         }
 
@@ -210,7 +206,7 @@ class FileStore implements Store, LockProvider
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \AwesomeCoder\Contracts\Cache\Lock
+     * @return \Illuminate\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null)
     {
@@ -222,7 +218,7 @@ class FileStore implements Store, LockProvider
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \AwesomeCoder\Contracts\Cache\Lock
+     * @return \Illuminate\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner)
     {
@@ -251,14 +247,14 @@ class FileStore implements Store, LockProvider
      */
     public function flush()
     {
-        if (!$this->files->isDirectory($this->directory)) {
+        if (! $this->files->isDirectory($this->directory)) {
             return false;
         }
 
         foreach ($this->files->directories($this->directory) as $directory) {
             $deleted = $this->files->deleteDirectory($directory);
 
-            if (!$deleted || $this->files->exists($directory)) {
+            if (! $deleted || $this->files->exists($directory)) {
                 return false;
             }
         }
@@ -281,9 +277,7 @@ class FileStore implements Store, LockProvider
         // the expiration UNIX timestamps from the start of the file's contents.
         try {
             $expire = substr(
-                $contents = $this->files->get($path, true),
-                0,
-                10
+                $contents = $this->files->get($path, true), 0, 10
             );
         } catch (Exception $e) {
             return $this->emptyPayload();
@@ -334,7 +328,7 @@ class FileStore implements Store, LockProvider
     {
         $parts = array_slice(str_split($hash = sha1($key), 2), 0, 2);
 
-        return $this->directory . '/' . implode('/', $parts) . '/' . $hash;
+        return $this->directory.'/'.implode('/', $parts).'/'.$hash;
     }
 
     /**
@@ -353,7 +347,7 @@ class FileStore implements Store, LockProvider
     /**
      * Get the Filesystem instance.
      *
-     * @return \AwesomeCoder\Filesystem\Filesystem
+     * @return \Illuminate\Filesystem\Filesystem
      */
     public function getFilesystem()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Support;
+namespace Illuminate\Support;
 
 /**
  * ProcessUtils is a bunch of utility methods.
@@ -34,7 +34,7 @@ class ProcessUtils
                     $escapedArgument .= '\\"';
                 } elseif (self::isSurroundedBy($part, '%')) {
                     // Avoid environment variable expansion
-                    $escapedArgument .= '^%"' . substr($part, 1, -1) . '"^%';
+                    $escapedArgument .= '^%"'.substr($part, 1, -1).'"^%';
                 } else {
                     // escape trailing backslash
                     if (str_ends_with($part, '\\')) {
@@ -46,13 +46,13 @@ class ProcessUtils
             }
 
             if ($quote) {
-                $escapedArgument = '"' . $escapedArgument . '"';
+                $escapedArgument = '"'.$escapedArgument.'"';
             }
 
             return $escapedArgument;
         }
 
-        return "'" . str_replace("'", "'\\''", $argument) . "'";
+        return "'".str_replace("'", "'\\''", $argument)."'";
     }
 
     /**

@@ -1,20 +1,20 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
 use Carbon\CarbonImmutable;
 use Closure;
-use AwesomeCoder\Bus\BatchRepository;
-use AwesomeCoder\Bus\PendingBatch;
-use AwesomeCoder\Bus\UpdatedBatchJobCounts;
-use AwesomeCoder\Support\Str;
+use Illuminate\Bus\BatchRepository;
+use Illuminate\Bus\PendingBatch;
+use Illuminate\Bus\UpdatedBatchJobCounts;
+use Illuminate\Support\Str;
 
 class BatchRepositoryFake implements BatchRepository
 {
     /**
      * The batches stored in the repository.
      *
-     * @var \AwesomeCoder\Bus\Batch[]
+     * @var \Illuminate\Bus\Batch[]
      */
     protected $batches = [];
 
@@ -23,7 +23,7 @@ class BatchRepositoryFake implements BatchRepository
      *
      * @param  int  $limit
      * @param  mixed  $before
-     * @return \AwesomeCoder\Bus\Batch[]
+     * @return \Illuminate\Bus\Batch[]
      */
     public function get($limit, $before)
     {
@@ -34,7 +34,7 @@ class BatchRepositoryFake implements BatchRepository
      * Retrieve information about an existing batch.
      *
      * @param  string  $batchId
-     * @return \AwesomeCoder\Bus\Batch|null
+     * @return \Illuminate\Bus\Batch|null
      */
     public function find(string $batchId)
     {
@@ -44,8 +44,8 @@ class BatchRepositoryFake implements BatchRepository
     /**
      * Store a new pending batch.
      *
-     * @param  \AwesomeCoder\Bus\PendingBatch  $batch
-     * @return \AwesomeCoder\Bus\Batch
+     * @param  \Illuminate\Bus\PendingBatch  $batch
+     * @return \Illuminate\Bus\Batch
      */
     public function store(PendingBatch $batch)
     {
@@ -84,7 +84,7 @@ class BatchRepositoryFake implements BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \AwesomeCoder\Bus\UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function decrementPendingJobs(string $batchId, string $jobId)
     {
@@ -96,7 +96,7 @@ class BatchRepositoryFake implements BatchRepository
      *
      * @param  string  $batchId
      * @param  string  $jobId
-     * @return \AwesomeCoder\Bus\UpdatedBatchJobCounts
+     * @return \Illuminate\Bus\UpdatedBatchJobCounts
      */
     public function incrementFailedJobs(string $batchId, string $jobId)
     {

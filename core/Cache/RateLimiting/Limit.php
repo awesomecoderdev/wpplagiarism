@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Cache\RateLimiting;
+namespace Illuminate\Cache\RateLimiting;
 
 class Limit
 {

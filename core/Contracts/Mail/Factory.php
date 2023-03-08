@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Mail;
+namespace Illuminate\Contracts\Mail;
 
 interface Factory
 {
@@ -8,7 +8,7 @@ interface Factory
      * Get a mailer instance by name.
      *
      * @param  string|null  $name
-     * @return \AwesomeCoder\Contracts\Mail\Mailer
+     * @return \Illuminate\Contracts\Mail\Mailer
      */
     public function mailer($name = null);
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
 trait RetrievesMultipleKeys
 {

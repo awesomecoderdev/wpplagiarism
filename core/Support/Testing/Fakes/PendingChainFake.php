@@ -1,24 +1,24 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
 use Closure;
-use AwesomeCoder\Foundation\Bus\PendingChain;
-use AwesomeCoder\Queue\CallQueuedClosure;
+use Illuminate\Foundation\Bus\PendingChain;
+use Illuminate\Queue\CallQueuedClosure;
 
 class PendingChainFake extends PendingChain
 {
     /**
      * The fake bus instance.
      *
-     * @var \AwesomeCoder\Support\Testing\Fakes\BusFake
+     * @var \Illuminate\Support\Testing\Fakes\BusFake
      */
     protected $bus;
 
     /**
      * Create a new pending chain instance.
      *
-     * @param  \AwesomeCoder\Support\Testing\Fakes\BusFake  $bus
+     * @param  \Illuminate\Support\Testing\Fakes\BusFake  $bus
      * @param  mixed  $job
      * @param  array  $chain
      * @return void
@@ -33,7 +33,7 @@ class PendingChainFake extends PendingChain
     /**
      * Dispatch the job with the given arguments.
      *
-     * @return \AwesomeCoder\Foundation\Bus\PendingDispatch
+     * @return \Illuminate\Foundation\Bus\PendingDispatch
      */
     public function dispatch()
     {

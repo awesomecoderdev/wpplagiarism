@@ -1,15 +1,15 @@
 <?php
 
-namespace AwesomeCoder\Cache;
+namespace Illuminate\Cache;
 
-use AwesomeCoder\Contracts\Cache\Store;
+use Illuminate\Contracts\Cache\Store;
 
 class TagSet
 {
     /**
      * The cache store implementation.
      *
-     * @var \AwesomeCoder\Contracts\Cache\Store
+     * @var \Illuminate\Contracts\Cache\Store
      */
     protected $store;
 
@@ -23,7 +23,7 @@ class TagSet
     /**
      * Create a new TagSet instance.
      *
-     * @param  \AwesomeCoder\Contracts\Cache\Store  $store
+     * @param  \Illuminate\Contracts\Cache\Store  $store
      * @param  array  $names
      * @return void
      */
@@ -115,7 +115,7 @@ class TagSet
      */
     public function tagKey($name)
     {
-        return 'tag:' . $name . ':key';
+        return 'tag:'.$name.':key';
     }
 
     /**

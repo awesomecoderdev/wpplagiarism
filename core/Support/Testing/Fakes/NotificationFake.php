@@ -1,17 +1,17 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
 use Closure;
 use Exception;
-use AwesomeCoder\Contracts\Notifications\Dispatcher as NotificationDispatcher;
-use AwesomeCoder\Contracts\Notifications\Factory as NotificationFactory;
-use AwesomeCoder\Contracts\Translation\HasLocalePreference;
-use AwesomeCoder\Notifications\AnonymousNotifiable;
-use AwesomeCoder\Support\Collection;
-use AwesomeCoder\Support\Str;
-use AwesomeCoder\Support\Traits\Macroable;
-use AwesomeCoder\Support\Traits\ReflectsClosures;
+use Illuminate\Contracts\Notifications\Dispatcher as NotificationDispatcher;
+use Illuminate\Contracts\Notifications\Factory as NotificationFactory;
+use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class NotificationFake implements NotificationDispatcher, NotificationFactory
@@ -109,8 +109,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
         $count = $this->sent($notifiable, $notification)->count();
 
         PHPUnit::assertSame(
-            $times,
-            $count,
+            $times, $count,
             "Expected [{$notification}] to be sent {$times} times, but was sent {$count} times."
         );
     }
@@ -144,8 +143,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
         }
 
         PHPUnit::assertCount(
-            0,
-            $this->sent($notifiable, $notification, $callback),
+            0, $this->sent($notifiable, $notification, $callback),
             "The unexpected [{$notification}] notification was sent."
         );
     }
@@ -202,8 +200,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
             ->reduce(fn ($count, $sent) => $count + count($sent[$notification] ?? []), 0);
 
         PHPUnit::assertSame(
-            $expectedCount,
-            $actualCount,
+            $expectedCount, $actualCount,
             "Expected [{$notification}] to be sent {$expectedCount} times, but was sent {$actualCount} times."
         );
     }
@@ -219,8 +216,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
         $actualCount = collect($this->notifications)->flatten(3)->count();
 
         PHPUnit::assertSame(
-            $expectedCount,
-            $actualCount,
+            $expectedCount, $actualCount,
             "Expected {$expectedCount} notifications to be sent, but {$actualCount} were sent."
         );
     }
@@ -245,11 +241,11 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      * @param  mixed  $notifiable
      * @param  string  $notification
      * @param  callable|null  $callback
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function sent($notifiable, $notification, $callback = null)
     {
-        if (!$this->hasSent($notifiable, $notification)) {
+        if (! $this->hasSent($notifiable, $notification)) {
             return collect();
         }
 
@@ -271,7 +267,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     public function hasSent($notifiable, $notification)
     {
-        return !empty($this->notificationsFor($notifiable, $notification));
+        return ! empty($this->notificationsFor($notifiable, $notification));
     }
 
     /**
@@ -289,7 +285,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
     /**
      * Send the given notification to the given notifiable entities.
      *
-     * @param  \AwesomeCoder\Support\Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @return void
      */
@@ -301,19 +297,19 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
     /**
      * Send the given notification immediately.
      *
-     * @param  \AwesomeCoder\Support\Collection|array|mixed  $notifiables
+     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
      * @param  mixed  $notification
      * @param  array|null  $channels
      * @return void
      */
     public function sendNow($notifiables, $notification, array $channels = null)
     {
-        if (!$notifiables instanceof Collection && !is_array($notifiables)) {
+        if (! $notifiables instanceof Collection && ! is_array($notifiables)) {
             $notifiables = [$notifiables];
         }
 
         foreach ($notifiables as $notifiable) {
-            if (!$notification->id) {
+            if (! $notification->id) {
                 $notification->id = Str::uuid()->toString();
             }
 

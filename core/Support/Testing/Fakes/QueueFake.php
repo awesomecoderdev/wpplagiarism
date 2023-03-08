@@ -1,13 +1,13 @@
 <?php
 
-namespace AwesomeCoder\Support\Testing\Fakes;
+namespace Illuminate\Support\Testing\Fakes;
 
 use BadMethodCallException;
 use Closure;
-use AwesomeCoder\Contracts\Queue\Queue;
-use AwesomeCoder\Queue\QueueManager;
-use AwesomeCoder\Support\Collection;
-use AwesomeCoder\Support\Traits\ReflectsClosures;
+use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Traits\ReflectsClosures;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class QueueFake extends QueueManager implements Queue
@@ -17,21 +17,21 @@ class QueueFake extends QueueManager implements Queue
     /**
      * The original queue manager.
      *
-     * @var \AwesomeCoder\Contracts\Queue\Queue
+     * @var \Illuminate\Contracts\Queue\Queue
      */
     protected $queue;
 
     /**
      * The job types that should be intercepted instead of pushed to the queue.
      *
-     * @var \AwesomeCoder\Support\Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $jobsToFake;
 
     /**
      * The job types that should be pushed to the queue and not intercepted.
      *
-     * @var \AwesomeCoder\Support\Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $jobsToBeQueued;
 
@@ -45,14 +45,14 @@ class QueueFake extends QueueManager implements Queue
     /**
      * Create a new fake queue instance.
      *
-     * @param  \AwesomeCoder\Contracts\Foundation\Application  $plugin
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  array  $jobsToFake
-     * @param  \AwesomeCoder\Queue\QueueManager|null  $queue
+     * @param  \Illuminate\Queue\QueueManager|null  $queue
      * @return void
      */
-    public function __construct($plugin, $jobsToFake = [], $queue = null)
+    public function __construct($app, $jobsToFake = [], $queue = null)
     {
-        parent::__construct($plugin);
+        parent::__construct($app);
 
         $this->jobsToFake = Collection::wrap($jobsToFake);
         $this->jobsToBeQueued = Collection::make();
@@ -107,8 +107,7 @@ class QueueFake extends QueueManager implements Queue
         $count = $this->pushed($job)->count();
 
         PHPUnit::assertSame(
-            $times,
-            $count,
+            $times, $count,
             "The expected [{$job}] job was pushed {$count} times instead of {$times} times."
         );
     }
@@ -157,8 +156,8 @@ class QueueFake extends QueueManager implements Queue
         );
 
         $this->isChainOfObjects($expectedChain)
-            ? $this->assertPushedWithChainOfObjects($job, $expectedChain, $callback)
-            : $this->assertPushedWithChainOfClasses($job, $expectedChain, $callback);
+                ? $this->assertPushedWithChainOfObjects($job, $expectedChain, $callback)
+                : $this->assertPushedWithChainOfClasses($job, $expectedChain, $callback);
     }
 
     /**
@@ -215,8 +214,7 @@ class QueueFake extends QueueManager implements Queue
         });
 
         PHPUnit::assertTrue(
-            $matching->isNotEmpty(),
-            'The expected chain was not pushed.'
+            $matching->isNotEmpty(), 'The expected chain was not pushed.'
         );
     }
 
@@ -228,7 +226,7 @@ class QueueFake extends QueueManager implements Queue
      */
     protected function isChainOfObjects($chain)
     {
-        return !collect($chain)->contains(fn ($job) => !is_object($job));
+        return ! collect($chain)->contains(fn ($job) => ! is_object($job));
     }
 
     /**
@@ -245,8 +243,7 @@ class QueueFake extends QueueManager implements Queue
         }
 
         PHPUnit::assertCount(
-            0,
-            $this->pushed($job, $callback),
+            0, $this->pushed($job, $callback),
             "The unexpected [{$job}] job was pushed."
         );
     }
@@ -266,11 +263,11 @@ class QueueFake extends QueueManager implements Queue
      *
      * @param  string  $job
      * @param  callable|null  $callback
-     * @return \AwesomeCoder\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function pushed($job, $callback = null)
     {
-        if (!$this->hasPushed($job)) {
+        if (! $this->hasPushed($job)) {
             return collect();
         }
 
@@ -289,14 +286,14 @@ class QueueFake extends QueueManager implements Queue
      */
     public function hasPushed($job)
     {
-        return isset($this->jobs[$job]) && !empty($this->jobs[$job]);
+        return isset($this->jobs[$job]) && ! empty($this->jobs[$job]);
     }
 
     /**
      * Resolve a queue connection instance.
      *
      * @param  mixed  $value
-     * @return \AwesomeCoder\Contracts\Queue\Queue
+     * @return \Illuminate\Contracts\Queue\Queue
      */
     public function connection($value = null)
     {
@@ -435,7 +432,7 @@ class QueueFake extends QueueManager implements Queue
      * Pop the next job off of the queue.
      *
      * @param  string|null  $queue
-     * @return \AwesomeCoder\Contracts\Queue\Job|null
+     * @return \Illuminate\Contracts\Queue\Job|null
      */
     public function pop($queue = null)
     {
@@ -500,9 +497,7 @@ class QueueFake extends QueueManager implements Queue
     public function __call($method, $parameters)
     {
         throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()',
-            static::class,
-            $method
+            'Call to undefined method %s::%s()', static::class, $method
         ));
     }
 }

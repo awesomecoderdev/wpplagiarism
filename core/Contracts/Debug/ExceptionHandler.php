@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Contracts\Debug;
+namespace Illuminate\Contracts\Debug;
 
 use Throwable;
 
@@ -27,7 +27,7 @@ interface ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $e
      * @return \Symfony\Component\HttpFoundation\Response
      *
