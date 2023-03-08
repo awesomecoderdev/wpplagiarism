@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RebelCode\Spotlight\Instagram\Modules;
 
 use Psr\Container\ContainerInterface;
@@ -14,8 +12,7 @@ class CacheIntegrationsModule extends Module
     {
         /*------------------------------------------------------------------------------------------------
          * WP ROCKET
-         ------------------------------------------------------------------------------------------------*/
-        {
+         ------------------------------------------------------------------------------------------------*/ {
             // Exclude JS files from minification and combining
             add_filter('rocket_exclude_js', function ($exclude) use ($c) {
                 $exclude[] = rocket_clean_exclude_file($c->get('ui/assets_url') . '/(.*).js');
@@ -34,8 +31,7 @@ class CacheIntegrationsModule extends Module
 
         /*------------------------------------------------------------------------------------------------
          * LITESPEED CACHE
-         ------------------------------------------------------------------------------------------------*/
-        {
+         ------------------------------------------------------------------------------------------------*/ {
             add_filter('litespeed_optimize_js_excludes', function ($exclude) {
                 $exclude[] = 'spotlight-';
                 $exclude[] = 'react';

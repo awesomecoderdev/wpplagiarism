@@ -15,7 +15,9 @@
 	],
 	"require": {
 		"php": "^8.0.2",
-		"league/flysystem": "^3.12"
+		"league/flysystem": "^3.12",
+		"symfony/finder": "^6.2",
+		"symfony/http-foundation": "^6.2"
 	},
 	"autoload": {
 		"files": [

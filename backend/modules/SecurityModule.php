@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RebelCode\Spotlight\Instagram\Modules;
 
 use Dhii\Services\Extension;
@@ -50,7 +48,10 @@ class SecurityModule extends Module
             //==========================================================================
 
             'notices/no_https' => new Factory(['config/show_https_notice'], function (ConfigEntry $option) {
-                return new Notice(static::NTC_NO_HTTPS, Notice::WARNING, Notice::disableOption($option),
+                return new Notice(
+                    static::NTC_NO_HTTPS,
+                    Notice::WARNING,
+                    Notice::disableOption($option),
                     sprintf(
                         _x(
                             '%1$s: We strongly recommend that you switch your site to HTTPS to prevent your access tokens from being compromised.',
@@ -63,7 +64,10 @@ class SecurityModule extends Module
             }),
 
             'notices/no_openssl_ext' => new Factory(['config/show_openssl_ext_notice'], function (ConfigEntry $option) {
-                return new Notice(static::NTC_NO_OPENSSL_EXT, Notice::WARNING, Notice::disableOption($option),
+                return new Notice(
+                    static::NTC_NO_OPENSSL_EXT,
+                    Notice::WARNING,
+                    Notice::disableOption($option),
                     sprintf(
                         _x(
                             '%1$s: We strongly recommend that you enable the %2$s PHP extension to allow Spotlight to encrypt your account access tokens.',

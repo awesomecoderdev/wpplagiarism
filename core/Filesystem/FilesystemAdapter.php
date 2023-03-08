@@ -12,13 +12,12 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
-use PHPUnit\Framework\Assert as PHPUnit;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * @mixin \League\Flysystem\FilesystemOperator
+ * @mixin Illuminate\Filesystem\FilesystemOperator
+
  */
 class FilesystemAdapter implements CloudFilesystemContract
 {
@@ -30,7 +29,8 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * The Flysystem filesystem implementation.
      *
-     * @var \League\Flysystem\FilesystemOperator
+     * @var Illuminate\Filesystem\FilesystemOperator
+
      */
     protected $driver;
 
@@ -49,13 +49,6 @@ class FilesystemAdapter implements CloudFilesystemContract
     protected $config;
 
     /**
-     * The Flysystem PathPrefixer instance.
-     *
-     * @var \League\Flysystem\PathPrefixer
-     */
-    protected $prefixer;
-
-    /**
      * The temporary URL builder callback.
      *
      * @var \Closure|null
@@ -65,7 +58,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Create a new filesystem adapter instance.
      *
-     * @param  \League\Flysystem\FilesystemOperator  $driver
+     * @param  Illuminate\Filesystem\FilesystemOperator $driver
      * @param  \League\Flysystem\FilesystemAdapter  $adapter
      * @param  array  $config
      * @return void
@@ -76,83 +69,6 @@ class FilesystemAdapter implements CloudFilesystemContract
         $this->adapter = $adapter;
         $this->config = $config;
         $separator = $config['directory_separator'] ?? DIRECTORY_SEPARATOR;
-
-        $this->prefixer = new PathPrefixer($config['root'] ?? '', $separator);
-
-        if (isset($config['prefix'])) {
-            $this->prefixer = new PathPrefixer($this->prefixer->prefixPath($config['prefix']), $separator);
-        }
-    }
-
-    /**
-     * Assert that the given file or directory exists.
-     *
-     * @param  string|array  $path
-     * @param  string|null  $content
-     * @return $this
-     */
-    public function assertExists($path, $content = null)
-    {
-        clearstatcache();
-
-        $paths = Arr::wrap($path);
-
-        foreach ($paths as $path) {
-            PHPUnit::assertTrue(
-                $this->exists($path),
-                "Unable to find a file or directory at path [{$path}]."
-            );
-
-            if (!is_null($content)) {
-                $actual = $this->get($path);
-
-                PHPUnit::assertSame(
-                    $content,
-                    $actual,
-                    "File or directory [{$path}] was found, but content [{$actual}] does not match [{$content}]."
-                );
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Assert that the given file or directory does not exist.
-     *
-     * @param  string|array  $path
-     * @return $this
-     */
-    public function assertMissing($path)
-    {
-        clearstatcache();
-
-        $paths = Arr::wrap($path);
-
-        foreach ($paths as $path) {
-            PHPUnit::assertFalse(
-                $this->exists($path),
-                "Found unexpected file or directory at path [{$path}]."
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Assert that the given directory is empty.
-     *
-     * @param  string  $path
-     * @return $this
-     */
-    public function assertDirectoryEmpty($path)
-    {
-        PHPUnit::assertEmpty(
-            $this->allFiles($path),
-            "Directory [{$path}] is not empty."
-        );
-
-        return $this;
     }
 
     /**
@@ -221,16 +137,6 @@ class FilesystemAdapter implements CloudFilesystemContract
         return !$this->directoryExists($path);
     }
 
-    /**
-     * Get the full path for the file at the given "short" path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function path($path)
-    {
-        return $this->prefixer->prefixPath($path);
-    }
 
     /**
      * Get the contents of a file.
@@ -876,7 +782,8 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Get the Flysystem driver.
      *
-     * @return \League\Flysystem\FilesystemOperator
+     * @return Illuminate\Filesystem\FilesystemOperator
+
      */
     public function getDriver()
     {

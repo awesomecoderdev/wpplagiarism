@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RebelCode\Spotlight\Instagram\Modules\Dev;
 
 use RebelCode\Iris\Data\Item;

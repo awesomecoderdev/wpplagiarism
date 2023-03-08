@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace RebelCode\Spotlight\Instagram\Modules;
 
 use Dhii\Services\Factories\Constructor;
