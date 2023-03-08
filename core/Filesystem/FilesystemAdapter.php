@@ -37,7 +37,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * The Flysystem adapter implementation.
      *
-     * @var \League\Flysystem\FilesystemAdapter
+     * @var \Illuminate\Flysystem\FilesystemAdapter
      */
     protected $adapter;
 
@@ -59,7 +59,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Create a new filesystem adapter instance.
      *
      * @param  Illuminate\Filesystem\FilesystemOperator $driver
-     * @param  \League\Flysystem\FilesystemAdapter  $adapter
+     * @param  \Illuminate\Flysystem\FilesystemAdapter  $adapter
      * @param  array  $config
      * @return void
      */
@@ -793,7 +793,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Get the Flysystem adapter.
      *
-     * @return \League\Flysystem\FilesystemAdapter
+     * @return \Illuminate\Flysystem\FilesystemAdapter
      */
     public function getAdapter()
     {
