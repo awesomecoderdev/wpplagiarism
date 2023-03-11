@@ -69,10 +69,3 @@ register_deactivation_hook(__FILE__, [AwesomeCoder\Plugin\Plagiarism\Core\Plugin
  * @subpackage Awesomecoder/controller
  */
 new AwesomeCoder\Plugin\Plagiarism\Core\Plugin();
-
-
-// $value = Cache::remember('users', 20, function () {
-//     return rand(0, 9);
-// });
-
-// dd($value);
