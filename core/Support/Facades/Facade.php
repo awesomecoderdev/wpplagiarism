@@ -7,8 +7,6 @@ use AwesomeCoder\Database\Eloquent\Model;
 use AwesomeCoder\Support\Arr;
 use AwesomeCoder\Support\Js;
 use AwesomeCoder\Support\Str;
-use Mockery;
-use Mockery\LegacyMockInterface;
 use RuntimeException;
 
 abstract class Facade
@@ -51,121 +49,6 @@ abstract class Facade
         static::$app->afterResolving($accessor, function ($service) use ($callback) {
             $callback($service);
         });
-    }
-
-    /**
-     * Convert the facade into a Mockery spy.
-     *
-     * @return \Mockery\MockInterface
-     */
-    public static function spy()
-    {
-        if (!static::isMock()) {
-            $class = static::getMockableClass();
-
-            return tap($class ? Mockery::spy($class) : Mockery::spy(), function ($spy) {
-                static::swap($spy);
-            });
-        }
-    }
-
-    /**
-     * Initiate a partial mock on the facade.
-     *
-     * @return \Mockery\MockInterface
-     */
-    public static function partialMock()
-    {
-        $name = static::getFacadeAccessor();
-
-        $mock = static::isMock()
-            ? static::$resolvedInstance[$name]
-            : static::createFreshMockInstance();
-
-        return $mock->makePartial();
-    }
-
-    /**
-     * Initiate a mock expectation on the facade.
-     *
-     * @return \Mockery\Expectation
-     */
-    public static function shouldReceive()
-    {
-        $name = static::getFacadeAccessor();
-
-        $mock = static::isMock()
-            ? static::$resolvedInstance[$name]
-            : static::createFreshMockInstance();
-
-        return $mock->shouldReceive(...func_get_args());
-    }
-
-    /**
-     * Initiate a mock expectation on the facade.
-     *
-     * @return \Mockery\Expectation
-     */
-    public static function expects()
-    {
-        $name = static::getFacadeAccessor();
-
-        $mock = static::isMock()
-            ? static::$resolvedInstance[$name]
-            : static::createFreshMockInstance();
-
-        return $mock->expects(...func_get_args());
-    }
-
-    /**
-     * Create a fresh mock instance for the given class.
-     *
-     * @return \Mockery\MockInterface
-     */
-    protected static function createFreshMockInstance()
-    {
-        return tap(static::createMock(), function ($mock) {
-            static::swap($mock);
-
-            $mock->shouldAllowMockingProtectedMethods();
-        });
-    }
-
-    /**
-     * Create a fresh mock instance for the given class.
-     *
-     * @return \Mockery\MockInterface
-     */
-    protected static function createMock()
-    {
-        $class = static::getMockableClass();
-
-        return $class ? Mockery::mock($class) : Mockery::mock();
-    }
-
-    /**
-     * Determines whether a mock is set as the instance of the facade.
-     *
-     * @return bool
-     */
-    protected static function isMock()
-    {
-        $name = static::getFacadeAccessor();
-
-        return isset(static::$resolvedInstance[$name]) &&
-            static::$resolvedInstance[$name] instanceof LegacyMockInterface;
-    }
-
-    /**
-     * Get the mockable class for the bound instance.
-     *
-     * @return string|null
-     */
-    protected static function getMockableClass()
-    {
-        if ($root = static::getFacadeRoot()) {
-            return get_class($root);
-        }
     }
 
     /**
@@ -257,35 +140,9 @@ abstract class Facade
         return collect([
             'App' => App::class,
             'Arr' => Arr::class,
-            'Artisan' => Artisan::class,
-            'Auth' => Auth::class,
-            'Blade' => Blade::class,
-            'Broadcast' => Broadcast::class,
-            'Bus' => Bus::class,
-            'Cache' => Cache::class,
-            'Config' => Config::class,
-            'Cookie' => Cookie::class,
             'Crypt' => Crypt::class,
             'Date' => Date::class,
-            'DB' => DB::class,
-            'Eloquent' => Model::class,
-            'Event' => Event::class,
-            'File' => File::class,
-            'Hash' => Hash::class,
-            'Http' => Http::class,
-            'Js' => Js::class,
-            'Log' => Log::class,
-            'Mail' => Mail::class,
-            'Password' => Password::class,
-            'Queue' => Queue::class,
-            'RateLimiter' => RateLimiter::class,
-            'Redirect' => Redirect::class,
-            'Request' => Request::class,
-            'Response' => Response::class,
-            'Session' => Session::class,
             'Str' => Str::class,
-            'URL' => URL::class,
-            'Validator' => Validator::class,
         ]);
     }
 

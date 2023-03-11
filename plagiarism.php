@@ -32,7 +32,6 @@
  *
  */
 
-use AwesomeCoder\Support\Facades\Cache;
 
 // If this file is called directly, abort.
 !defined('WPINC') ? die : include("plugin.php");
