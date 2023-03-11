@@ -53,7 +53,6 @@ define('PLAGIARISM_BASENAME', plugin_basename(__FILE__));
  * @since      1.0.0
  *
  * @package    Awesomecoder
- * @subpackage Awesomecoder/controller
  */
 
 register_activation_hook(__FILE__, [AwesomeCoder\Plugin\Plagiarism\Core\Plugin::class, 'activate']);
@@ -66,6 +65,5 @@ register_deactivation_hook(__FILE__, [AwesomeCoder\Plugin\Plagiarism\Core\Plugin
  * @since      1.0.0
  *
  * @package    Awesomecoder
- * @subpackage Awesomecoder/controller
  */
 new AwesomeCoder\Plugin\Plagiarism\Core\Plugin();
