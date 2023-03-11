@@ -1,17 +1,17 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
 use Closure;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
-use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
-use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithPivotTable;
-use Illuminate\Support\Str;
+use AwesomeCoder\Contracts\Support\Arrayable;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\ModelNotFoundException;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\AsPivot;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\InteractsWithPivotTable;
+use AwesomeCoder\Support\Str;
 use InvalidArgumentException;
 
 class BelongsToMany extends Relation
@@ -133,8 +133,8 @@ class BelongsToMany extends Relation
     /**
      * Create a new belongs to many relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $table
      * @param  string  $foreignPivotKey
      * @param  string  $relatedPivotKey
@@ -143,9 +143,16 @@ class BelongsToMany extends Relation
      * @param  string|null  $relationName
      * @return void
      */
-    public function __construct(Builder $query, Model $parent, $table, $foreignPivotKey,
-                                $relatedPivotKey, $parentKey, $relatedKey, $relationName = null)
-    {
+    public function __construct(
+        Builder $query,
+        Model $parent,
+        $table,
+        $foreignPivotKey,
+        $relatedPivotKey,
+        $parentKey,
+        $relatedKey,
+        $relationName = null
+    ) {
         $this->parentKey = $parentKey;
         $this->relatedKey = $relatedKey;
         $this->relationName = $relationName;
@@ -164,13 +171,13 @@ class BelongsToMany extends Relation
      */
     protected function resolveTableName($table)
     {
-        if (! str_contains($table, '\\') || ! class_exists($table)) {
+        if (!str_contains($table, '\\') || !class_exists($table)) {
             return $table;
         }
 
         $model = new $table;
 
-        if (! $model instanceof Model) {
+        if (!$model instanceof Model) {
             return $table;
         }
 
@@ -198,7 +205,7 @@ class BelongsToMany extends Relation
     /**
      * Set the join clause for the relation query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder|null  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder|null  $query
      * @return $this
      */
     protected function performJoin($query = null)
@@ -226,7 +233,9 @@ class BelongsToMany extends Relation
     protected function addWhereConstraints()
     {
         $this->query->where(
-            $this->getQualifiedForeignPivotKeyName(), '=', $this->parent->{$this->parentKey}
+            $this->getQualifiedForeignPivotKeyName(),
+            '=',
+            $this->parent->{$this->parentKey}
         );
 
         return $this;
@@ -268,7 +277,7 @@ class BelongsToMany extends Relation
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -284,7 +293,8 @@ class BelongsToMany extends Relation
 
             if (isset($dictionary[$key])) {
                 $model->setRelation(
-                    $relation, $this->related->newCollection($dictionary[$key])
+                    $relation,
+                    $this->related->newCollection($dictionary[$key])
                 );
             }
         }
@@ -295,7 +305,7 @@ class BelongsToMany extends Relation
     /**
      * Build model dictionary keyed by the relation's foreign key.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @return array
      */
     protected function buildDictionary(Collection $results)
@@ -580,7 +590,7 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Support\Collection|\AwesomeCoder\Database\Eloquent\Model
      */
     public function findOrNew($id, $columns = ['*'])
     {
@@ -596,7 +606,7 @@ class BelongsToMany extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function firstOrNew(array $attributes = [], array $values = [])
     {
@@ -614,7 +624,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function firstOrCreate(array $attributes = [], array $values = [], array $joining = [], $touch = true)
     {
@@ -636,7 +646,7 @@ class BelongsToMany extends Relation
      * @param  array  $values
      * @param  array  $joining
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function updateOrCreate(array $attributes, array $values = [], array $joining = [], $touch = true)
     {
@@ -660,25 +670,27 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|null
      */
     public function find($id, $columns = ['*'])
     {
-        if (! $id instanceof Model && (is_array($id) || $id instanceof Arrayable)) {
+        if (!$id instanceof Model && (is_array($id) || $id instanceof Arrayable)) {
             return $this->findMany($id, $columns);
         }
 
         return $this->where(
-            $this->getRelated()->getQualifiedKeyName(), '=', $this->parseId($id)
+            $this->getRelated()->getQualifiedKeyName(),
+            '=',
+            $this->parseId($id)
         )->first($columns);
     }
 
     /**
      * Find multiple related models by their primary keys.
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
+     * @param  \AwesomeCoder\Contracts\Support\Arrayable|array  $ids
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function findMany($ids, $columns = ['*'])
     {
@@ -698,9 +710,9 @@ class BelongsToMany extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function findOrFail($id, $columns = ['*'])
     {
@@ -712,7 +724,7 @@ class BelongsToMany extends Relation
             if (count($result) === count(array_unique($id))) {
                 return $result;
             }
-        } elseif (! is_null($result)) {
+        } elseif (!is_null($result)) {
             return $result;
         }
 
@@ -725,7 +737,7 @@ class BelongsToMany extends Relation
      * @param  mixed  $id
      * @param  \Closure|array  $columns
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|mixed
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|mixed
      */
     public function findOr($id, $columns = ['*'], Closure $callback = null)
     {
@@ -743,7 +755,7 @@ class BelongsToMany extends Relation
             if (count($result) === count(array_unique($id))) {
                 return $result;
             }
-        } elseif (! is_null($result)) {
+        } elseif (!is_null($result)) {
             return $result;
         }
 
@@ -757,7 +769,7 @@ class BelongsToMany extends Relation
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
     {
@@ -781,13 +793,13 @@ class BelongsToMany extends Relation
      * Execute the query and get the first result or throw an exception.
      *
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function firstOrFail($columns = ['*'])
     {
-        if (! is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -799,7 +811,7 @@ class BelongsToMany extends Relation
      *
      * @param  \Closure|array  $columns
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Model|static|mixed
+     * @return \AwesomeCoder\Database\Eloquent\Model|static|mixed
      */
     public function firstOr($columns = ['*'], Closure $callback = null)
     {
@@ -809,7 +821,7 @@ class BelongsToMany extends Relation
             $columns = ['*'];
         }
 
-        if (! is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -823,16 +835,16 @@ class BelongsToMany extends Relation
      */
     public function getResults()
     {
-        return ! is_null($this->parent->{$this->parentKey})
-                ? $this->get()
-                : $this->related->newCollection();
+        return !is_null($this->parent->{$this->parentKey})
+            ? $this->get()
+            : $this->related->newCollection();
     }
 
     /**
      * Execute the query as a "select" statement.
      *
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function get($columns = ['*'])
     {
@@ -868,7 +880,7 @@ class BelongsToMany extends Relation
     protected function shouldSelect(array $columns = ['*'])
     {
         if ($columns == ['*']) {
-            $columns = [$this->related->getTable().'.*'];
+            $columns = [$this->related->getTable() . '.*'];
         }
 
         return array_merge($columns, $this->aliasedPivotColumns());
@@ -886,7 +898,7 @@ class BelongsToMany extends Relation
         $defaults = [$this->foreignPivotKey, $this->relatedPivotKey];
 
         return collect(array_merge($defaults, $this->pivotColumns))->map(function ($column) {
-            return $this->qualifyPivotColumn($column).' as pivot_'.$column;
+            return $this->qualifyPivotColumn($column) . ' as pivot_' . $column;
         })->unique()->all();
     }
 
@@ -897,7 +909,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \AwesomeCoder\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -915,7 +927,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return \AwesomeCoder\Contracts\Pagination\Paginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -933,7 +945,7 @@ class BelongsToMany extends Relation
      * @param  array  $columns
      * @param  string  $cursorName
      * @param  string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     * @return \AwesomeCoder\Contracts\Pagination\CursorPaginator
      */
     public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
@@ -1008,7 +1020,7 @@ class BelongsToMany extends Relation
      * Query lazily, by chunks of the given size.
      *
      * @param  int  $chunkSize
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function lazy($chunkSize = 1000)
     {
@@ -1025,7 +1037,7 @@ class BelongsToMany extends Relation
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function lazyById($chunkSize = 1000, $column = null, $alias = null)
     {
@@ -1045,7 +1057,7 @@ class BelongsToMany extends Relation
     /**
      * Get a lazy collection for the given query.
      *
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function cursor()
     {
@@ -1059,7 +1071,7 @@ class BelongsToMany extends Relation
     /**
      * Prepare the query builder for query execution.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     protected function prepareQueryBuilder()
     {
@@ -1087,7 +1099,7 @@ class BelongsToMany extends Relation
     /**
      * Get the pivot attributes from a model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @return array
      */
     protected function migratePivotAttributes(Model $model)
@@ -1168,7 +1180,7 @@ class BelongsToMany extends Relation
     /**
      * Get all of the IDs for the related models.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \AwesomeCoder\Support\Collection
      */
     public function allRelatedIds()
     {
@@ -1178,10 +1190,10 @@ class BelongsToMany extends Relation
     /**
      * Save a new model and attach it to the parent model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @param  array  $pivotAttributes
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function save(Model $model, array $pivotAttributes = [], $touch = true)
     {
@@ -1195,10 +1207,10 @@ class BelongsToMany extends Relation
     /**
      * Save a new model without raising any events and attach it to the parent model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @param  array  $pivotAttributes
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function saveQuietly(Model $model, array $pivotAttributes = [], $touch = true)
     {
@@ -1210,7 +1222,7 @@ class BelongsToMany extends Relation
     /**
      * Save an array of new models and attach them to the parent model.
      *
-     * @param  \Illuminate\Support\Collection|array  $models
+     * @param  \AwesomeCoder\Support\Collection|array  $models
      * @param  array  $pivotAttributes
      * @return array
      */
@@ -1228,7 +1240,7 @@ class BelongsToMany extends Relation
     /**
      * Save an array of new models without raising any events and attach them to the parent model.
      *
-     * @param  \Illuminate\Support\Collection|array  $models
+     * @param  \AwesomeCoder\Support\Collection|array  $models
      * @param  array  $pivotAttributes
      * @return array
      */
@@ -1245,7 +1257,7 @@ class BelongsToMany extends Relation
      * @param  array  $attributes
      * @param  array  $joining
      * @param  bool  $touch
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function create(array $attributes = [], array $joining = [], $touch = true)
     {
@@ -1284,10 +1296,10 @@ class BelongsToMany extends Relation
     /**
      * Add the constraints for a relationship query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -1303,16 +1315,16 @@ class BelongsToMany extends Relation
     /**
      * Add the constraints for a relationship query on the same table.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQueryForSelfJoin(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
         $query->select($columns);
 
-        $query->from($this->related->getTable().' as '.$hash = $this->getRelationCountHash());
+        $query->from($this->related->getTable() . ' as ' . $hash = $this->getRelationCountHash());
 
         $this->related->setTable($hash);
 
@@ -1497,7 +1509,7 @@ class BelongsToMany extends Relation
     public function qualifyPivotColumn($column)
     {
         return str_contains($column, '.')
-                    ? $column
-                    : $this->table.'.'.$column;
+            ? $column
+            : $this->table . '.' . $column;
     }
 }

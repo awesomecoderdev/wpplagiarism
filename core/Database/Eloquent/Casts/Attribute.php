@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Casts;
+namespace AwesomeCoder\Database\Eloquent\Casts;
 
 class Attribute
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Illuminate\Database\Capsule;
+namespace AwesomeCoder\Database\Capsule;
 
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\Connectors\ConnectionFactory;
-use Illuminate\Database\DatabaseManager;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Support\Traits\CapsuleManagerTrait;
+use AwesomeCoder\Container\Container;
+use AwesomeCoder\Contracts\Events\Dispatcher;
+use AwesomeCoder\Database\Connectors\ConnectionFactory;
+use AwesomeCoder\Database\DatabaseManager;
+use AwesomeCoder\Database\Eloquent\Model as Eloquent;
+use AwesomeCoder\Support\Traits\CapsuleManagerTrait;
 use PDO;
 
 class Manager
@@ -17,14 +17,14 @@ class Manager
     /**
      * The database manager instance.
      *
-     * @var \Illuminate\Database\DatabaseManager
+     * @var \AwesomeCoder\Database\DatabaseManager
      */
     protected $manager;
 
     /**
      * Create a new database capsule manager.
      *
-     * @param  \Illuminate\Container\Container|null  $container
+     * @param  \AwesomeCoder\Container\Container|null  $container
      * @return void
      */
     public function __construct(Container $container = null)
@@ -67,7 +67,7 @@ class Manager
      * Get a connection instance from the global manager.
      *
      * @param  string|null  $connection
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     public static function connection($connection = null)
     {
@@ -77,10 +77,10 @@ class Manager
     /**
      * Get a fluent query builder instance.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $table
+     * @param  \Closure|\AwesomeCoder\Database\Query\Builder|string  $table
      * @param  string|null  $as
      * @param  string|null  $connection
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     public static function table($table, $as = null, $connection = null)
     {
@@ -91,7 +91,7 @@ class Manager
      * Get a schema builder instance.
      *
      * @param  string|null  $connection
-     * @return \Illuminate\Database\Schema\Builder
+     * @return \AwesomeCoder\Database\Schema\Builder
      */
     public static function schema($connection = null)
     {
@@ -102,7 +102,7 @@ class Manager
      * Get a registered connection instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     public function getConnection($name = null)
     {
@@ -158,7 +158,7 @@ class Manager
     /**
      * Get the database manager instance.
      *
-     * @return \Illuminate\Database\DatabaseManager
+     * @return \AwesomeCoder\Database\DatabaseManager
      */
     public function getDatabaseManager()
     {
@@ -168,7 +168,7 @@ class Manager
     /**
      * Get the current event dispatcher instance.
      *
-     * @return \Illuminate\Contracts\Events\Dispatcher|null
+     * @return \AwesomeCoder\Contracts\Events\Dispatcher|null
      */
     public function getEventDispatcher()
     {
@@ -180,7 +180,7 @@ class Manager
     /**
      * Set the event dispatcher instance to be used by connections.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
+     * @param  \AwesomeCoder\Contracts\Events\Dispatcher  $dispatcher
      * @return void
      */
     public function setEventDispatcher(Dispatcher $dispatcher)

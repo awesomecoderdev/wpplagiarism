@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
-use Illuminate\Database\Events\ModelsPruned;
+use AwesomeCoder\Database\Events\ModelsPruned;
 use LogicException;
 
 trait MassPrunable
@@ -16,7 +16,7 @@ trait MassPrunable
     public function pruneAll(int $chunkSize = 1000)
     {
         $query = tap($this->prunable(), function ($query) use ($chunkSize) {
-            $query->when(! $query->getQuery()->limit, function ($query) use ($chunkSize) {
+            $query->when(!$query->getQuery()->limit, function ($query) use ($chunkSize) {
                 $query->limit($chunkSize);
             });
         });
@@ -25,8 +25,8 @@ trait MassPrunable
 
         do {
             $total += $count = in_array(SoftDeletes::class, class_uses_recursive(get_class($this)))
-                        ? $query->forceDelete()
-                        : $query->delete();
+                ? $query->forceDelete()
+                : $query->delete();
 
             if ($count > 0) {
                 event(new ModelsPruned(static::class, $total));
@@ -39,7 +39,7 @@ trait MassPrunable
     /**
      * Get the prunable model query.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function prunable()
     {

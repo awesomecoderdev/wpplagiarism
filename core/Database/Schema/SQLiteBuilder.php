@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Support\Facades\File;
+use AwesomeCoder\Support\Facades\File;
 
 class SQLiteBuilder extends Builder
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Config;
+namespace AwesomeCoder\Contracts\Config;
 
 interface Repository
 {

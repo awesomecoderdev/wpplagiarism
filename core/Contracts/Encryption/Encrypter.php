@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Encryption;
+namespace AwesomeCoder\Contracts\Encryption;
 
 interface Encrypter
 {
@@ -11,7 +11,7 @@ interface Encrypter
      * @param  bool  $serialize
      * @return string
      *
-     * @throws \Illuminate\Contracts\Encryption\EncryptException
+     * @throws \AwesomeCoder\Contracts\Encryption\EncryptException
      */
     public function encrypt($value, $serialize = true);
 
@@ -22,7 +22,7 @@ interface Encrypter
      * @param  bool  $unserialize
      * @return mixed
      *
-     * @throws \Illuminate\Contracts\Encryption\DecryptException
+     * @throws \AwesomeCoder\Contracts\Encryption\DecryptException
      */
     public function decrypt($payload, $unserialize = true);
 

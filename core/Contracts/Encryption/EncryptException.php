@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Encryption;
+namespace AwesomeCoder\Contracts\Encryption;
 
 use RuntimeException;
 

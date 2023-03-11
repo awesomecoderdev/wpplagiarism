@@ -2,6 +2,8 @@
 
 namespace AwesomeCoder\Plugin\Plagiarism\Core;
 
+use AwesomeCoder\Foundation\Application;
+
 /**
  * Load core of the plugin.
  *
@@ -37,7 +39,7 @@ namespace AwesomeCoder\Plugin\Plagiarism\Core;
  *
  */
 
-class Plugin
+class Plugin extends Application
 {
 
 	/**
@@ -59,21 +61,6 @@ class Plugin
 	 * @since    1.0.0
 	 */
 	public static function deactivate()
-	{
-	}
-
-	/**
-	 *
-	 * Begins execution of the plugin.
-	 *
-	 * Since everything within the plugin is registered via hooks,
-	 * then kicking off the plugin from this point in the file does
-	 * not affect the page life cycle.
-	 *
-	 * @since    1.0.0
-	 *
-	 */
-	public function core()
 	{
 	}
 }

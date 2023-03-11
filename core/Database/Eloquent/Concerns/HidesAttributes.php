@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
 trait HidesAttributes
 {
@@ -76,7 +76,7 @@ trait HidesAttributes
 
         $this->hidden = array_diff($this->hidden, $attributes);
 
-        if (! empty($this->visible)) {
+        if (!empty($this->visible)) {
             $this->visible = array_merge($this->visible, $attributes);
         }
 
@@ -104,7 +104,8 @@ trait HidesAttributes
     public function makeHidden($attributes)
     {
         $this->hidden = array_merge(
-            $this->hidden, is_array($attributes) ? $attributes : func_get_args()
+            $this->hidden,
+            is_array($attributes) ? $attributes : func_get_args()
         );
 
         return $this;

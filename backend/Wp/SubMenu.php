@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\Wp;
+namespace AwesomeCoder\Plugin\Wp;
 
 /**
  * Represents a WordPress admin submenu that appears under a top-level menu.

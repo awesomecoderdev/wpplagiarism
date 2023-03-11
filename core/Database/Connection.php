@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
 use Carbon\CarbonInterval;
 use Closure;
@@ -8,21 +8,21 @@ use DateTimeInterface;
 use Doctrine\DBAL\Connection as DoctrineConnection;
 use Doctrine\DBAL\Types\Type;
 use Exception;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Database\Events\StatementPrepared;
-use Illuminate\Database\Events\TransactionBeginning;
-use Illuminate\Database\Events\TransactionCommitted;
-use Illuminate\Database\Events\TransactionCommitting;
-use Illuminate\Database\Events\TransactionRolledBack;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
-use Illuminate\Database\Query\Processors\Processor;
-use Illuminate\Database\Schema\Builder as SchemaBuilder;
-use Illuminate\Support\Arr;
-use Illuminate\Support\InteractsWithTime;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Contracts\Events\Dispatcher;
+use AwesomeCoder\Database\Events\QueryExecuted;
+use AwesomeCoder\Database\Events\StatementPrepared;
+use AwesomeCoder\Database\Events\TransactionBeginning;
+use AwesomeCoder\Database\Events\TransactionCommitted;
+use AwesomeCoder\Database\Events\TransactionCommitting;
+use AwesomeCoder\Database\Events\TransactionRolledBack;
+use AwesomeCoder\Database\Query\Builder as QueryBuilder;
+use AwesomeCoder\Database\Query\Expression;
+use AwesomeCoder\Database\Query\Grammars\Grammar as QueryGrammar;
+use AwesomeCoder\Database\Query\Processors\Processor;
+use AwesomeCoder\Database\Schema\Builder as SchemaBuilder;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\InteractsWithTime;
+use AwesomeCoder\Support\Traits\Macroable;
 use PDO;
 use PDOStatement;
 use RuntimeException;
@@ -87,28 +87,28 @@ class Connection implements ConnectionInterface
     /**
      * The query grammar implementation.
      *
-     * @var \Illuminate\Database\Query\Grammars\Grammar
+     * @var \AwesomeCoder\Database\Query\Grammars\Grammar
      */
     protected $queryGrammar;
 
     /**
      * The schema grammar implementation.
      *
-     * @var \Illuminate\Database\Schema\Grammars\Grammar
+     * @var \AwesomeCoder\Database\Schema\Grammars\Grammar
      */
     protected $schemaGrammar;
 
     /**
      * The query post processor implementation.
      *
-     * @var \Illuminate\Database\Query\Processors\Processor
+     * @var \AwesomeCoder\Database\Query\Processors\Processor
      */
     protected $postProcessor;
 
     /**
      * The event dispatcher instance.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var \AwesomeCoder\Contracts\Events\Dispatcher
      */
     protected $events;
 
@@ -129,7 +129,7 @@ class Connection implements ConnectionInterface
     /**
      * The transaction manager instance.
      *
-     * @var \Illuminate\Database\DatabaseTransactionsManager
+     * @var \AwesomeCoder\Database\DatabaseTransactionsManager
      */
     protected $transactionsManager;
 
@@ -253,7 +253,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default query grammar instance.
      *
-     * @return \Illuminate\Database\Query\Grammars\Grammar
+     * @return \AwesomeCoder\Database\Query\Grammars\Grammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -273,7 +273,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default schema grammar instance.
      *
-     * @return \Illuminate\Database\Schema\Grammars\Grammar
+     * @return \AwesomeCoder\Database\Schema\Grammars\Grammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -293,7 +293,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the default post processor instance.
      *
-     * @return \Illuminate\Database\Query\Processors\Processor
+     * @return \AwesomeCoder\Database\Query\Processors\Processor
      */
     protected function getDefaultPostProcessor()
     {
@@ -303,7 +303,7 @@ class Connection implements ConnectionInterface
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return \Illuminate\Database\Schema\Builder
+     * @return \AwesomeCoder\Database\Schema\Builder
      */
     public function getSchemaBuilder()
     {
@@ -317,9 +317,9 @@ class Connection implements ConnectionInterface
     /**
      * Begin a fluent query against a database table.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $table
+     * @param  \Closure|\AwesomeCoder\Database\Query\Builder|string  $table
      * @param  string|null  $as
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     public function table($table, $as = null)
     {
@@ -329,12 +329,14 @@ class Connection implements ConnectionInterface
     /**
      * Get a new query builder instance.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     public function query()
     {
         return new QueryBuilder(
-            $this, $this->getQueryGrammar(), $this->getPostProcessor()
+            $this,
+            $this->getQueryGrammar(),
+            $this->getPostProcessor()
         );
     }
 
@@ -361,7 +363,7 @@ class Connection implements ConnectionInterface
      * @param  bool  $useReadPdo
      * @return mixed
      *
-     * @throws \Illuminate\Database\MultipleColumnsSelectedException
+     * @throws \AwesomeCoder\Database\MultipleColumnsSelectedException
      */
     public function scalar($query, $bindings = [], $useReadPdo = true)
     {
@@ -441,10 +443,11 @@ class Connection implements ConnectionInterface
             // mode and prepare the bindings for the query. Once that's done we will be
             // ready to execute the query against the database and return the cursor.
             $statement = $this->prepared($this->getPdoForSelect($useReadPdo)
-                              ->prepare($query));
+                ->prepare($query));
 
             $this->bindValues(
-                $statement, $this->prepareBindings($bindings)
+                $statement,
+                $this->prepareBindings($bindings)
             );
 
             // Next, we'll execute the query against the database and return the statement
@@ -701,7 +704,7 @@ class Connection implements ConnectionInterface
      * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws \Illuminate\Database\QueryException
+     * @throws \AwesomeCoder\Database\QueryException
      */
     protected function run($query, $bindings, Closure $callback)
     {
@@ -720,7 +723,10 @@ class Connection implements ConnectionInterface
             $result = $this->runQueryCallback($query, $bindings, $callback);
         } catch (QueryException $e) {
             $result = $this->handleQueryException(
-                $e, $query, $bindings, $callback
+                $e,
+                $query,
+                $bindings,
+                $callback
             );
         }
 
@@ -728,7 +734,9 @@ class Connection implements ConnectionInterface
         // then log the query, bindings, and execution time so we will report them on
         // the event that the developer needs them. We'll log time in milliseconds.
         $this->logQuery(
-            $query, $bindings, $this->getElapsedTime($start)
+            $query,
+            $bindings,
+            $this->getElapsedTime($start)
         );
 
         return $result;
@@ -742,7 +750,7 @@ class Connection implements ConnectionInterface
      * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws \Illuminate\Database\QueryException
+     * @throws \AwesomeCoder\Database\QueryException
      */
     protected function runQueryCallback($query, $bindings, Closure $callback)
     {
@@ -758,7 +766,9 @@ class Connection implements ConnectionInterface
         // lot more helpful to the developer instead of just the database's errors.
         catch (Exception $e) {
             throw new QueryException(
-                $query, $this->prepareBindings($bindings), $e
+                $query,
+                $this->prepareBindings($bindings),
+                $e
             );
         }
     }
@@ -818,7 +828,7 @@ class Connection implements ConnectionInterface
         $key = count($this->queryDurationHandlers) - 1;
 
         $this->listen(function ($event) use ($threshold, $handler, $key) {
-            if (! $this->queryDurationHandlers[$key]['has_run'] && $this->totalQueryDuration() > $threshold) {
+            if (!$this->queryDurationHandlers[$key]['has_run'] && $this->totalQueryDuration() > $threshold) {
                 $handler($this, $event);
 
                 $this->queryDurationHandlers[$key]['has_run'] = true;
@@ -861,13 +871,13 @@ class Connection implements ConnectionInterface
     /**
      * Handle a query exception.
      *
-     * @param  \Illuminate\Database\QueryException  $e
+     * @param  \AwesomeCoder\Database\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
      * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws \Illuminate\Database\QueryException
+     * @throws \AwesomeCoder\Database\QueryException
      */
     protected function handleQueryException(QueryException $e, $query, $bindings, Closure $callback)
     {
@@ -876,20 +886,23 @@ class Connection implements ConnectionInterface
         }
 
         return $this->tryAgainIfCausedByLostConnection(
-            $e, $query, $bindings, $callback
+            $e,
+            $query,
+            $bindings,
+            $callback
         );
     }
 
     /**
      * Handle a query exception that occurred during query execution.
      *
-     * @param  \Illuminate\Database\QueryException  $e
+     * @param  \AwesomeCoder\Database\QueryException  $e
      * @param  string  $query
      * @param  array  $bindings
      * @param  \Closure  $callback
      * @return mixed
      *
-     * @throws \Illuminate\Database\QueryException
+     * @throws \AwesomeCoder\Database\QueryException
      */
     protected function tryAgainIfCausedByLostConnection(QueryException $e, $query, $bindings, Closure $callback)
     {
@@ -907,7 +920,7 @@ class Connection implements ConnectionInterface
      *
      * @return mixed|false
      *
-     * @throws \Illuminate\Database\LostConnectionException
+     * @throws \AwesomeCoder\Database\LostConnectionException
      */
     public function reconnect()
     {
@@ -1000,7 +1013,7 @@ class Connection implements ConnectionInterface
      * Get a new raw query expression.
      *
      * @param  mixed  $value
-     * @return \Illuminate\Database\Query\Expression
+     * @return \AwesomeCoder\Database\Query\Expression
      */
     public function raw($value)
     {
@@ -1025,7 +1038,7 @@ class Connection implements ConnectionInterface
      */
     public function recordsHaveBeenModified($value = true)
     {
-        if (! $this->recordsModified) {
+        if (!$this->recordsModified) {
             $this->recordsModified = $value;
         }
     }
@@ -1083,7 +1096,7 @@ class Connection implements ConnectionInterface
      */
     public function usingNativeSchemaOperations()
     {
-        return ! $this->isDoctrineAvailable() || SchemaBuilder::$alwaysUsesNativeSchemaOperationsIfPossible;
+        return !$this->isDoctrineAvailable() || SchemaBuilder::$alwaysUsesNativeSchemaOperationsIfPossible;
     }
 
     /**
@@ -1156,13 +1169,13 @@ class Connection implements ConnectionInterface
      */
     public function registerDoctrineType(Type|string $class, string $name, string $type): void
     {
-        if (! $this->isDoctrineAvailable()) {
+        if (!$this->isDoctrineAvailable()) {
             throw new RuntimeException(
                 'Registering a custom Doctrine type requires Doctrine DBAL (doctrine/dbal).'
             );
         }
 
-        if (! Type::hasType($name)) {
+        if (!Type::hasType($name)) {
             Type::getTypeRegistry()
                 ->register($name, is_string($class) ? new $class() : $class);
         }
@@ -1205,8 +1218,10 @@ class Connection implements ConnectionInterface
             return $this->getPdo();
         }
 
-        if ($this->readOnWriteConnection ||
-            ($this->recordsModified && $this->getConfig('sticky'))) {
+        if (
+            $this->readOnWriteConnection ||
+            ($this->recordsModified && $this->getConfig('sticky'))
+        ) {
             return $this->getPdo();
         }
 
@@ -1285,7 +1300,7 @@ class Connection implements ConnectionInterface
      */
     public function getNameWithReadWriteType()
     {
-        return $this->getName().($this->readWriteType ? '::'.$this->readWriteType : '');
+        return $this->getName() . ($this->readWriteType ? '::' . $this->readWriteType : '');
     }
 
     /**
@@ -1312,7 +1327,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query grammar used by the connection.
      *
-     * @return \Illuminate\Database\Query\Grammars\Grammar
+     * @return \AwesomeCoder\Database\Query\Grammars\Grammar
      */
     public function getQueryGrammar()
     {
@@ -1322,7 +1337,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the query grammar used by the connection.
      *
-     * @param  \Illuminate\Database\Query\Grammars\Grammar  $grammar
+     * @param  \AwesomeCoder\Database\Query\Grammars\Grammar  $grammar
      * @return $this
      */
     public function setQueryGrammar(Query\Grammars\Grammar $grammar)
@@ -1335,7 +1350,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the schema grammar used by the connection.
      *
-     * @return \Illuminate\Database\Schema\Grammars\Grammar
+     * @return \AwesomeCoder\Database\Schema\Grammars\Grammar
      */
     public function getSchemaGrammar()
     {
@@ -1345,7 +1360,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the schema grammar used by the connection.
      *
-     * @param  \Illuminate\Database\Schema\Grammars\Grammar  $grammar
+     * @param  \AwesomeCoder\Database\Schema\Grammars\Grammar  $grammar
      * @return $this
      */
     public function setSchemaGrammar(Schema\Grammars\Grammar $grammar)
@@ -1358,7 +1373,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the query post processor used by the connection.
      *
-     * @return \Illuminate\Database\Query\Processors\Processor
+     * @return \AwesomeCoder\Database\Query\Processors\Processor
      */
     public function getPostProcessor()
     {
@@ -1368,7 +1383,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the query post processor used by the connection.
      *
-     * @param  \Illuminate\Database\Query\Processors\Processor  $processor
+     * @param  \AwesomeCoder\Database\Query\Processors\Processor  $processor
      * @return $this
      */
     public function setPostProcessor(Processor $processor)
@@ -1381,7 +1396,7 @@ class Connection implements ConnectionInterface
     /**
      * Get the event dispatcher used by the connection.
      *
-     * @return \Illuminate\Contracts\Events\Dispatcher
+     * @return \AwesomeCoder\Contracts\Events\Dispatcher
      */
     public function getEventDispatcher()
     {
@@ -1391,7 +1406,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the event dispatcher instance on the connection.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \AwesomeCoder\Contracts\Events\Dispatcher  $events
      * @return $this
      */
     public function setEventDispatcher(Dispatcher $events)
@@ -1414,7 +1429,7 @@ class Connection implements ConnectionInterface
     /**
      * Set the transaction manager instance on the connection.
      *
-     * @param  \Illuminate\Database\DatabaseTransactionsManager  $manager
+     * @param  \AwesomeCoder\Database\DatabaseTransactionsManager  $manager
      * @return $this
      */
     public function setTransactionManager($manager)
@@ -1558,8 +1573,8 @@ class Connection implements ConnectionInterface
     /**
      * Set the table prefix and return the grammar.
      *
-     * @param  \Illuminate\Database\Grammar  $grammar
-     * @return \Illuminate\Database\Grammar
+     * @param  \AwesomeCoder\Database\Grammar  $grammar
+     * @return \AwesomeCoder\Database\Grammar
      */
     public function withTablePrefix(Grammar $grammar)
     {

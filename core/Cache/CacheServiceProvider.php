@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\ServiceProvider;
+use AwesomeCoder\Contracts\Support\DeferrableProvider;
+use AwesomeCoder\Support\ServiceProvider;
 use Symfony\Component\Cache\Adapter\Psr16Adapter;
 
 class CacheServiceProvider extends ServiceProvider implements DeferrableProvider

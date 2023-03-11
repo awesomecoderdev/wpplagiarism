@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Cache;
+namespace AwesomeCoder\Contracts\Cache;
 
 use Exception;
 

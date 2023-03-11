@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Hashing;
+namespace AwesomeCoder\Contracts\Hashing;
 
 interface Hasher
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Contracts\Cache\LockProvider;
-use Illuminate\Contracts\Redis\Factory as Redis;
-use Illuminate\Redis\Connections\PhpRedisConnection;
+use AwesomeCoder\Contracts\Cache\LockProvider;
+use AwesomeCoder\Contracts\Redis\Factory as Redis;
+use AwesomeCoder\Redis\Connections\PhpRedisConnection;
 
 class RedisStore extends TaggableStore implements LockProvider
 {
     /**
      * The Redis factory implementation.
      *
-     * @var \Illuminate\Contracts\Redis\Factory
+     * @var \AwesomeCoder\Contracts\Redis\Factory
      */
     protected $redis;
 
@@ -39,7 +39,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Create a new Redis store.
      *
-     * @param  \Illuminate\Contracts\Redis\Factory  $redis
+     * @param  \AwesomeCoder\Contracts\Redis\Factory  $redis
      * @param  string  $prefix
      * @param  string  $connection
      * @return void
@@ -59,9 +59,9 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function get($key)
     {
-        $value = $this->connection()->get($this->prefix.$key);
+        $value = $this->connection()->get($this->prefix . $key);
 
-        return ! is_null($value) ? $this->unserialize($value) : null;
+        return !is_null($value) ? $this->unserialize($value) : null;
     }
 
     /**
@@ -77,11 +77,11 @@ class RedisStore extends TaggableStore implements LockProvider
         $results = [];
 
         $values = $this->connection()->mget(array_map(function ($key) {
-            return $this->prefix.$key;
+            return $this->prefix . $key;
         }, $keys));
 
         foreach ($values as $index => $value) {
-            $results[$keys[$index]] = ! is_null($value) ? $this->unserialize($value) : null;
+            $results[$keys[$index]] = !is_null($value) ? $this->unserialize($value) : null;
         }
 
         return $results;
@@ -98,7 +98,9 @@ class RedisStore extends TaggableStore implements LockProvider
     public function put($key, $value, $seconds)
     {
         return (bool) $this->connection()->setex(
-            $this->prefix.$key, (int) max(1, $seconds), $this->serialize($value)
+            $this->prefix . $key,
+            (int) max(1, $seconds),
+            $this->serialize($value)
         );
     }
 
@@ -139,7 +141,11 @@ class RedisStore extends TaggableStore implements LockProvider
         $lua = "return redis.call('exists',KEYS[1])<1 and redis.call('setex',KEYS[1],ARGV[2],ARGV[1])";
 
         return (bool) $this->connection()->eval(
-            $lua, 1, $this->prefix.$key, $this->serialize($value), (int) max(1, $seconds)
+            $lua,
+            1,
+            $this->prefix . $key,
+            $this->serialize($value),
+            (int) max(1, $seconds)
         );
     }
 
@@ -152,7 +158,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function increment($key, $value = 1)
     {
-        return $this->connection()->incrby($this->prefix.$key, $value);
+        return $this->connection()->incrby($this->prefix . $key, $value);
     }
 
     /**
@@ -164,7 +170,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function decrement($key, $value = 1)
     {
-        return $this->connection()->decrby($this->prefix.$key, $value);
+        return $this->connection()->decrby($this->prefix . $key, $value);
     }
 
     /**
@@ -176,7 +182,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function forever($key, $value)
     {
-        return (bool) $this->connection()->set($this->prefix.$key, $this->serialize($value));
+        return (bool) $this->connection()->set($this->prefix . $key, $this->serialize($value));
     }
 
     /**
@@ -185,11 +191,11 @@ class RedisStore extends TaggableStore implements LockProvider
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null)
     {
-        $lockName = $this->prefix.$name;
+        $lockName = $this->prefix . $name;
 
         $lockConnection = $this->lockConnection();
 
@@ -205,7 +211,7 @@ class RedisStore extends TaggableStore implements LockProvider
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner)
     {
@@ -220,7 +226,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function forget($key)
     {
-        return (bool) $this->connection()->del($this->prefix.$key);
+        return (bool) $this->connection()->del($this->prefix . $key);
     }
 
     /**
@@ -239,19 +245,20 @@ class RedisStore extends TaggableStore implements LockProvider
      * Begin executing a new tags operation.
      *
      * @param  array|mixed  $names
-     * @return \Illuminate\Cache\RedisTaggedCache
+     * @return \AwesomeCoder\Cache\RedisTaggedCache
      */
     public function tags($names)
     {
         return new RedisTaggedCache(
-            $this, new TagSet($this, is_array($names) ? $names : func_get_args())
+            $this,
+            new TagSet($this, is_array($names) ? $names : func_get_args())
         );
     }
 
     /**
      * Get the Redis connection instance.
      *
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return \AwesomeCoder\Redis\Connections\Connection
      */
     public function connection()
     {
@@ -261,7 +268,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Get the Redis connection instance that should be used to manage locks.
      *
-     * @return \Illuminate\Redis\Connections\Connection
+     * @return \AwesomeCoder\Redis\Connections\Connection
      */
     public function lockConnection()
     {
@@ -295,7 +302,7 @@ class RedisStore extends TaggableStore implements LockProvider
     /**
      * Get the Redis database instance.
      *
-     * @return \Illuminate\Contracts\Redis\Factory
+     * @return \AwesomeCoder\Contracts\Redis\Factory
      */
     public function getRedis()
     {
@@ -320,7 +327,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     public function setPrefix($prefix)
     {
-        $this->prefix = ! empty($prefix) ? $prefix.':' : '';
+        $this->prefix = !empty($prefix) ? $prefix . ':' : '';
     }
 
     /**
@@ -331,7 +338,7 @@ class RedisStore extends TaggableStore implements LockProvider
      */
     protected function serialize($value)
     {
-        return is_numeric($value) && ! in_array($value, [INF, -INF]) && ! is_nan($value) ? $value : serialize($value);
+        return is_numeric($value) && !in_array($value, [INF, -INF]) && !is_nan($value) ? $value : serialize($value);
     }
 
     /**

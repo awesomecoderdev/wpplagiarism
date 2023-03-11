@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
 use Doctrine\DBAL\Driver\PDOConnection;
 use Exception;
-use Illuminate\Database\DetectsLostConnections;
+use AwesomeCoder\Database\DetectsLostConnections;
 use PDO;
 use Throwable;
 
@@ -43,11 +43,18 @@ class Connector
 
         try {
             return $this->createPdoConnection(
-                $dsn, $username, $password, $options
+                $dsn,
+                $username,
+                $password,
+                $options
             );
         } catch (Exception $e) {
             return $this->tryAgainIfCausedByLostConnection(
-                $e, $dsn, $username, $password, $options
+                $e,
+                $dsn,
+                $username,
+                $password,
+                $options
             );
         }
     }
@@ -63,7 +70,7 @@ class Connector
      */
     protected function createPdoConnection($dsn, $username, $password, $options)
     {
-        if (class_exists(PDOConnection::class) && ! $this->isPersistentConnection($options)) {
+        if (class_exists(PDOConnection::class) && !$this->isPersistentConnection($options)) {
             return new PDOConnection($dsn, $username, $password, $options);
         }
 
@@ -79,7 +86,7 @@ class Connector
     protected function isPersistentConnection($options)
     {
         return isset($options[PDO::ATTR_PERSISTENT]) &&
-               $options[PDO::ATTR_PERSISTENT];
+            $options[PDO::ATTR_PERSISTENT];
     }
 
     /**

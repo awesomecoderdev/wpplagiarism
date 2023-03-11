@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cookie;
+namespace AwesomeCoder\Cookie;
 
 class CookieValuePrefix
 {
@@ -13,7 +13,7 @@ class CookieValuePrefix
      */
     public static function create($cookieName, $key)
     {
-        return hash_hmac('sha1', $cookieName.'v2', $key).'|';
+        return hash_hmac('sha1', $cookieName . 'v2', $key) . '|';
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
-use Illuminate\Database\Events\ModelsPruned;
+use AwesomeCoder\Database\Events\ModelsPruned;
 use LogicException;
 
 trait Prunable
@@ -34,7 +34,7 @@ trait Prunable
     /**
      * Get the prunable model query.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function prunable()
     {
@@ -51,8 +51,8 @@ trait Prunable
         $this->pruning();
 
         return in_array(SoftDeletes::class, class_uses_recursive(get_class($this)))
-                ? $this->forceDelete()
-                : $this->delete();
+            ? $this->forceDelete()
+            : $this->delete();
     }
 
     /**

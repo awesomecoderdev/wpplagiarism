@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
-use Illuminate\Database\SQLiteDatabaseDoesNotExistException;
+use AwesomeCoder\Database\SQLiteDatabaseDoesNotExistException;
 
 class SQLiteConnector extends Connector implements ConnectorInterface
 {
@@ -12,7 +12,7 @@ class SQLiteConnector extends Connector implements ConnectorInterface
      * @param  array  $config
      * @return \PDO
      *
-     * @throws \Illuminate\Database\SQLiteDatabaseDoesNotExistException
+     * @throws \AwesomeCoder\Database\SQLiteDatabaseDoesNotExistException
      */
     public function connect(array $config)
     {

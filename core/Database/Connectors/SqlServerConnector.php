@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
-use Illuminate\Support\Arr;
+use AwesomeCoder\Support\Arr;
 use PDO;
 
 class SqlServerConnector extends Connector implements ConnectorInterface
@@ -47,7 +47,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      */
     protected function configureIsolationLevel($connection, array $config)
     {
-        if (! isset($config['isolation_level'])) {
+        if (!isset($config['isolation_level'])) {
             return;
         }
 
@@ -87,7 +87,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     protected function prefersOdbc(array $config)
     {
         return in_array('odbc', $this->getAvailableDrivers()) &&
-               ($config['odbc'] ?? null) === true;
+            ($config['odbc'] ?? null) === true;
     }
 
     /**
@@ -113,7 +113,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     protected function getOdbcDsn(array $config)
     {
         return isset($config['odbc_datasource_name'])
-                    ? 'odbc:'.$config['odbc_datasource_name'] : '';
+            ? 'odbc:' . $config['odbc_datasource_name'] : '';
     }
 
     /**
@@ -200,7 +200,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      */
     protected function buildConnectString($driver, array $arguments)
     {
-        return $driver.':'.implode(';', array_map(function ($key) use ($arguments) {
+        return $driver . ':' . implode(';', array_map(function ($key) use ($arguments) {
             return sprintf('%s=%s', $key, $arguments[$key]);
         }, array_keys($arguments)));
     }
@@ -218,7 +218,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
             return $config['host'];
         }
 
-        return $config['host'].$separator.$config['port'];
+        return $config['host'] . $separator . $config['port'];
     }
 
     /**

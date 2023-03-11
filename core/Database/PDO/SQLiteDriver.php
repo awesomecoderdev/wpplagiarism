@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\PDO;
+namespace AwesomeCoder\Database\PDO;
 
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
-use Illuminate\Database\PDO\Concerns\ConnectsToDatabase;
+use AwesomeCoder\Database\PDO\Concerns\ConnectsToDatabase;
 
 class SQLiteDriver extends AbstractSQLiteDriver
 {

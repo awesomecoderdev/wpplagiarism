@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Container;
+namespace AwesomeCoder\Contracts\Container;
 
 use Closure;
-use Psr\Container\ContainerInterface;
 
 interface Container extends ContainerInterface
 {
@@ -133,7 +132,7 @@ interface Container extends ContainerInterface
      * Define a contextual binding.
      *
      * @param  string|array  $concrete
-     * @return \Illuminate\Contracts\Container\ContextualBindingBuilder
+     * @return \AwesomeCoder\Contracts\Container\ContextualBindingBuilder
      */
     public function when($concrete);
 
@@ -159,7 +158,7 @@ interface Container extends ContainerInterface
      * @param  array  $parameters
      * @return mixed
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \AwesomeCoder\Contracts\Container\BindingResolutionException
      */
     public function make($abstract, array $parameters = []);
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace Illuminate\Database\Concerns;
+namespace AwesomeCoder\Database\Concerns;
 
-use Illuminate\Support\Collection;
+use AwesomeCoder\Support\Collection;
 
 trait ExplainsQueries
 {
     /**
      * Explains the query.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \AwesomeCoder\Support\Collection
      */
     public function explain()
     {
@@ -17,7 +17,7 @@ trait ExplainsQueries
 
         $bindings = $this->getBindings();
 
-        $explanation = $this->getConnection()->select('EXPLAIN '.$sql, $bindings);
+        $explanation = $this->getConnection()->select('EXPLAIN ' . $sql, $bindings);
 
         return new Collection($explanation);
     }

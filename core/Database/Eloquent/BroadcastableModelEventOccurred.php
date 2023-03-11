@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Queue\SerializesModels;
+use AwesomeCoder\Broadcasting\InteractsWithSockets;
+use AwesomeCoder\Broadcasting\PrivateChannel;
+use AwesomeCoder\Contracts\Broadcasting\ShouldBroadcast;
+use AwesomeCoder\Queue\SerializesModels;
 
 class BroadcastableModelEventOccurred implements ShouldBroadcast
 {
@@ -14,7 +14,7 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     /**
      * The model instance corresponding to the event.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \AwesomeCoder\Database\Eloquent\Model
      */
     public $model;
 
@@ -56,7 +56,7 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @param  string  $event
      * @return void
      */
@@ -74,8 +74,8 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     public function broadcastOn()
     {
         $channels = empty($this->channels)
-                ? ($this->model->broadcastOn($this->event) ?: [])
-                : $this->channels;
+            ? ($this->model->broadcastOn($this->event) ?: [])
+            : $this->channels;
 
         return collect($channels)->map(function ($channel) {
             return $channel instanceof Model ? new PrivateChannel($channel) : $channel;
@@ -89,11 +89,11 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        $default = class_basename($this->model).ucfirst($this->event);
+        $default = class_basename($this->model) . ucfirst($this->event);
 
         return method_exists($this->model, 'broadcastAs')
-                ? ($this->model->broadcastAs($this->event) ?: $default)
-                : $default;
+            ? ($this->model->broadcastAs($this->event) ?: $default)
+            : $default;
     }
 
     /**
@@ -129,7 +129,7 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     public function shouldBroadcastNow()
     {
         return $this->event === 'deleted' &&
-               ! method_exists($this->model, 'bootSoftDeletes');
+            !method_exists($this->model, 'bootSoftDeletes');
     }
 
     /**

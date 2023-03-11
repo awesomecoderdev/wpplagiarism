@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Casts;
+namespace AwesomeCoder\Database\Eloquent\Casts;
 
-use Illuminate\Contracts\Database\Eloquent\Castable;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Collection;
+use AwesomeCoder\Contracts\Database\Eloquent\Castable;
+use AwesomeCoder\Contracts\Database\Eloquent\CastsAttributes;
+use AwesomeCoder\Support\Collection;
 
 class AsCollection implements Castable
 {
@@ -12,7 +12,7 @@ class AsCollection implements Castable
      * Get the caster class to use when casting from / to this cast target.
      *
      * @param  array  $arguments
-     * @return CastsAttributes<\Illuminate\Support\Collection<array-key, mixed>, iterable>
+     * @return CastsAttributes<\AwesomeCoder\Support\Collection<array-key, mixed>, iterable>
      */
     public static function castUsing(array $arguments)
     {
@@ -20,7 +20,7 @@ class AsCollection implements Castable
         {
             public function get($model, $key, $value, $attributes)
             {
-                if (! isset($attributes[$key])) {
+                if (!isset($attributes[$key])) {
                     return;
                 }
 

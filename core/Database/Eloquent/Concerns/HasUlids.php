@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\Eloquent\ModelNotFoundException;
+use AwesomeCoder\Support\Str;
 
 trait HasUlids
 {
@@ -36,20 +36,20 @@ trait HasUlids
     /**
      * Retrieve the model for a bound value.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\Relation  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Relations\Relation  $query
      * @param  mixed  $value
      * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     * @return \AwesomeCoder\Database\Eloquent\Relations\Relation
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException
      */
     public function resolveRouteBindingQuery($query, $value, $field = null)
     {
-        if ($field && in_array($field, $this->uniqueIds()) && ! Str::isUlid($value)) {
+        if ($field && in_array($field, $this->uniqueIds()) && !Str::isUlid($value)) {
             throw (new ModelNotFoundException)->setModel(get_class($this), $value);
         }
 
-        if (! $field && in_array($this->getRouteKeyName(), $this->uniqueIds()) && ! Str::isUlid($value)) {
+        if (!$field && in_array($this->getRouteKeyName(), $this->uniqueIds()) && !Str::isUlid($value)) {
             throw (new ModelNotFoundException)->setModel(get_class($this), $value);
         }
 

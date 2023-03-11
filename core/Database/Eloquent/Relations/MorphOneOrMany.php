@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Eloquent\Model;
 
 abstract class MorphOneOrMany extends HasOneOrMany
 {
@@ -24,8 +24,8 @@ abstract class MorphOneOrMany extends HasOneOrMany
     /**
      * Create a new morph one or many relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $type
      * @param  string  $id
      * @param  string  $localKey
@@ -70,7 +70,7 @@ abstract class MorphOneOrMany extends HasOneOrMany
     /**
      * Set the foreign ID and type for creating a related model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @return void
      */
     protected function setForeignAttributesForCreate(Model $model)
@@ -83,15 +83,16 @@ abstract class MorphOneOrMany extends HasOneOrMany
     /**
      * Get the relationship query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
         return parent::getRelationExistenceQuery($query, $parentQuery, $columns)->where(
-            $query->qualifyColumn($this->getMorphType()), $this->morphClass
+            $query->qualifyColumn($this->getMorphType()),
+            $this->morphClass
         );
     }
 

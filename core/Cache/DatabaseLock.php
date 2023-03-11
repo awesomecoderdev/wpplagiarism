@@ -1,17 +1,17 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Database\Connection;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Carbon;
+use AwesomeCoder\Database\Connection;
+use AwesomeCoder\Database\QueryException;
+use AwesomeCoder\Support\Carbon;
 
 class DatabaseLock extends Lock
 {
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var \AwesomeCoder\Database\Connection
      */
     protected $connection;
 
@@ -32,7 +32,7 @@ class DatabaseLock extends Lock
     /**
      * Create a new lock instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @param  string  $table
      * @param  string  $name
      * @param  int  $seconds
@@ -103,9 +103,9 @@ class DatabaseLock extends Lock
     {
         if ($this->isOwnedByCurrentProcess()) {
             $this->connection->table($this->table)
-                        ->where('key', $this->name)
-                        ->where('owner', $this->owner)
-                        ->delete();
+                ->where('key', $this->name)
+                ->where('owner', $this->owner)
+                ->delete();
 
             return true;
         }
@@ -121,8 +121,8 @@ class DatabaseLock extends Lock
     public function forceRelease()
     {
         $this->connection->table($this->table)
-                    ->where('key', $this->name)
-                    ->delete();
+            ->where('key', $this->name)
+            ->delete();
     }
 
     /**

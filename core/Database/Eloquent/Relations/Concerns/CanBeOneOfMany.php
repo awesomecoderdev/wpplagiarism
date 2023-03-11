@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Relations\Concerns;
 
 use Closure;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Arr;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Query\JoinClause;
+use AwesomeCoder\Support\Arr;
 use InvalidArgumentException;
 
 trait CanBeOneOfMany
@@ -27,14 +27,14 @@ trait CanBeOneOfMany
     /**
      * The one of many inner join subselect query builder instance.
      *
-     * @var \Illuminate\Database\Eloquent\Builder|null
+     * @var \AwesomeCoder\Database\Eloquent\Builder|null
      */
     protected $oneOfManySubQuery;
 
     /**
      * Add constraints for inner join subselect for one of many relationships.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
      * @param  string|null  $column
      * @param  string|null  $aggregate
      * @return void
@@ -51,7 +51,7 @@ trait CanBeOneOfMany
     /**
      * Add join query constraints for one of many relationships.
      *
-     * @param  \Illuminate\Database\Query\JoinClause  $join
+     * @param  \AwesomeCoder\Database\Query\JoinClause  $join
      * @return void
      */
     abstract public function addOneOfManyJoinSubQueryConstraints(JoinClause $join);
@@ -81,7 +81,7 @@ trait CanBeOneOfMany
             $keyName => $aggregate,
         ] : $column;
 
-        if (! array_key_exists($keyName, $columns)) {
+        if (!array_key_exists($keyName, $columns)) {
             $columns[$keyName] = 'MAX';
         }
 
@@ -90,13 +90,14 @@ trait CanBeOneOfMany
         }
 
         foreach ($columns as $column => $aggregate) {
-            if (! in_array(strtolower($aggregate), ['min', 'max'])) {
+            if (!in_array(strtolower($aggregate), ['min', 'max'])) {
                 throw new InvalidArgumentException("Invalid aggregate [{$aggregate}] used within ofMany relation. Available aggregates: MIN, MAX");
             }
 
             $subQuery = $this->newOneOfManySubQuery(
                 $this->getOneOfManySubQuerySelectColumns(),
-                $column, $aggregate
+                $column,
+                $aggregate
             );
 
             if (isset($previous)) {
@@ -107,7 +108,7 @@ trait CanBeOneOfMany
                 $closure($subQuery);
             }
 
-            if (! isset($previous)) {
+            if (!isset($previous)) {
                 $this->oneOfManySubQuery = $subQuery;
             }
 
@@ -169,7 +170,7 @@ trait CanBeOneOfMany
     protected function getDefaultOneOfManyJoinAlias($relation)
     {
         return $relation == $this->query->getModel()->getTable()
-            ? $relation.'_of_many'
+            ? $relation . '_of_many'
             : $relation;
     }
 
@@ -179,7 +180,7 @@ trait CanBeOneOfMany
      * @param  string|array  $groupBy
      * @param  string|null  $column
      * @param  string|null  $aggregate
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     protected function newOneOfManySubQuery($groupBy, $column = null, $aggregate = null)
     {
@@ -191,8 +192,8 @@ trait CanBeOneOfMany
             $subQuery->groupBy($this->qualifyRelatedColumn($group));
         }
 
-        if (! is_null($column)) {
-            $subQuery->selectRaw($aggregate.'('.$subQuery->getQuery()->grammar->wrap($subQuery->qualifyColumn($column)).') as '.$subQuery->getQuery()->grammar->wrap($column.'_aggregate'));
+        if (!is_null($column)) {
+            $subQuery->selectRaw($aggregate . '(' . $subQuery->getQuery()->grammar->wrap($subQuery->qualifyColumn($column)) . ') as ' . $subQuery->getQuery()->grammar->wrap($column . '_aggregate'));
         }
 
         $this->addOneOfManySubQueryConstraints($subQuery, $groupBy, $column, $aggregate);
@@ -203,8 +204,8 @@ trait CanBeOneOfMany
     /**
      * Add the join subquery to the given query on the given column and the relationship's foreign key.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $parent
-     * @param  \Illuminate\Database\Eloquent\Builder  $subQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $subQuery
      * @param  string  $on
      * @return void
      */
@@ -214,7 +215,7 @@ trait CanBeOneOfMany
             $subQuery->applyBeforeQueryCallbacks();
 
             $parent->joinSub($subQuery, $this->relationName, function ($join) use ($on) {
-                $join->on($this->qualifySubSelectColumn($on.'_aggregate'), '=', $this->qualifyRelatedColumn($on));
+                $join->on($this->qualifySubSelectColumn($on . '_aggregate'), '=', $this->qualifyRelatedColumn($on));
 
                 $this->addOneOfManyJoinSubQueryConstraints($join, $on);
             });
@@ -224,7 +225,7 @@ trait CanBeOneOfMany
     /**
      * Merge the relationship query joins to the given query builder.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
      * @return void
      */
     protected function mergeOneOfManyJoinsTo(Builder $query)
@@ -237,7 +238,7 @@ trait CanBeOneOfMany
     /**
      * Get the query builder that will contain the relationship constraints.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     protected function getRelationQuery()
     {
@@ -249,7 +250,7 @@ trait CanBeOneOfMany
     /**
      * Get the one of many inner join subselect builder instance.
      *
-     * @return \Illuminate\Database\Eloquent\Builder|void
+     * @return \AwesomeCoder\Database\Eloquent\Builder|void
      */
     public function getOneOfManySubQuery()
     {
@@ -264,7 +265,7 @@ trait CanBeOneOfMany
      */
     public function qualifySubSelectColumn($column)
     {
-        return $this->getRelationName().'.'.last(explode('.', $column));
+        return $this->getRelationName() . '.' . last(explode('.', $column));
     }
 
     /**
@@ -275,7 +276,7 @@ trait CanBeOneOfMany
      */
     protected function qualifyRelatedColumn($column)
     {
-        return str_contains($column, '.') ? $column : $this->query->getModel()->getTable().'.'.$column;
+        return str_contains($column, '.') ? $column : $this->query->getModel()->getTable() . '.' . $column;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Support;
+namespace AwesomeCoder\Contracts\Support;
 
 use Countable;
 
@@ -25,7 +25,7 @@ interface MessageBag extends Arrayable, Countable
     /**
      * Merge a new array of messages into the bag.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider|array  $messages
+     * @param  \AwesomeCoder\Contracts\Support\MessageProvider|array  $messages
      * @return $this
      */
     public function merge($messages);

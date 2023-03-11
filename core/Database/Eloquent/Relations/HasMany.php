@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Collection;
 
 class HasMany extends HasOneOrMany
 {
@@ -13,9 +13,9 @@ class HasMany extends HasOneOrMany
      */
     public function getResults()
     {
-        return ! is_null($this->getParentKey())
-                ? $this->query->get()
-                : $this->related->newCollection();
+        return !is_null($this->getParentKey())
+            ? $this->query->get()
+            : $this->related->newCollection();
     }
 
     /**
@@ -38,7 +38,7 @@ class HasMany extends HasOneOrMany
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */

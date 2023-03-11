@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace AwesomeCoder\Database\Events;
 
 class ConnectionEstablished extends ConnectionEvent
 {

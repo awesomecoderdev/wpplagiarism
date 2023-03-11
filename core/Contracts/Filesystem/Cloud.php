@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Filesystem;
+namespace AwesomeCoder\Contracts\Filesystem;
 
 interface Cloud extends Filesystem
 {

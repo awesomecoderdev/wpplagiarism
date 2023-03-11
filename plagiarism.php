@@ -32,6 +32,7 @@
  *
  */
 
+use AwesomeCoder\Support\Facades\Cache;
 
 // If this file is called directly, abort.
 !defined('WPINC') ? die : include("plugin.php");
@@ -68,5 +69,11 @@ register_deactivation_hook(__FILE__, [AwesomeCoder\Plugin\Plagiarism\Core\Plugin
  * @package    Awesomecoder
  * @subpackage Awesomecoder/controller
  */
-$plugin = new AwesomeCoder\Plugin\Plagiarism\Core\Plugin();
-$plugin->core();
+new AwesomeCoder\Plugin\Plagiarism\Core\Plugin();
+
+
+// $value = Cache::remember('users', 20, function () {
+//     return rand(0, 9);
+// });
+
+// dd($value);

@@ -1,21 +1,21 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Database\PDO\PostgresDriver;
-use Illuminate\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
-use Illuminate\Database\Query\Processors\PostgresProcessor;
-use Illuminate\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
-use Illuminate\Database\Schema\PostgresBuilder;
-use Illuminate\Database\Schema\PostgresSchemaState;
-use Illuminate\Filesystem\Filesystem;
+use AwesomeCoder\Database\PDO\PostgresDriver;
+use AwesomeCoder\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
+use AwesomeCoder\Database\Query\Processors\PostgresProcessor;
+use AwesomeCoder\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
+use AwesomeCoder\Database\Schema\PostgresBuilder;
+use AwesomeCoder\Database\Schema\PostgresSchemaState;
+use AwesomeCoder\Filesystem\Filesystem;
 
 class PostgresConnection extends Connection
 {
     /**
      * Get the default query grammar instance.
      *
-     * @return \Illuminate\Database\Query\Grammars\PostgresGrammar
+     * @return \AwesomeCoder\Database\Query\Grammars\PostgresGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -25,7 +25,7 @@ class PostgresConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return \Illuminate\Database\Schema\PostgresBuilder
+     * @return \AwesomeCoder\Database\Schema\PostgresBuilder
      */
     public function getSchemaBuilder()
     {
@@ -39,7 +39,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return \Illuminate\Database\Schema\Grammars\PostgresGrammar
+     * @return \AwesomeCoder\Database\Schema\Grammars\PostgresGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -49,9 +49,9 @@ class PostgresConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param  \Illuminate\Filesystem\Filesystem|null  $files
+     * @param  \AwesomeCoder\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
-     * @return \Illuminate\Database\Schema\PostgresSchemaState
+     * @return \AwesomeCoder\Database\Schema\PostgresSchemaState
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
@@ -61,7 +61,7 @@ class PostgresConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return \Illuminate\Database\Query\Processors\PostgresProcessor
+     * @return \AwesomeCoder\Database\Query\Processors\PostgresProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -71,7 +71,7 @@ class PostgresConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\PostgresDriver
+     * @return \AwesomeCoder\Database\PDO\PostgresDriver
      */
     protected function getDoctrineDriver()
     {

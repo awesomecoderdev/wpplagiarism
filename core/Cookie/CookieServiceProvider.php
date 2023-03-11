@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Cookie;
+namespace AwesomeCoder\Cookie;
 
-use Illuminate\Support\ServiceProvider;
+use AwesomeCoder\Support\ServiceProvider;
 
 class CookieServiceProvider extends ServiceProvider
 {
@@ -17,7 +17,10 @@ class CookieServiceProvider extends ServiceProvider
             $config = $app->make('config')->get('session');
 
             return (new CookieJar)->setDefaultPathAndDomain(
-                $config['path'], $config['domain'], $config['secure'], $config['same_site'] ?? null
+                $config['path'],
+                $config['domain'],
+                $config['secure'],
+                $config['same_site'] ?? null
             );
         });
     }

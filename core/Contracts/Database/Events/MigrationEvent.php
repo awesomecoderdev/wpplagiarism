@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Database\Events;
+namespace AwesomeCoder\Contracts\Database\Events;
 
 interface MigrationEvent
 {

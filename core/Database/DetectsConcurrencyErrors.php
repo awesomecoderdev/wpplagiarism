@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Support\Str;
+use AwesomeCoder\Support\Str;
 use PDOException;
 use Throwable;
 

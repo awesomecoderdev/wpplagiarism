@@ -1,14 +1,14 @@
 <?php
 
-namespace Illuminate\Session\Middleware;
+namespace AwesomeCoder\Session\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
-use Illuminate\Session\SessionManager;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Date;
+use AwesomeCoder\Contracts\Session\Session;
+use AwesomeCoder\Http\Request;
+use AwesomeCoder\Routing\Route;
+use AwesomeCoder\Session\SessionManager;
+use AwesomeCoder\Support\Carbon;
+use AwesomeCoder\Support\Facades\Date;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +17,7 @@ class StartSession
     /**
      * The session manager.
      *
-     * @var \Illuminate\Session\SessionManager
+     * @var \AwesomeCoder\Session\SessionManager
      */
     protected $manager;
 
@@ -31,7 +31,7 @@ class StartSession
     /**
      * Create a new session middleware.
      *
-     * @param  \Illuminate\Session\SessionManager  $manager
+     * @param  \AwesomeCoder\Session\SessionManager  $manager
      * @param  callable|null  $cacheFactoryResolver
      * @return void
      */
@@ -44,20 +44,22 @@ class StartSession
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \AwesomeCoder\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (! $this->sessionConfigured()) {
+        if (!$this->sessionConfigured()) {
             return $next($request);
         }
 
         $session = $this->getSession($request);
 
-        if ($this->manager->shouldBlock() ||
-            ($request->route() instanceof Route && $request->route()->locksFor())) {
+        if (
+            $this->manager->shouldBlock() ||
+            ($request->route() instanceof Route && $request->route()->locksFor())
+        ) {
             return $this->handleRequestWhileBlocking($request, $session, $next);
         }
 
@@ -67,30 +69,30 @@ class StartSession
     /**
      * Handle the given request within session state.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \AwesomeCoder\Contracts\Session\Session  $session
      * @param  \Closure  $next
      * @return mixed
      */
     protected function handleRequestWhileBlocking(Request $request, $session, Closure $next)
     {
-        if (! $request->route() instanceof Route) {
+        if (!$request->route() instanceof Route) {
             return;
         }
 
         $lockFor = $request->route() && $request->route()->locksFor()
-                        ? $request->route()->locksFor()
-                        : 10;
+            ? $request->route()->locksFor()
+            : 10;
 
         $lock = $this->cache($this->manager->blockDriver())
-                    ->lock('session:'.$session->getId(), $lockFor)
-                    ->betweenBlockedAttemptsSleepFor(50);
+            ->lock('session:' . $session->getId(), $lockFor)
+            ->betweenBlockedAttemptsSleepFor(50);
 
         try {
             $lock->block(
-                ! is_null($request->route()->waitsFor())
-                        ? $request->route()->waitsFor()
-                        : 10
+                !is_null($request->route()->waitsFor())
+                    ? $request->route()->waitsFor()
+                    : 10
             );
 
             return $this->handleStatefulRequest($request, $session, $next);
@@ -102,8 +104,8 @@ class StartSession
     /**
      * Handle the given request within session state.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \AwesomeCoder\Contracts\Session\Session  $session
      * @param  \Closure  $next
      * @return mixed
      */
@@ -135,9 +137,9 @@ class StartSession
     /**
      * Start the session for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @return \Illuminate\Contracts\Session\Session
+     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \AwesomeCoder\Contracts\Session\Session  $session
+     * @return \AwesomeCoder\Contracts\Session\Session
      */
     protected function startSession(Request $request, $session)
     {
@@ -151,8 +153,8 @@ class StartSession
     /**
      * Get the session implementation from the manager.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Session\Session
+     * @param  \AwesomeCoder\Http\Request  $request
+     * @return \AwesomeCoder\Contracts\Session\Session
      */
     public function getSession(Request $request)
     {
@@ -164,7 +166,7 @@ class StartSession
     /**
      * Remove the garbage from the session if necessary.
      *
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \AwesomeCoder\Contracts\Session\Session  $session
      * @return void
      */
     protected function collectGarbage(Session $session)
@@ -193,17 +195,19 @@ class StartSession
     /**
      * Store the current URL for the request if necessary.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \AwesomeCoder\Http\Request  $request
+     * @param  \AwesomeCoder\Contracts\Session\Session  $session
      * @return void
      */
     protected function storeCurrentUrl(Request $request, $session)
     {
-        if ($request->isMethod('GET') &&
+        if (
+            $request->isMethod('GET') &&
             $request->route() instanceof Route &&
-            ! $request->ajax() &&
-            ! $request->prefetch() &&
-            ! $request->isPrecognitive()) {
+            !$request->ajax() &&
+            !$request->prefetch() &&
+            !$request->isPrecognitive()
+        ) {
             $session->setPreviousUrl($request->fullUrl());
         }
     }
@@ -212,16 +216,22 @@ class StartSession
      * Add the session cookie to the application response.
      *
      * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \AwesomeCoder\Contracts\Session\Session  $session
      * @return void
      */
     protected function addCookieToResponse(Response $response, Session $session)
     {
         if ($this->sessionIsPersistent($config = $this->manager->getSessionConfig())) {
             $response->headers->setCookie(new Cookie(
-                $session->getName(), $session->getId(), $this->getCookieExpirationDate(),
-                $config['path'], $config['domain'], $config['secure'] ?? false,
-                $config['http_only'] ?? true, false, $config['same_site'] ?? null
+                $session->getName(),
+                $session->getId(),
+                $this->getCookieExpirationDate(),
+                $config['path'],
+                $config['domain'],
+                $config['secure'] ?? false,
+                $config['http_only'] ?? true,
+                false,
+                $config['same_site'] ?? null
             ));
         }
     }
@@ -229,12 +239,12 @@ class StartSession
     /**
      * Save the session data to storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \AwesomeCoder\Http\Request  $request
      * @return void
      */
     protected function saveSession($request)
     {
-        if (! $request->isPrecognitive()) {
+        if (!$request->isPrecognitive()) {
             $this->manager->driver()->save();
         }
     }
@@ -270,7 +280,7 @@ class StartSession
      */
     protected function sessionConfigured()
     {
-        return ! is_null($this->manager->getSessionConfig()['driver'] ?? null);
+        return !is_null($this->manager->getSessionConfig()['driver'] ?? null);
     }
 
     /**
@@ -283,14 +293,14 @@ class StartSession
     {
         $config = $config ?: $this->manager->getSessionConfig();
 
-        return ! is_null($config['driver'] ?? null);
+        return !is_null($config['driver'] ?? null);
     }
 
     /**
      * Resolve the given cache driver.
      *
      * @param  string  $driver
-     * @return \Illuminate\Cache\Store
+     * @return \AwesomeCoder\Cache\Store
      */
     protected function cache($driver)
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Contracts\Cache\LockProvider;
+use AwesomeCoder\Contracts\Cache\LockProvider;
 
 class NullStore extends TaggableStore implements LockProvider
 {
@@ -74,7 +74,7 @@ class NullStore extends TaggableStore implements LockProvider
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null)
     {
@@ -86,7 +86,7 @@ class NullStore extends TaggableStore implements LockProvider
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner)
     {

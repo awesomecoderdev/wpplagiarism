@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\Wp;
+namespace AwesomeCoder\Plugin\Wp;
 
 /**
  * Represents a page that is shown in the WordPress Admin.

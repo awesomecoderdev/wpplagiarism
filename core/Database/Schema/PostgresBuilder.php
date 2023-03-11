@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Database\Concerns\ParsesSearchPath;
+use AwesomeCoder\Database\Concerns\ParsesSearchPath;
 
 class PostgresBuilder extends Builder
 {
@@ -46,10 +46,11 @@ class PostgresBuilder extends Builder
     {
         [$database, $schema, $table] = $this->parseSchemaAndTable($table);
 
-        $table = $this->connection->getTablePrefix().$table;
+        $table = $this->connection->getTablePrefix() . $table;
 
         return count($this->connection->selectFromWriteConnection(
-            $this->grammar->compileTableExists(), [$database, $schema, $table]
+            $this->grammar->compileTableExists(),
+            [$database, $schema, $table]
         )) > 0;
     }
 
@@ -185,10 +186,11 @@ class PostgresBuilder extends Builder
     {
         [$database, $schema, $table] = $this->parseSchemaAndTable($table);
 
-        $table = $this->connection->getTablePrefix().$table;
+        $table = $this->connection->getTablePrefix() . $table;
 
         $results = $this->connection->selectFromWriteConnection(
-            $this->grammar->compileColumnListing(), [$database, $schema, $table]
+            $this->grammar->compileColumnListing(),
+            [$database, $schema, $table]
         );
 
         return $this->connection->getPostProcessor()->processColumnListing($results);

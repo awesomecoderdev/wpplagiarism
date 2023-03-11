@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cache\RateLimiting;
+namespace AwesomeCoder\Cache\RateLimiting;
 
 class Unlimited extends GlobalLimit
 {

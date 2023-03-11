@@ -1,17 +1,17 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use ArrayAccess;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
+use AwesomeCoder\Contracts\Support\Arrayable;
+use AwesomeCoder\Contracts\Support\Jsonable;
 use JsonSerializable;
 
 /**
  * @template TKey of array-key
  * @template TValue
  *
- * @implements \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
+ * @implements \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>
  * @implements \ArrayAccess<TKey, TValue>
  */
 class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable

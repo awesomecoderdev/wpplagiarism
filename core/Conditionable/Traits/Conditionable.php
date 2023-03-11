@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace AwesomeCoder\Support\Traits;
 
 use Closure;
-use Illuminate\Support\HigherOrderWhenProxy;
+use AwesomeCoder\Support\HigherOrderWhenProxy;
 
 trait Conditionable
 {

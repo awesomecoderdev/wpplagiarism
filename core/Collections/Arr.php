@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use ArgumentCountError;
 use ArrayAccess;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Support\Traits\Macroable;
 use InvalidArgumentException;
 
 class Arr
@@ -52,7 +52,7 @@ class Arr
         foreach ($array as $values) {
             if ($values instanceof Collection) {
                 $values = $values->all();
-            } elseif (! is_array($values)) {
+            } elseif (!is_array($values)) {
                 continue;
             }
 
@@ -112,10 +112,10 @@ class Arr
         $results = [];
 
         foreach ($array as $key => $value) {
-            if (is_array($value) && ! empty($value)) {
-                $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+            if (is_array($value) && !empty($value)) {
+                $results = array_merge($results, static::dot($value, $prepend . $key . '.'));
             } else {
-                $results[$prepend.$key] = $value;
+                $results[$prepend . $key] = $value;
             }
         }
 
@@ -237,7 +237,7 @@ class Arr
         foreach ($array as $item) {
             $item = $item instanceof Collection ? $item->all() : $item;
 
-            if (! is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } else {
                 $values = $depth === 1
@@ -307,7 +307,7 @@ class Arr
      */
     public static function get($array, $key, $default = null)
     {
-        if (! static::accessible($array)) {
+        if (!static::accessible($array)) {
             return value($default);
         }
 
@@ -319,7 +319,7 @@ class Arr
             return $array[$key];
         }
 
-        if (! str_contains($key, '.')) {
+        if (!str_contains($key, '.')) {
             return $array[$key] ?? value($default);
         }
 
@@ -345,7 +345,7 @@ class Arr
     {
         $keys = (array) $keys;
 
-        if (! $array || $keys === []) {
+        if (!$array || $keys === []) {
             return false;
         }
 
@@ -383,7 +383,7 @@ class Arr
 
         $keys = (array) $keys;
 
-        if (! $array) {
+        if (!$array) {
             return false;
         }
 
@@ -425,7 +425,7 @@ class Arr
      */
     public static function isList($array)
     {
-        return ! self::isAssoc($array);
+        return !self::isAssoc($array);
     }
 
     /**
@@ -452,7 +452,7 @@ class Arr
 
         $finalItem = array_pop($array);
 
-        return implode($glue, $array).$finalGlue.$finalItem;
+        return implode($glue, $array) . $finalGlue . $finalItem;
     }
 
     /**
@@ -477,7 +477,7 @@ class Arr
     public static function prependKeysWith($array, $prependWith)
     {
         return Collection::make($array)->mapWithKeys(function ($item, $key) use ($prependWith) {
-            return [$prependWith.$key => $item];
+            return [$prependWith . $key => $item];
         })->all();
     }
 
@@ -687,7 +687,7 @@ class Arr
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
-            if (! isset($array[$key]) || ! is_array($array[$key])) {
+            if (!isset($array[$key]) || !is_array($array[$key])) {
                 $array[$key] = [];
             }
 
@@ -761,12 +761,12 @@ class Arr
 
         if (static::isAssoc($array)) {
             $descending
-                    ? krsort($array, $options)
-                    : ksort($array, $options);
+                ? krsort($array, $options)
+                : ksort($array, $options);
         } else {
             $descending
-                    ? rsort($array, $options)
-                    : sort($array, $options);
+                ? rsort($array, $options)
+                : sort($array, $options);
         }
 
         return $array;
@@ -838,7 +838,7 @@ class Arr
      */
     public static function whereNotNull($array)
     {
-        return static::where($array, fn ($value) => ! is_null($value));
+        return static::where($array, fn ($value) => !is_null($value));
     }
 
     /**

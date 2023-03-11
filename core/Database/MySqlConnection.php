@@ -1,14 +1,14 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Database\PDO\MySqlDriver;
-use Illuminate\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
-use Illuminate\Database\Query\Processors\MySqlProcessor;
-use Illuminate\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
-use Illuminate\Database\Schema\MySqlBuilder;
-use Illuminate\Database\Schema\MySqlSchemaState;
-use Illuminate\Filesystem\Filesystem;
+use AwesomeCoder\Database\PDO\MySqlDriver;
+use AwesomeCoder\Database\Query\Grammars\MySqlGrammar as QueryGrammar;
+use AwesomeCoder\Database\Query\Processors\MySqlProcessor;
+use AwesomeCoder\Database\Schema\Grammars\MySqlGrammar as SchemaGrammar;
+use AwesomeCoder\Database\Schema\MySqlBuilder;
+use AwesomeCoder\Database\Schema\MySqlSchemaState;
+use AwesomeCoder\Filesystem\Filesystem;
 use PDO;
 
 class MySqlConnection extends Connection
@@ -26,7 +26,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default query grammar instance.
      *
-     * @return \Illuminate\Database\Query\Grammars\MySqlGrammar
+     * @return \AwesomeCoder\Database\Query\Grammars\MySqlGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -36,7 +36,7 @@ class MySqlConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return \Illuminate\Database\Schema\MySqlBuilder
+     * @return \AwesomeCoder\Database\Schema\MySqlBuilder
      */
     public function getSchemaBuilder()
     {
@@ -50,7 +50,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return \Illuminate\Database\Schema\Grammars\MySqlGrammar
+     * @return \AwesomeCoder\Database\Schema\Grammars\MySqlGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -60,9 +60,9 @@ class MySqlConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param  \Illuminate\Filesystem\Filesystem|null  $files
+     * @param  \AwesomeCoder\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
-     * @return \Illuminate\Database\Schema\MySqlSchemaState
+     * @return \AwesomeCoder\Database\Schema\MySqlSchemaState
      */
     public function getSchemaState(Filesystem $files = null, callable $processFactory = null)
     {
@@ -72,7 +72,7 @@ class MySqlConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return \Illuminate\Database\Query\Processors\MySqlProcessor
+     * @return \AwesomeCoder\Database\Query\Processors\MySqlProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -82,7 +82,7 @@ class MySqlConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\MySqlDriver
+     * @return \AwesomeCoder\Database\PDO\MySqlDriver
      */
     protected function getDoctrineDriver()
     {

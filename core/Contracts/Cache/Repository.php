@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Cache;
+namespace AwesomeCoder\Contracts\Cache;
 
 use Closure;
 use Psr\SimpleCache\CacheInterface;
@@ -110,7 +110,7 @@ interface Repository extends CacheInterface
     /**
      * Get the cache store implementation.
      *
-     * @return \Illuminate\Contracts\Cache\Store
+     * @return \AwesomeCoder\Contracts\Cache\Store
      */
     public function getStore();
 }

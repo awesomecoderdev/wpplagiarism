@@ -1,14 +1,14 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Connection;
-use Illuminate\Database\MySqlConnection;
-use Illuminate\Database\PostgresConnection;
-use Illuminate\Database\SQLiteConnection;
-use Illuminate\Database\SqlServerConnection;
-use Illuminate\Support\Arr;
+use AwesomeCoder\Contracts\Container\Container;
+use AwesomeCoder\Database\Connection;
+use AwesomeCoder\Database\MySqlConnection;
+use AwesomeCoder\Database\PostgresConnection;
+use AwesomeCoder\Database\SQLiteConnection;
+use AwesomeCoder\Database\SqlServerConnection;
+use AwesomeCoder\Support\Arr;
 use InvalidArgumentException;
 use PDOException;
 
@@ -17,14 +17,14 @@ class ConnectionFactory
     /**
      * The IoC container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var \AwesomeCoder\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * Create a new connection factory instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -37,7 +37,7 @@ class ConnectionFactory
      *
      * @param  array  $config
      * @param  string|null  $name
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     public function make(array $config, $name = null)
     {
@@ -66,14 +66,18 @@ class ConnectionFactory
      * Create a single database connection instance.
      *
      * @param  array  $config
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     protected function createSingleConnection(array $config)
     {
         $pdo = $this->createPdoResolver($config);
 
         return $this->createConnection(
-            $config['driver'], $pdo, $config['database'], $config['prefix'], $config
+            $config['driver'],
+            $pdo,
+            $config['database'],
+            $config['prefix'],
+            $config
         );
     }
 
@@ -81,7 +85,7 @@ class ConnectionFactory
      * Create a read / write database connection instance.
      *
      * @param  array  $config
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     protected function createReadWriteConnection(array $config)
     {
@@ -110,7 +114,8 @@ class ConnectionFactory
     protected function getReadConfig(array $config)
     {
         return $this->mergeReadWriteConfig(
-            $config, $this->getReadWriteConfig($config, 'read')
+            $config,
+            $this->getReadWriteConfig($config, 'read')
         );
     }
 
@@ -123,7 +128,8 @@ class ConnectionFactory
     protected function getWriteConfig(array $config)
     {
         return $this->mergeReadWriteConfig(
-            $config, $this->getReadWriteConfig($config, 'write')
+            $config,
+            $this->getReadWriteConfig($config, 'write')
         );
     }
 
@@ -137,8 +143,8 @@ class ConnectionFactory
     protected function getReadWriteConfig(array $config, $type)
     {
         return isset($config[$type][0])
-                        ? Arr::random($config[$type])
-                        : $config[$type];
+            ? Arr::random($config[$type])
+            : $config[$type];
     }
 
     /**
@@ -162,8 +168,8 @@ class ConnectionFactory
     protected function createPdoResolver(array $config)
     {
         return array_key_exists('host', $config)
-                            ? $this->createPdoResolverWithHosts($config)
-                            : $this->createPdoResolverWithoutHosts($config);
+            ? $this->createPdoResolverWithHosts($config)
+            : $this->createPdoResolverWithoutHosts($config);
     }
 
     /**
@@ -225,13 +231,13 @@ class ConnectionFactory
      * Create a connector instance based on the configuration.
      *
      * @param  array  $config
-     * @return \Illuminate\Database\Connectors\ConnectorInterface
+     * @return \AwesomeCoder\Database\Connectors\ConnectorInterface
      *
      * @throws \InvalidArgumentException
      */
     public function createConnector(array $config)
     {
-        if (! isset($config['driver'])) {
+        if (!isset($config['driver'])) {
             throw new InvalidArgumentException('A driver must be specified.');
         }
 
@@ -256,7 +262,7 @@ class ConnectionFactory
      * @param  string  $database
      * @param  string  $prefix
      * @param  array  $config
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      *
      * @throws \InvalidArgumentException
      */

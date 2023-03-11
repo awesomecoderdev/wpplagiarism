@@ -1,29 +1,29 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Relations\Concerns;
 
-use Illuminate\Contracts\Database\Eloquent\SupportsPartialRelations;
-use Illuminate\Database\Eloquent\Model;
+use AwesomeCoder\Contracts\Database\Eloquent\SupportsPartialRelations;
+use AwesomeCoder\Database\Eloquent\Model;
 
 trait ComparesRelatedModels
 {
     /**
      * Determine if the model is the related instance of the relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|null  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model|null  $model
      * @return bool
      */
     public function is($model)
     {
-        $match = ! is_null($model) &&
-               $this->compareKeys($this->getParentKey(), $this->getRelatedKeyFrom($model)) &&
-               $this->related->getTable() === $model->getTable() &&
-               $this->related->getConnectionName() === $model->getConnectionName();
+        $match = !is_null($model) &&
+            $this->compareKeys($this->getParentKey(), $this->getRelatedKeyFrom($model)) &&
+            $this->related->getTable() === $model->getTable() &&
+            $this->related->getConnectionName() === $model->getConnectionName();
 
         if ($match && $this instanceof SupportsPartialRelations && $this->isOneOfMany()) {
             return $this->query
-                        ->whereKey($model->getKey())
-                        ->exists();
+                ->whereKey($model->getKey())
+                ->exists();
         }
 
         return $match;
@@ -32,12 +32,12 @@ trait ComparesRelatedModels
     /**
      * Determine if the model is not the related instance of the relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|null  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model|null  $model
      * @return bool
      */
     public function isNot($model)
     {
-        return ! $this->is($model);
+        return !$this->is($model);
     }
 
     /**
@@ -50,7 +50,7 @@ trait ComparesRelatedModels
     /**
      * Get the value of the model's related key.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @return mixed
      */
     abstract protected function getRelatedKeyFrom(Model $model);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace AwesomeCoder\Support\Traits;
 
 use BadMethodCallException;
 use Closure;
@@ -44,7 +44,7 @@ trait Macroable
         );
 
         foreach ($methods as $method) {
-            if ($replace || ! static::hasMacro($method->name)) {
+            if ($replace || !static::hasMacro($method->name)) {
                 $method->setAccessible(true);
                 static::macro($method->name, $method->invoke($mixin));
             }
@@ -83,9 +83,11 @@ trait Macroable
      */
     public static function __callStatic($method, $parameters)
     {
-        if (! static::hasMacro($method)) {
+        if (!static::hasMacro($method)) {
             throw new BadMethodCallException(sprintf(
-                'Method %s::%s does not exist.', static::class, $method
+                'Method %s::%s does not exist.',
+                static::class,
+                $method
             ));
         }
 
@@ -109,9 +111,11 @@ trait Macroable
      */
     public function __call($method, $parameters)
     {
-        if (! static::hasMacro($method)) {
+        if (!static::hasMacro($method)) {
             throw new BadMethodCallException(sprintf(
-                'Method %s::%s does not exist.', static::class, $method
+                'Method %s::%s does not exist.',
+                static::class,
+                $method
             ));
         }
 

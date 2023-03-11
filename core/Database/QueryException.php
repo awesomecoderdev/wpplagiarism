@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Support\Str;
+use AwesomeCoder\Support\Str;
 use PDOException;
 use Throwable;
 
@@ -54,7 +54,7 @@ class QueryException extends PDOException
      */
     protected function formatMessage($sql, $bindings, Throwable $previous)
     {
-        return $previous->getMessage().' (SQL: '.Str::replaceArray('?', $bindings, $sql).')';
+        return $previous->getMessage() . ' (SQL: ' . Str::replaceArray('?', $bindings, $sql) . ')';
     }
 
     /**

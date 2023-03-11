@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\Wp;
+namespace AwesomeCoder\Plugin\Wp;
 
-use AwesomeCoder\Plagiarism\Utils\Arrays;
-use AwesomeCoder\Plagiarism\Utils\Functions;
+use AwesomeCoder\Plugin\Utils\Arrays;
+use AwesomeCoder\Plugin\Utils\Functions;
 
 class NoticesManager
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Factories;
+namespace AwesomeCoder\Database\Eloquent\Factories;
 
-use Illuminate\Support\Arr;
+use AwesomeCoder\Support\Arr;
 
 class CrossJoinSequence extends Sequence
 {

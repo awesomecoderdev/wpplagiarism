@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Validation;
+namespace AwesomeCoder\Contracts\Validation;
 
 interface ValidatesWhenResolved
 {

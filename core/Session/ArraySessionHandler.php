@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Session;
+namespace AwesomeCoder\Session;
 
-use Illuminate\Support\InteractsWithTime;
+use AwesomeCoder\Support\InteractsWithTime;
 use SessionHandlerInterface;
 
 class ArraySessionHandler implements SessionHandlerInterface
@@ -61,7 +61,7 @@ class ArraySessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string|false
     {
-        if (! isset($this->storage[$sessionId])) {
+        if (!isset($this->storage[$sessionId])) {
             return '';
         }
 

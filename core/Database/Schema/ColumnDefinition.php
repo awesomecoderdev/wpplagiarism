@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Support\Fluent;
+use AwesomeCoder\Support\Fluent;
 
 /**
  * @method $this after(string $column) Place the column "after" another column (MySQL)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Concerns;
+namespace AwesomeCoder\Database\Concerns;
 
 trait ParsesSearchPath
 {

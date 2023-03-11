@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\RestApi;
+namespace AwesomeCoder\Plugin\RestApi;
 
 /**
  * A simple implementation of a REST API endpoint.

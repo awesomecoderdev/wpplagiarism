@@ -1,22 +1,22 @@
 <?php
 
-namespace Illuminate\Filesystem;
+namespace AwesomeCoder\Filesystem;
 
 use Closure;
-use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
-use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Conditionable;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Contracts\Filesystem\Cloud as CloudFilesystemContract;
+use AwesomeCoder\Contracts\Filesystem\Filesystem as FilesystemContract;
+use AwesomeCoder\Http\File;
+use AwesomeCoder\Http\UploadedFile;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Str;
+use AwesomeCoder\Support\Traits\Conditionable;
+use AwesomeCoder\Support\Traits\Macroable;
 use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
 /**
- * @mixin Illuminate\Filesystem\FilesystemOperator
+ * @mixin AwesomeCoder\Filesystem\FilesystemOperator
 
  */
 class FilesystemAdapter implements CloudFilesystemContract
@@ -29,7 +29,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * The Flysystem filesystem implementation.
      *
-     * @var Illuminate\Filesystem\FilesystemOperator
+     * @var AwesomeCoder\Filesystem\FilesystemOperator
 
      */
     protected $driver;
@@ -37,7 +37,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * The Flysystem adapter implementation.
      *
-     * @var \Illuminate\Flysystem\FilesystemAdapter
+     * @var \AwesomeCoder\Flysystem\FilesystemAdapter
      */
     protected $adapter;
 
@@ -58,8 +58,8 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Create a new filesystem adapter instance.
      *
-     * @param  Illuminate\Filesystem\FilesystemOperator $driver
-     * @param  \Illuminate\Flysystem\FilesystemAdapter  $adapter
+     * @param  AwesomeCoder\Filesystem\FilesystemOperator $driver
+     * @param  \AwesomeCoder\Flysystem\FilesystemAdapter  $adapter
      * @param  array  $config
      * @return void
      */
@@ -224,7 +224,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Write the contents of a file.
      *
      * @param  string  $path
-     * @param  \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource  $contents
+     * @param  \Psr\Http\Message\StreamInterface|\AwesomeCoder\Http\File|\AwesomeCoder\Http\UploadedFile|string|resource  $contents
      * @param  mixed  $options
      * @return string|bool
      */
@@ -267,7 +267,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Store the uploaded file on the disk.
      *
      * @param  string  $path
-     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $file
+     * @param  \AwesomeCoder\Http\File|\AwesomeCoder\Http\UploadedFile|string  $file
      * @param  mixed  $options
      * @return string|false
      */
@@ -282,7 +282,7 @@ class FilesystemAdapter implements CloudFilesystemContract
      * Store the uploaded file on the disk with a given name.
      *
      * @param  string  $path
-     * @param  \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string  $file
+     * @param  \AwesomeCoder\Http\File|\AwesomeCoder\Http\UploadedFile|string  $file
      * @param  string  $name
      * @param  mixed  $options
      * @return string|false
@@ -782,7 +782,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Get the Flysystem driver.
      *
-     * @return Illuminate\Filesystem\FilesystemOperator
+     * @return AwesomeCoder\Filesystem\FilesystemOperator
 
      */
     public function getDriver()
@@ -793,7 +793,7 @@ class FilesystemAdapter implements CloudFilesystemContract
     /**
      * Get the Flysystem adapter.
      *
-     * @return \Illuminate\Flysystem\FilesystemAdapter
+     * @return \AwesomeCoder\Flysystem\FilesystemAdapter
      */
     public function getAdapter()
     {

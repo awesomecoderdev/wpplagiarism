@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Contracts\Cache\Store;
+use AwesomeCoder\Contracts\Cache\Store;
 
 class TaggedCache extends Repository
 {
@@ -13,15 +13,15 @@ class TaggedCache extends Repository
     /**
      * The tag set instance.
      *
-     * @var \Illuminate\Cache\TagSet
+     * @var \AwesomeCoder\Cache\TagSet
      */
     protected $tags;
 
     /**
      * Create a new tagged cache instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
-     * @param  \Illuminate\Cache\TagSet  $tags
+     * @param  \AwesomeCoder\Contracts\Cache\Store  $store
+     * @param  \AwesomeCoder\Cache\TagSet  $tags
      * @return void
      */
     public function __construct(Store $store, TagSet $tags)
@@ -99,13 +99,13 @@ class TaggedCache extends Repository
      */
     public function taggedItemKey($key)
     {
-        return sha1($this->tags->getNamespace()).':'.$key;
+        return sha1($this->tags->getNamespace()) . ':' . $key;
     }
 
     /**
      * Fire an event for this cache instance.
      *
-     * @param  \Illuminate\Cache\Events\CacheEvent  $event
+     * @param  \AwesomeCoder\Cache\Events\CacheEvent  $event
      * @return void
      */
     protected function event($event)
@@ -116,7 +116,7 @@ class TaggedCache extends Repository
     /**
      * Get the tag set instance.
      *
-     * @return \Illuminate\Cache\TagSet
+     * @return \AwesomeCoder\Cache\TagSet
      */
     public function getTags()
     {

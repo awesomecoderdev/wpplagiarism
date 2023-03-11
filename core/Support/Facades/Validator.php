@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace AwesomeCoder\Support\Facades;
 
 /**
- * @method static \Illuminate\Validation\Validator make(array $data, array $rules, array $messages = [], array $customAttributes = [])
+ * @method static \AwesomeCoder\Validation\Validator make(array $data, array $rules, array $messages = [], array $customAttributes = [])
  * @method static array validate(array $data, array $rules, array $messages = [], array $customAttributes = [])
  * @method static void extend(string $rule, \Closure|string $extension, string|null $message = null)
  * @method static void extendImplicit(string $rule, \Closure|string $extension, string|null $message = null)
@@ -12,13 +12,13 @@ namespace Illuminate\Support\Facades;
  * @method static void includeUnvalidatedArrayKeys()
  * @method static void excludeUnvalidatedArrayKeys()
  * @method static void resolver(\Closure $resolver)
- * @method static \Illuminate\Contracts\Translation\Translator getTranslator()
- * @method static \Illuminate\Validation\PresenceVerifierInterface getPresenceVerifier()
- * @method static void setPresenceVerifier(\Illuminate\Validation\PresenceVerifierInterface $presenceVerifier)
- * @method static \Illuminate\Contracts\Container\Container|null getContainer()
- * @method static \Illuminate\Validation\Factory setContainer(\Illuminate\Contracts\Container\Container $container)
+ * @method static \AwesomeCoder\Contracts\Translation\Translator getTranslator()
+ * @method static \AwesomeCoder\Validation\PresenceVerifierInterface getPresenceVerifier()
+ * @method static void setPresenceVerifier(\AwesomeCoder\Validation\PresenceVerifierInterface $presenceVerifier)
+ * @method static \AwesomeCoder\Contracts\Container\Container|null getContainer()
+ * @method static \AwesomeCoder\Validation\Factory setContainer(\AwesomeCoder\Contracts\Container\Container $container)
  *
- * @see \Illuminate\Validation\Factory
+ * @see \AwesomeCoder\Validation\Factory
  */
 class Validator extends Facade
 {

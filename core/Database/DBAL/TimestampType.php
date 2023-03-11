@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\DBAL;
+namespace AwesomeCoder\Database\DBAL;
 
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -23,7 +23,7 @@ class TimestampType extends Type implements PhpDateTimeMappingType
             'mssql' => $this->getSqlServerPlatformSQLDeclaration($fieldDeclaration),
             'sqlite',
             'sqlite3' => $this->getSQLitePlatformSQLDeclaration($fieldDeclaration),
-            default => throw new DBALException('Invalid platform: '.$name),
+            default => throw new DBALException('Invalid platform: ' . $name),
         };
     }
 
@@ -38,13 +38,13 @@ class TimestampType extends Type implements PhpDateTimeMappingType
         $columnType = 'TIMESTAMP';
 
         if ($fieldDeclaration['precision']) {
-            $columnType = 'TIMESTAMP('.$fieldDeclaration['precision'].')';
+            $columnType = 'TIMESTAMP(' . $fieldDeclaration['precision'] . ')';
         }
 
         $notNull = $fieldDeclaration['notnull'] ?? false;
 
-        if (! $notNull) {
-            return $columnType.' NULL';
+        if (!$notNull) {
+            return $columnType . ' NULL';
         }
 
         return $columnType;
@@ -58,7 +58,7 @@ class TimestampType extends Type implements PhpDateTimeMappingType
      */
     protected function getPostgresPlatformSQLDeclaration(array $fieldDeclaration)
     {
-        return 'TIMESTAMP('.(int) $fieldDeclaration['precision'].')';
+        return 'TIMESTAMP(' . (int) $fieldDeclaration['precision'] . ')';
     }
 
     /**
@@ -70,8 +70,8 @@ class TimestampType extends Type implements PhpDateTimeMappingType
     protected function getSqlServerPlatformSQLDeclaration(array $fieldDeclaration)
     {
         return $fieldDeclaration['precision'] ?? false
-                    ? 'DATETIME2('.$fieldDeclaration['precision'].')'
-                    : 'DATETIME';
+            ? 'DATETIME2(' . $fieldDeclaration['precision'] . ')'
+            : 'DATETIME';
     }
 
     /**

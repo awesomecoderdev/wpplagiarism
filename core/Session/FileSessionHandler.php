@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Session;
+namespace AwesomeCoder\Session;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Carbon;
+use AwesomeCoder\Filesystem\Filesystem;
+use AwesomeCoder\Support\Carbon;
 use SessionHandlerInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -12,7 +12,7 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var \AwesomeCoder\Filesystem\Filesystem
      */
     protected $files;
 
@@ -33,7 +33,7 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * Create a new file driven handler instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \AwesomeCoder\Filesystem\Filesystem  $files
      * @param  string  $path
      * @param  int  $minutes
      * @return void
@@ -72,8 +72,10 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId): string|false
     {
-        if ($this->files->isFile($path = $this->path.'/'.$sessionId) &&
-            $this->files->lastModified($path) >= Carbon::now()->subMinutes($this->minutes)->getTimestamp()) {
+        if (
+            $this->files->isFile($path = $this->path . '/' . $sessionId) &&
+            $this->files->lastModified($path) >= Carbon::now()->subMinutes($this->minutes)->getTimestamp()
+        ) {
             return $this->files->sharedGet($path);
         }
 
@@ -87,7 +89,7 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function write($sessionId, $data): bool
     {
-        $this->files->put($this->path.'/'.$sessionId, $data, true);
+        $this->files->put($this->path . '/' . $sessionId, $data, true);
 
         return true;
     }
@@ -99,7 +101,7 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function destroy($sessionId): bool
     {
-        $this->files->delete($this->path.'/'.$sessionId);
+        $this->files->delete($this->path . '/' . $sessionId);
 
         return true;
     }
@@ -112,10 +114,10 @@ class FileSessionHandler implements SessionHandlerInterface
     public function gc($lifetime): int
     {
         $files = Finder::create()
-                    ->in($this->path)
-                    ->files()
-                    ->ignoreDotFiles(true)
-                    ->date('<= now - '.$lifetime.' seconds');
+            ->in($this->path)
+            ->files()
+            ->ignoreDotFiles(true)
+            ->date('<= now - ' . $lifetime . ' seconds');
 
         $deletedSessions = 0;
 

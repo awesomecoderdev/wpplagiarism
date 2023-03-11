@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Contracts\Cache\Lock as LockContract;
-use Illuminate\Contracts\Cache\LockTimeoutException;
-use Illuminate\Support\InteractsWithTime;
-use Illuminate\Support\Str;
+use AwesomeCoder\Contracts\Cache\Lock as LockContract;
+use AwesomeCoder\Contracts\Cache\LockTimeoutException;
+use AwesomeCoder\Support\InteractsWithTime;
+use AwesomeCoder\Support\Str;
 
 abstract class Lock implements LockContract
 {
@@ -107,13 +107,13 @@ abstract class Lock implements LockContract
      * @param  callable|null  $callback
      * @return mixed
      *
-     * @throws \Illuminate\Contracts\Cache\LockTimeoutException
+     * @throws \AwesomeCoder\Contracts\Cache\LockTimeoutException
      */
     public function block($seconds, $callback = null)
     {
         $starting = $this->currentTime();
 
-        while (! $this->acquire()) {
+        while (!$this->acquire()) {
             usleep($this->sleepMilliseconds * 1000);
 
             if ($this->currentTime() - $seconds >= $starting) {

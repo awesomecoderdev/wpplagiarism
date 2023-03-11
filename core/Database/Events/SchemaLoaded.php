@@ -1,13 +1,13 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace AwesomeCoder\Database\Events;
 
 class SchemaLoaded
 {
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var \AwesomeCoder\Database\Connection
      */
     public $connection;
 
@@ -28,7 +28,7 @@ class SchemaLoaded
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @param  string  $path
      * @return void
      */

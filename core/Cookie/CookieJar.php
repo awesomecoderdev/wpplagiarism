@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Cookie;
+namespace AwesomeCoder\Cookie;
 
-use Illuminate\Contracts\Cookie\QueueingFactory as JarContract;
-use Illuminate\Support\Arr;
-use Illuminate\Support\InteractsWithTime;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Contracts\Cookie\QueueingFactory as JarContract;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\InteractsWithTime;
+use AwesomeCoder\Support\Traits\Macroable;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class CookieJar implements JarContract

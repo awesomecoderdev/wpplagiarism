@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Support\ConfigurationUrlParser as BaseConfigurationUrlParser;
+use AwesomeCoder\Support\ConfigurationUrlParser as BaseConfigurationUrlParser;
 
 class ConfigurationUrlParser extends BaseConfigurationUrlParser
 {

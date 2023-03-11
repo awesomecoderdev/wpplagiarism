@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Http;
+namespace AwesomeCoder\Contracts\Http;
 
 interface Kernel
 {
@@ -31,7 +31,7 @@ interface Kernel
     /**
      * Get the Laravel application instance.
      *
-     * @return \Illuminate\Contracts\Foundation\Application
+     * @return \AwesomeCoder\Contracts\Foundation\Application
      */
     public function getApplication();
 }

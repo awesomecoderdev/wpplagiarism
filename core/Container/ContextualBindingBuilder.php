@@ -1,16 +1,16 @@
 <?php
 
-namespace Illuminate\Container;
+namespace AwesomeCoder\Container;
 
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Container\ContextualBindingBuilder as ContextualBindingBuilderContract;
+use AwesomeCoder\Contracts\Container\Container;
+use AwesomeCoder\Contracts\Container\ContextualBindingBuilder as ContextualBindingBuilderContract;
 
 class ContextualBindingBuilder implements ContextualBindingBuilderContract
 {
     /**
      * The underlying container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var \AwesomeCoder\Contracts\Container\Container
      */
     protected $container;
 
@@ -31,7 +31,7 @@ class ContextualBindingBuilder implements ContextualBindingBuilderContract
     /**
      * Create a new contextual binding builder.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container  $container
      * @param  string|array  $concrete
      * @return void
      */

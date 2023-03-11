@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth;
+namespace AwesomeCoder\Contracts\Auth;
 
 interface Guard
 {
@@ -21,7 +21,7 @@ interface Guard
     /**
      * Get the currently authenticated user.
      *
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return \AwesomeCoder\Contracts\Auth\Authenticatable|null
      */
     public function user();
 
@@ -50,7 +50,7 @@ interface Guard
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  \AwesomeCoder\Contracts\Auth\Authenticatable  $user
      * @return void
      */
     public function setUser(Authenticatable $user);

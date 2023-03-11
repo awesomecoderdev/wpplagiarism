@@ -1,13 +1,13 @@
 <?php
 
-namespace Illuminate\Contracts\Database\Eloquent;
+namespace AwesomeCoder\Contracts\Database\Eloquent;
 
 interface DeviatesCastableAttributes
 {
     /**
      * Increment the attribute.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
@@ -18,7 +18,7 @@ interface DeviatesCastableAttributes
     /**
      * Decrement the attribute.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes

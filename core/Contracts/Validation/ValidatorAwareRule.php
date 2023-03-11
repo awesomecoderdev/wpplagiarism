@@ -1,13 +1,13 @@
 <?php
 
-namespace Illuminate\Contracts\Validation;
+namespace AwesomeCoder\Contracts\Validation;
 
 interface ValidatorAwareRule
 {
     /**
      * Set the current validator.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  \AwesomeCoder\Validation\Validator  $validator
      * @return $this
      */
     public function setValidator($validator);

@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 /**
- * @method static \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder withoutTrashed()
+ * @method static \AwesomeCoder\Database\Eloquent\Builder|\AwesomeCoder\Database\Query\Builder withTrashed(bool $withTrashed = true)
+ * @method static \AwesomeCoder\Database\Eloquent\Builder|\AwesomeCoder\Database\Query\Builder onlyTrashed()
+ * @method static \AwesomeCoder\Database\Eloquent\Builder|\AwesomeCoder\Database\Query\Builder withoutTrashed()
  */
 trait SoftDeletes
 {
@@ -33,7 +33,7 @@ trait SoftDeletes
      */
     public function initializeSoftDeletes()
     {
-        if (! isset($this->casts[$this->getDeletedAtColumn()])) {
+        if (!isset($this->casts[$this->getDeletedAtColumn()])) {
             $this->casts[$this->getDeletedAtColumn()] = 'datetime';
         }
     }
@@ -101,7 +101,7 @@ trait SoftDeletes
 
         $this->{$this->getDeletedAtColumn()} = $time;
 
-        if ($this->usesTimestamps() && ! is_null($this->getUpdatedAtColumn())) {
+        if ($this->usesTimestamps() && !is_null($this->getUpdatedAtColumn())) {
             $this->{$this->getUpdatedAtColumn()} = $time;
 
             $columns[$this->getUpdatedAtColumn()] = $this->fromDateTime($time);
@@ -159,7 +159,7 @@ trait SoftDeletes
      */
     public function trashed()
     {
-        return ! is_null($this->{$this->getDeletedAtColumn()});
+        return !is_null($this->{$this->getDeletedAtColumn()});
     }
 
     /**
@@ -234,7 +234,7 @@ trait SoftDeletes
      */
     public function getDeletedAtColumn()
     {
-        return defined(static::class.'::DELETED_AT') ? static::DELETED_AT : 'deleted_at';
+        return defined(static::class . '::DELETED_AT') ? static::DELETED_AT : 'deleted_at';
     }
 
     /**

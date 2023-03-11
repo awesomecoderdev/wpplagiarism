@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth\Middleware;
+namespace AwesomeCoder\Contracts\Auth\Middleware;
 
 interface AuthenticatesRequests
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\Utils;
+namespace AwesomeCoder\Plugin\Utils;
 
 /**
  * Utility functions related to strings.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Migrations;
+namespace AwesomeCoder\Database\Migrations;
 
 interface MigrationRepositoryInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
 use Closure;
 
@@ -9,9 +9,9 @@ interface ConnectionInterface
     /**
      * Begin a fluent query against a database table.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $table
+     * @param  \Closure|\AwesomeCoder\Database\Query\Builder|string  $table
      * @param  string|null  $as
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     public function table($table, $as = null);
 
@@ -19,7 +19,7 @@ interface ConnectionInterface
      * Get a new raw query expression.
      *
      * @param  mixed  $value
-     * @return \Illuminate\Database\Query\Expression
+     * @return \AwesomeCoder\Database\Query\Expression
      */
     public function raw($value);
 

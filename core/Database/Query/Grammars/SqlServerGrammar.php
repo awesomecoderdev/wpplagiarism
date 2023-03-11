@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Query\Grammars;
+namespace AwesomeCoder\Database\Query\Grammars;
 
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\Query\Builder;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Str;
 
 class SqlServerGrammar extends Grammar
 {
@@ -22,12 +22,12 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile a select query into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return string
      */
     public function compileSelect(Builder $query)
     {
-        if (! $query->offset) {
+        if (!$query->offset) {
             return parent::compileSelect($query);
         }
 
@@ -37,28 +37,29 @@ class SqlServerGrammar extends Grammar
 
         $components = $this->compileComponents($query);
 
-        if (! empty($components['orders'])) {
-            return parent::compileSelect($query)." offset {$query->offset} rows fetch next {$query->limit} rows only";
+        if (!empty($components['orders'])) {
+            return parent::compileSelect($query) . " offset {$query->offset} rows fetch next {$query->limit} rows only";
         }
 
         // If an offset is present on the query, we will need to wrap the query in
         // a big "ANSI" offset syntax block. This is very nasty compared to the
         // other database systems but is necessary for implementing features.
         return $this->compileAnsiOffset(
-            $query, $components
+            $query,
+            $components
         );
     }
 
     /**
      * Compile the "select *" portion of the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $columns
      * @return string|null
      */
     protected function compileColumns(Builder $query, $columns)
     {
-        if (! is_null($query->aggregate)) {
+        if (!is_null($query->aggregate)) {
             return;
         }
 
@@ -68,16 +69,16 @@ class SqlServerGrammar extends Grammar
         // clause to the query, which serves as a "limit" type clause within the
         // SQL Server system similar to the limit keywords available in MySQL.
         if (is_numeric($query->limit) && $query->limit > 0 && $query->offset <= 0) {
-            $select .= 'top '.((int) $query->limit).' ';
+            $select .= 'top ' . ((int) $query->limit) . ' ';
         }
 
-        return $select.$this->columnize($columns);
+        return $select . $this->columnize($columns);
     }
 
     /**
      * Compile the "from" portion of the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $table
      * @return string
      */
@@ -86,11 +87,11 @@ class SqlServerGrammar extends Grammar
         $from = parent::compileFrom($query, $table);
 
         if (is_string($query->lock)) {
-            return $from.' '.$query->lock;
+            return $from . ' ' . $query->lock;
         }
 
-        if (! is_null($query->lock)) {
-            return $from.' with(rowlock,'.($query->lock ? 'updlock,' : '').'holdlock)';
+        if (!is_null($query->lock)) {
+            return $from . ' with(rowlock,' . ($query->lock ? 'updlock,' : '') . 'holdlock)';
         }
 
         return $from;
@@ -99,21 +100,21 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the index hints for the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  \Illuminate\Database\Query\IndexHint  $indexHint
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\IndexHint  $indexHint
      * @return string
      */
     protected function compileIndexHint(Builder $query, $indexHint)
     {
         return $indexHint->type === 'force'
-                    ? "with (index({$indexHint->index}))"
-                    : '';
+            ? "with (index({$indexHint->index}))"
+            : '';
     }
 
     /**
      * {@inheritdoc}
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -123,13 +124,13 @@ class SqlServerGrammar extends Grammar
 
         $operator = str_replace('?', '??', $where['operator']);
 
-        return '('.$this->wrap($where['column']).' '.$operator.' '.$value.') != 0';
+        return '(' . $this->wrap($where['column']) . ' ' . $operator . ' ' . $value . ') != 0';
     }
 
     /**
      * Compile a "where date" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -137,13 +138,13 @@ class SqlServerGrammar extends Grammar
     {
         $value = $this->parameter($where['value']);
 
-        return 'cast('.$this->wrap($where['column']).' as date) '.$where['operator'].' '.$value;
+        return 'cast(' . $this->wrap($where['column']) . ' as date) ' . $where['operator'] . ' ' . $value;
     }
 
     /**
      * Compile a "where time" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -151,7 +152,7 @@ class SqlServerGrammar extends Grammar
     {
         $value = $this->parameter($where['value']);
 
-        return 'cast('.$this->wrap($where['column']).' as time) '.$where['operator'].' '.$value;
+        return 'cast(' . $this->wrap($where['column']) . ' as time) ' . $where['operator'] . ' ' . $value;
     }
 
     /**
@@ -165,7 +166,7 @@ class SqlServerGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return $value.' in (select [value] from openjson('.$field.$path.'))';
+        return $value . ' in (select [value] from openjson(' . $field . $path . '))';
     }
 
     /**
@@ -196,12 +197,12 @@ class SqlServerGrammar extends Grammar
 
             $key = $matches[1];
         } else {
-            $key = "'".str_replace("'", "''", $lastSegment)."'";
+            $key = "'" . str_replace("'", "''", $lastSegment) . "'";
         }
 
         [$field, $path] = $this->wrapJsonFieldAndPath(implode('->', $segments));
 
-        return $key.' in (select [key] from openjson('.$field.$path.'))';
+        return $key . ' in (select [key] from openjson(' . $field . $path . '))';
     }
 
     /**
@@ -216,7 +217,7 @@ class SqlServerGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return '(select count(*) from openjson('.$field.$path.')) '.$operator.' '.$value;
+        return '(select count(*) from openjson(' . $field . $path . ')) ' . $operator . ' ' . $value;
     }
 
     /**
@@ -227,7 +228,7 @@ class SqlServerGrammar extends Grammar
      */
     public function compileJsonValueCast($value)
     {
-        return 'json_query('.$value.')';
+        return 'json_query(' . $value . ')';
     }
 
     /**
@@ -257,13 +258,13 @@ class SqlServerGrammar extends Grammar
 
         $parameter = $this->parameter($having['value']);
 
-        return '('.$column.' '.$having['operator'].' '.$parameter.') != 0';
+        return '(' . $column . ' ' . $having['operator'] . ' ' . $parameter . ') != 0';
     }
 
     /**
      * Create a full ANSI offset clause for the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $components
      * @return string
      */
@@ -309,12 +310,12 @@ class SqlServerGrammar extends Grammar
     /**
      * Determine if the query's order by clauses contain a subquery.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return bool
      */
     protected function queryOrderContainsSubquery($query)
     {
-        if (! is_array($query->orders)) {
+        if (!is_array($query->orders)) {
             return false;
         }
 
@@ -326,7 +327,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Move the order bindings to be after the "select" statement to account for an order by subquery.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return array
      */
     protected function sortBindingsForSubqueryOrderBy($query)
@@ -340,7 +341,7 @@ class SqlServerGrammar extends Grammar
      * Compile a common table expression for a query.
      *
      * @param  string  $sql
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return string
      */
     protected function compileTableExpression($sql, $query)
@@ -353,7 +354,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the limit / offset row constraint for a query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return string
      */
     protected function compileRowConstraint($query)
@@ -372,7 +373,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile a delete statement without joins into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $where
      * @return string
@@ -381,9 +382,9 @@ class SqlServerGrammar extends Grammar
     {
         $sql = parent::compileDeleteWithoutJoins($query, $table, $where);
 
-        return ! is_null($query->limit) && $query->limit > 0 && $query->offset <= 0
-                        ? Str::replaceFirst('delete', 'delete top ('.$query->limit.')', $sql)
-                        : $sql;
+        return !is_null($query->limit) && $query->limit > 0 && $query->offset <= 0
+            ? Str::replaceFirst('delete', 'delete top (' . $query->limit . ')', $sql)
+            : $sql;
     }
 
     /**
@@ -400,7 +401,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the "limit" portions of the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  int  $limit
      * @return string
      */
@@ -412,7 +413,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the "offset" portions of the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  int  $offset
      * @return string
      */
@@ -424,7 +425,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  bool|string  $value
      * @return string
      */
@@ -441,13 +442,13 @@ class SqlServerGrammar extends Grammar
      */
     protected function wrapUnion($sql)
     {
-        return 'select * from ('.$sql.') as '.$this->wrapTable('temp_table');
+        return 'select * from (' . $sql . ') as ' . $this->wrapTable('temp_table');
     }
 
     /**
      * Compile an exists statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return string
      */
     public function compileExists(Builder $query)
@@ -462,7 +463,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile an update statement with joins into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -480,7 +481,7 @@ class SqlServerGrammar extends Grammar
     /**
      * Compile an "upsert" statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @param  array  $uniqueBy
      * @param  array  $update
@@ -490,31 +491,31 @@ class SqlServerGrammar extends Grammar
     {
         $columns = $this->columnize(array_keys(reset($values)));
 
-        $sql = 'merge '.$this->wrapTable($query->from).' ';
+        $sql = 'merge ' . $this->wrapTable($query->from) . ' ';
 
         $parameters = collect($values)->map(function ($record) {
-            return '('.$this->parameterize($record).')';
+            return '(' . $this->parameterize($record) . ')';
         })->implode(', ');
 
-        $sql .= 'using (values '.$parameters.') '.$this->wrapTable('laravel_source').' ('.$columns.') ';
+        $sql .= 'using (values ' . $parameters . ') ' . $this->wrapTable('laravel_source') . ' (' . $columns . ') ';
 
         $on = collect($uniqueBy)->map(function ($column) use ($query) {
-            return $this->wrap('laravel_source.'.$column).' = '.$this->wrap($query->from.'.'.$column);
+            return $this->wrap('laravel_source.' . $column) . ' = ' . $this->wrap($query->from . '.' . $column);
         })->implode(' and ');
 
-        $sql .= 'on '.$on.' ';
+        $sql .= 'on ' . $on . ' ';
 
         if ($update) {
             $update = collect($update)->map(function ($value, $key) {
                 return is_numeric($key)
-                    ? $this->wrap($value).' = '.$this->wrap('laravel_source.'.$value)
-                    : $this->wrap($key).' = '.$this->parameter($value);
+                    ? $this->wrap($value) . ' = ' . $this->wrap('laravel_source.' . $value)
+                    : $this->wrap($key) . ' = ' . $this->parameter($value);
             })->implode(', ');
 
-            $sql .= 'when matched then update set '.$update.' ';
+            $sql .= 'when matched then update set ' . $update . ' ';
         }
 
-        $sql .= 'when not matched then insert ('.$columns.') values ('.$columns.');';
+        $sql .= 'when not matched then insert (' . $columns . ') values (' . $columns . ');';
 
         return $sql;
     }
@@ -543,7 +544,7 @@ class SqlServerGrammar extends Grammar
      */
     public function compileSavepoint($name)
     {
-        return 'SAVE TRANSACTION '.$name;
+        return 'SAVE TRANSACTION ' . $name;
     }
 
     /**
@@ -554,7 +555,7 @@ class SqlServerGrammar extends Grammar
      */
     public function compileSavepointRollBack($name)
     {
-        return 'ROLLBACK TRANSACTION '.$name;
+        return 'ROLLBACK TRANSACTION ' . $name;
     }
 
     /**
@@ -575,7 +576,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function wrapValue($value)
     {
-        return $value === '*' ? $value : '['.str_replace(']', ']]', $value).']';
+        return $value === '*' ? $value : '[' . str_replace(']', ']]', $value) . ']';
     }
 
     /**
@@ -588,7 +589,7 @@ class SqlServerGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($value);
 
-        return 'json_value('.$field.$path.')';
+        return 'json_value(' . $field . $path . ')';
     }
 
     /**
@@ -599,18 +600,18 @@ class SqlServerGrammar extends Grammar
      */
     protected function wrapJsonBooleanValue($value)
     {
-        return "'".$value."'";
+        return "'" . $value . "'";
     }
 
     /**
      * Wrap a table in keyword identifiers.
      *
-     * @param  \Illuminate\Database\Query\Expression|string  $table
+     * @param  \AwesomeCoder\Database\Query\Expression|string  $table
      * @return string
      */
     public function wrapTable($table)
     {
-        if (! $this->isExpression($table)) {
+        if (!$this->isExpression($table)) {
             return $this->wrapTableValuedFunction(parent::wrapTable($table));
         }
 
@@ -626,7 +627,7 @@ class SqlServerGrammar extends Grammar
     protected function wrapTableValuedFunction($table)
     {
         if (preg_match('/^(.+?)(\(.*?\))]$/', $table, $matches) === 1) {
-            $table = $matches[1].']'.$matches[2];
+            $table = $matches[1] . ']' . $matches[2];
         }
 
         return $table;

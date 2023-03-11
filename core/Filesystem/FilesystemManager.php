@@ -1,22 +1,22 @@
 <?php
 
-namespace Illuminate\Filesystem;
+namespace AwesomeCoder\Filesystem;
 
 use Closure;
-use Illuminate\Contracts\Filesystem\Factory as FactoryContract;
-use Illuminate\Support\Arr;
+use AwesomeCoder\Contracts\Filesystem\Factory as FactoryContract;
+use AwesomeCoder\Support\Arr;
 use InvalidArgumentException;
 
 /**
- * @mixin \Illuminate\Contracts\Filesystem\Filesystem
- * @mixin \Illuminate\Filesystem\FilesystemAdapter
+ * @mixin \AwesomeCoder\Contracts\Filesystem\Filesystem
+ * @mixin \AwesomeCoder\Filesystem\FilesystemAdapter
  */
 class FilesystemManager implements FactoryContract
 {
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var \AwesomeCoder\Contracts\Foundation\Application
      */
     protected $app;
 
@@ -37,7 +37,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Create a new filesystem manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \AwesomeCoder\Contracts\Foundation\Application  $app
      * @return void
      */
     public function __construct($app)
@@ -49,7 +49,7 @@ class FilesystemManager implements FactoryContract
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     public function drive($name = null)
     {
@@ -60,7 +60,7 @@ class FilesystemManager implements FactoryContract
      * Get a filesystem instance.
      *
      * @param  string|null  $name
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     public function disk($name = null)
     {
@@ -72,7 +72,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Get a default cloud filesystem instance.
      *
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     public function cloud()
     {
@@ -85,7 +85,7 @@ class FilesystemManager implements FactoryContract
      * Build an on-demand disk.
      *
      * @param  string|array  $config
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     public function build($config)
     {
@@ -99,7 +99,7 @@ class FilesystemManager implements FactoryContract
      * Attempt to get the disk from the local cache.
      *
      * @param  string  $name
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     protected function get($name)
     {
@@ -111,7 +111,7 @@ class FilesystemManager implements FactoryContract
      *
      * @param  string  $name
      * @param  array|null  $config
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      *
      * @throws \InvalidArgumentException
      */
@@ -142,7 +142,7 @@ class FilesystemManager implements FactoryContract
      * Call a custom driver creator.
      *
      * @param  array  $config
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     protected function callCustomCreator(array $config)
     {
@@ -153,7 +153,7 @@ class FilesystemManager implements FactoryContract
      * Create a scoped driver.
      *
      * @param  array  $config
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     * @return \AwesomeCoder\Contracts\Filesystem\Filesystem
      */
     public function createScopedDriver(array $config)
     {
@@ -259,7 +259,7 @@ class FilesystemManager implements FactoryContract
     /**
      * Set the application instance used by the manager.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \AwesomeCoder\Contracts\Foundation\Application  $app
      * @return $this
      */
     public function setApplication($app)

@@ -1,9 +1,9 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\RestApi\EndPoints\Settings;
+namespace AwesomeCoder\Plugin\RestApi\EndPoints\Settings;
 
 use AwesomeCoder\Plagiarism\Config\ConfigSet;
-use AwesomeCoder\Plagiarism\RestApi\EndPoints\AbstractEndpointHandler;
+use AwesomeCoder\Plugin\RestApi\EndPoints\AbstractEndpointHandler;
 use WP_REST_Request;
 use WP_REST_Response;
 

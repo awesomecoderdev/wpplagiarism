@@ -1,14 +1,14 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Database\PDO\SQLiteDriver;
-use Illuminate\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
-use Illuminate\Database\Query\Processors\SQLiteProcessor;
-use Illuminate\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
-use Illuminate\Database\Schema\SQLiteBuilder;
-use Illuminate\Database\Schema\SqliteSchemaState;
-use Illuminate\Filesystem\Filesystem;
+use AwesomeCoder\Database\PDO\SQLiteDriver;
+use AwesomeCoder\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
+use AwesomeCoder\Database\Query\Processors\SQLiteProcessor;
+use AwesomeCoder\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
+use AwesomeCoder\Database\Schema\SQLiteBuilder;
+use AwesomeCoder\Database\Schema\SqliteSchemaState;
+use AwesomeCoder\Filesystem\Filesystem;
 
 class SQLiteConnection extends Connection
 {
@@ -39,7 +39,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default query grammar instance.
      *
-     * @return \Illuminate\Database\Query\Grammars\SQLiteGrammar
+     * @return \AwesomeCoder\Database\Query\Grammars\SQLiteGrammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -49,7 +49,7 @@ class SQLiteConnection extends Connection
     /**
      * Get a schema builder instance for the connection.
      *
-     * @return \Illuminate\Database\Schema\SQLiteBuilder
+     * @return \AwesomeCoder\Database\Schema\SQLiteBuilder
      */
     public function getSchemaBuilder()
     {
@@ -63,7 +63,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default schema grammar instance.
      *
-     * @return \Illuminate\Database\Schema\Grammars\SQLiteGrammar
+     * @return \AwesomeCoder\Database\Schema\Grammars\SQLiteGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -73,7 +73,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the schema state for the connection.
      *
-     * @param  \Illuminate\Filesystem\Filesystem|null  $files
+     * @param  \AwesomeCoder\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
      *
      * @throws \RuntimeException
@@ -86,7 +86,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the default post processor instance.
      *
-     * @return \Illuminate\Database\Query\Processors\SQLiteProcessor
+     * @return \AwesomeCoder\Database\Query\Processors\SQLiteProcessor
      */
     protected function getDefaultPostProcessor()
     {
@@ -96,7 +96,7 @@ class SQLiteConnection extends Connection
     /**
      * Get the Doctrine DBAL driver.
      *
-     * @return \Illuminate\Database\PDO\SQLiteDriver
+     * @return \AwesomeCoder\Database\PDO\SQLiteDriver
      */
     protected function getDoctrineDriver()
     {

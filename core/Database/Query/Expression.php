@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Query;
+namespace AwesomeCoder\Database\Query;
 
 class Expression
 {

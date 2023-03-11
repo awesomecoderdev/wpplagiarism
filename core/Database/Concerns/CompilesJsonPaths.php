@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Concerns;
+namespace AwesomeCoder\Database\Concerns;
 
-use Illuminate\Support\Str;
+use AwesomeCoder\Support\Str;
 
 trait CompilesJsonPaths
 {
@@ -18,7 +18,7 @@ trait CompilesJsonPaths
 
         $field = $this->wrap($parts[0]);
 
-        $path = count($parts) > 1 ? ', '.$this->wrapJsonPath($parts[1], '->') : '';
+        $path = count($parts) > 1 ? ', ' . $this->wrapJsonPath($parts[1], '->') : '';
 
         return [$field, $path];
     }
@@ -38,7 +38,7 @@ trait CompilesJsonPaths
             ->map(fn ($segment) => $this->wrapJsonPathSegment($segment))
             ->join('.');
 
-        return "'$".(str_starts_with($jsonPath, '[') ? '' : '.').$jsonPath."'";
+        return "'$" . (str_starts_with($jsonPath, '[') ? '' : '.') . $jsonPath . "'";
     }
 
     /**
@@ -52,13 +52,13 @@ trait CompilesJsonPaths
         if (preg_match('/(\[[^\]]+\])+$/', $segment, $parts)) {
             $key = Str::beforeLast($segment, $parts[0]);
 
-            if (! empty($key)) {
-                return '"'.$key.'"'.$parts[0];
+            if (!empty($key)) {
+                return '"' . $key . '"' . $parts[0];
             }
 
             return $parts[0];
         }
 
-        return '"'.$segment.'"';
+        return '"' . $segment . '"';
     }
 }

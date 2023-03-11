@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
-use Illuminate\Support\Arr;
+use AwesomeCoder\Support\Arr;
 
 trait BroadcastsEvents
 {
@@ -39,65 +39,75 @@ trait BroadcastsEvents
     /**
      * Broadcast that the model was created.
      *
-     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @param  \AwesomeCoder\Broadcasting\Channel|\AwesomeCoder\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \AwesomeCoder\Broadcasting\PendingBroadcast
      */
     public function broadcastCreated($channels = null)
     {
         return $this->broadcastIfBroadcastChannelsExistForEvent(
-            $this->newBroadcastableModelEvent('created'), 'created', $channels
+            $this->newBroadcastableModelEvent('created'),
+            'created',
+            $channels
         );
     }
 
     /**
      * Broadcast that the model was updated.
      *
-     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @param  \AwesomeCoder\Broadcasting\Channel|\AwesomeCoder\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \AwesomeCoder\Broadcasting\PendingBroadcast
      */
     public function broadcastUpdated($channels = null)
     {
         return $this->broadcastIfBroadcastChannelsExistForEvent(
-            $this->newBroadcastableModelEvent('updated'), 'updated', $channels
+            $this->newBroadcastableModelEvent('updated'),
+            'updated',
+            $channels
         );
     }
 
     /**
      * Broadcast that the model was trashed.
      *
-     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @param  \AwesomeCoder\Broadcasting\Channel|\AwesomeCoder\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \AwesomeCoder\Broadcasting\PendingBroadcast
      */
     public function broadcastTrashed($channels = null)
     {
         return $this->broadcastIfBroadcastChannelsExistForEvent(
-            $this->newBroadcastableModelEvent('trashed'), 'trashed', $channels
+            $this->newBroadcastableModelEvent('trashed'),
+            'trashed',
+            $channels
         );
     }
 
     /**
      * Broadcast that the model was restored.
      *
-     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @param  \AwesomeCoder\Broadcasting\Channel|\AwesomeCoder\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \AwesomeCoder\Broadcasting\PendingBroadcast
      */
     public function broadcastRestored($channels = null)
     {
         return $this->broadcastIfBroadcastChannelsExistForEvent(
-            $this->newBroadcastableModelEvent('restored'), 'restored', $channels
+            $this->newBroadcastableModelEvent('restored'),
+            'restored',
+            $channels
         );
     }
 
     /**
      * Broadcast that the model was deleted.
      *
-     * @param  \Illuminate\Broadcasting\Channel|\Illuminate\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @param  \AwesomeCoder\Broadcasting\Channel|\AwesomeCoder\Contracts\Broadcasting\HasBroadcastChannel|array|null  $channels
+     * @return \AwesomeCoder\Broadcasting\PendingBroadcast
      */
     public function broadcastDeleted($channels = null)
     {
         return $this->broadcastIfBroadcastChannelsExistForEvent(
-            $this->newBroadcastableModelEvent('deleted'), 'deleted', $channels
+            $this->newBroadcastableModelEvent('deleted'),
+            'deleted',
+            $channels
         );
     }
 
@@ -107,15 +117,15 @@ trait BroadcastsEvents
      * @param  mixed  $instance
      * @param  string  $event
      * @param  mixed  $channels
-     * @return \Illuminate\Broadcasting\PendingBroadcast|null
+     * @return \AwesomeCoder\Broadcasting\PendingBroadcast|null
      */
     protected function broadcastIfBroadcastChannelsExistForEvent($instance, $event, $channels = null)
     {
-        if (! static::$isBroadcasting) {
+        if (!static::$isBroadcasting) {
             return;
         }
 
-        if (! empty($this->broadcastOn($event)) || ! empty($channels)) {
+        if (!empty($this->broadcastOn($event)) || !empty($channels)) {
             return broadcast($instance->onChannels(Arr::wrap($channels)));
         }
     }
@@ -130,16 +140,16 @@ trait BroadcastsEvents
     {
         return tap($this->newBroadcastableEvent($event), function ($event) {
             $event->connection = property_exists($this, 'broadcastConnection')
-                            ? $this->broadcastConnection
-                            : $this->broadcastConnection();
+                ? $this->broadcastConnection
+                : $this->broadcastConnection();
 
             $event->queue = property_exists($this, 'broadcastQueue')
-                            ? $this->broadcastQueue
-                            : $this->broadcastQueue();
+                ? $this->broadcastQueue
+                : $this->broadcastQueue();
 
             $event->afterCommit = property_exists($this, 'broadcastAfterCommit')
-                            ? $this->broadcastAfterCommit
-                            : $this->broadcastAfterCommit();
+                ? $this->broadcastAfterCommit
+                : $this->broadcastAfterCommit();
         });
     }
 
@@ -147,7 +157,7 @@ trait BroadcastsEvents
      * Create a new broadcastable model event for the model.
      *
      * @param  string  $event
-     * @return \Illuminate\Database\Eloquent\BroadcastableModelEventOccurred
+     * @return \AwesomeCoder\Database\Eloquent\BroadcastableModelEventOccurred
      */
     protected function newBroadcastableEvent($event)
     {
@@ -158,7 +168,7 @@ trait BroadcastsEvents
      * Get the channels that model events should broadcast on.
      *
      * @param  string  $event
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \AwesomeCoder\Broadcasting\Channel|array
      */
     public function broadcastOn($event)
     {

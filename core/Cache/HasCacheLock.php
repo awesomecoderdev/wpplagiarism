@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
 trait HasCacheLock
 {
@@ -10,7 +10,7 @@ trait HasCacheLock
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null)
     {
@@ -22,7 +22,7 @@ trait HasCacheLock
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner)
     {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Illuminate\Database\Migrations;
+namespace AwesomeCoder\Database\Migrations;
 
-use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use AwesomeCoder\Database\ConnectionResolverInterface as Resolver;
 
 class DatabaseMigrationRepository implements MigrationRepositoryInterface
 {
     /**
      * The database connection resolver instance.
      *
-     * @var \Illuminate\Database\ConnectionResolverInterface
+     * @var \AwesomeCoder\Database\ConnectionResolverInterface
      */
     protected $resolver;
 
@@ -30,7 +30,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Create a new database migration repository instance.
      *
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
+     * @param  \AwesomeCoder\Database\ConnectionResolverInterface  $resolver
      * @param  string  $table
      * @return void
      */
@@ -48,9 +48,9 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     public function getRan()
     {
         return $this->table()
-                ->orderBy('batch', 'asc')
-                ->orderBy('migration', 'asc')
-                ->pluck('migration')->all();
+            ->orderBy('batch', 'asc')
+            ->orderBy('migration', 'asc')
+            ->pluck('migration')->all();
     }
 
     /**
@@ -64,8 +64,8 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
         $query = $this->table()->where('batch', '>=', '1');
 
         return $query->orderBy('batch', 'desc')
-                     ->orderBy('migration', 'desc')
-                     ->take($steps)->get()->all();
+            ->orderBy('migration', 'desc')
+            ->take($steps)->get()->all();
     }
 
     /**
@@ -88,9 +88,9 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     public function getMigrationBatches()
     {
         return $this->table()
-                ->orderBy('batch', 'asc')
-                ->orderBy('migration', 'asc')
-                ->pluck('batch', 'migration')->all();
+            ->orderBy('batch', 'asc')
+            ->orderBy('migration', 'asc')
+            ->pluck('batch', 'migration')->all();
     }
 
     /**
@@ -184,7 +184,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Get a query builder for the migration table.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     protected function table()
     {
@@ -194,7 +194,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Get the connection resolver instance.
      *
-     * @return \Illuminate\Database\ConnectionResolverInterface
+     * @return \AwesomeCoder\Database\ConnectionResolverInterface
      */
     public function getConnectionResolver()
     {
@@ -204,7 +204,7 @@ class DatabaseMigrationRepository implements MigrationRepositoryInterface
     /**
      * Resolve the database connection instance.
      *
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     public function getConnection()
     {

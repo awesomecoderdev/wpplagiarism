@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Casts;
+namespace AwesomeCoder\Database\Eloquent\Casts;
 
 use BackedEnum;
-use Illuminate\Contracts\Database\Eloquent\Castable;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Collection;
+use AwesomeCoder\Contracts\Database\Eloquent\Castable;
+use AwesomeCoder\Contracts\Database\Eloquent\CastsAttributes;
+use AwesomeCoder\Support\Collection;
 
 class AsEnumCollection implements Castable
 {
@@ -30,13 +30,13 @@ class AsEnumCollection implements Castable
 
             public function get($model, $key, $value, $attributes)
             {
-                if (! isset($attributes[$key]) || is_null($attributes[$key])) {
+                if (!isset($attributes[$key]) || is_null($attributes[$key])) {
                     return;
                 }
 
                 $data = json_decode($attributes[$key], true);
 
-                if (! is_array($data)) {
+                if (!is_array($data)) {
                     return;
                 }
 
@@ -45,7 +45,7 @@ class AsEnumCollection implements Castable
                 return (new Collection($data))->map(function ($value) use ($enumClass) {
                     return is_subclass_of($enumClass, BackedEnum::class)
                         ? $enumClass::from($value)
-                        : constant($enumClass.'::'.$value);
+                        : constant($enumClass . '::' . $value);
                 });
             }
 

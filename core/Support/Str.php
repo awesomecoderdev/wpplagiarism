@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use Closure;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Support\Traits\Macroable;
 use JsonException;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
@@ -61,7 +61,7 @@ class Str
      * Get a new stringable object from the given string.
      *
      * @param  string  $string
-     * @return \Illuminate\Support\Stringable
+     * @return \AwesomeCoder\Support\Stringable
      */
     public static function of($string)
     {
@@ -230,7 +230,7 @@ class Str
             $haystack = mb_strtolower($haystack);
         }
 
-        if (! is_iterable($needles)) {
+        if (!is_iterable($needles)) {
             $needles = (array) $needles;
         }
 
@@ -258,7 +258,7 @@ class Str
     public static function containsAll($haystack, $needles, $ignoreCase = false)
     {
         foreach ($needles as $needle) {
-            if (! static::contains($haystack, $needle, $ignoreCase)) {
+            if (!static::contains($haystack, $needle, $ignoreCase)) {
                 return false;
             }
         }
@@ -275,7 +275,7 @@ class Str
      */
     public static function endsWith($haystack, $needles)
     {
-        if (! is_iterable($needles)) {
+        if (!is_iterable($needles)) {
             $needles = (array) $needles;
         }
 
@@ -301,7 +301,7 @@ class Str
         $radius = $options['radius'] ?? 100;
         $omission = $options['omission'] ?? '...';
 
-        preg_match('/^(.*?)('.preg_quote((string) $phrase).')(.*)$/iu', (string) $text, $matches);
+        preg_match('/^(.*?)(' . preg_quote((string) $phrase) . ')(.*)$/iu', (string) $text, $matches);
 
         if (empty($matches)) {
             return null;
@@ -335,7 +335,7 @@ class Str
     {
         $quoted = preg_quote($cap, '/');
 
-        return preg_replace('/(?:'.$quoted.')+$/u', '', $value).$cap;
+        return preg_replace('/(?:' . $quoted . ')+$/u', '', $value) . $cap;
     }
 
     /**
@@ -348,7 +348,7 @@ class Str
      */
     public static function wrap($value, $before, $after = null)
     {
-        return $before.$value.($after ??= $before);
+        return $before . $value . ($after ??= $before);
     }
 
     /**
@@ -362,7 +362,7 @@ class Str
     {
         $value = (string) $value;
 
-        if (! is_iterable($pattern)) {
+        if (!is_iterable($pattern)) {
             $pattern = [$pattern];
         }
 
@@ -383,7 +383,7 @@ class Str
             // pattern such as "library/*", making any string check convenient.
             $pattern = str_replace('\*', '.*', $pattern);
 
-            if (preg_match('#^'.$pattern.'\z#u', $value) === 1) {
+            if (preg_match('#^' . $pattern . '\z#u', $value) === 1) {
                 return true;
             }
         }
@@ -410,7 +410,7 @@ class Str
      */
     public static function isJson($value)
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return false;
         }
 
@@ -431,7 +431,7 @@ class Str
      */
     public static function isUuid($value)
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return false;
         }
 
@@ -446,7 +446,7 @@ class Str
      */
     public static function isUlid($value)
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return false;
         }
 
@@ -494,7 +494,7 @@ class Str
             return $value;
         }
 
-        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')).$end;
+        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')) . $end;
     }
 
     /**
@@ -518,13 +518,13 @@ class Str
      */
     public static function words($value, $words = 100, $end = '...')
     {
-        preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
+        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
 
-        if (! isset($matches[0]) || static::length($value) === static::length($matches[0])) {
+        if (!isset($matches[0]) || static::length($value) === static::length($matches[0])) {
             return $value;
         }
 
-        return rtrim($matches[0]).$end;
+        return rtrim($matches[0]) . $end;
     }
 
     /**
@@ -593,7 +593,7 @@ class Str
         $segmentLen = mb_strlen($segment, $encoding);
         $end = mb_substr($string, $startIndex + $segmentLen);
 
-        return $start.str_repeat(mb_substr($character, 0, 1, $encoding), $segmentLen).$end;
+        return $start . str_repeat(mb_substr($character, 0, 1, $encoding), $segmentLen) . $end;
     }
 
     /**
@@ -607,7 +607,7 @@ class Str
     {
         preg_match($pattern, $subject, $matches);
 
-        if (! $matches) {
+        if (!$matches) {
             return '';
         }
 
@@ -619,7 +619,7 @@ class Str
      *
      * @param  string  $pattern
      * @param  string  $subject
-     * @return \Illuminate\Support\Collection
+     * @return \AwesomeCoder\Support\Collection
      */
     public static function matchAll($pattern, $subject)
     {
@@ -646,9 +646,9 @@ class Str
         $shortLeft = floor($short / 2);
         $shortRight = ceil($short / 2);
 
-        return mb_substr(str_repeat($pad, $shortLeft), 0, $shortLeft).
-               $value.
-               mb_substr(str_repeat($pad, $shortRight), 0, $shortRight);
+        return mb_substr(str_repeat($pad, $shortLeft), 0, $shortLeft) .
+            $value .
+            mb_substr(str_repeat($pad, $shortRight), 0, $shortRight);
     }
 
     /**
@@ -663,7 +663,7 @@ class Str
     {
         $short = max(0, $length - mb_strlen($value));
 
-        return mb_substr(str_repeat($pad, $short), 0, $short).$value;
+        return mb_substr(str_repeat($pad, $short), 0, $short) . $value;
     }
 
     /**
@@ -678,7 +678,7 @@ class Str
     {
         $short = max(0, $length - mb_strlen($value));
 
-        return $value.mb_substr(str_repeat($pad, $short), 0, $short);
+        return $value . mb_substr(str_repeat($pad, $short), 0, $short);
     }
 
     /**
@@ -718,7 +718,7 @@ class Str
 
         $lastWord = array_pop($parts);
 
-        return implode('', $parts).self::plural($lastWord, $count);
+        return implode('', $parts) . self::plural($lastWord, $count);
     }
 
     /**
@@ -832,7 +832,7 @@ class Str
         $result = array_shift($segments);
 
         foreach ($segments as $segment) {
-            $result .= (array_shift($replace) ?? $search).$segment;
+            $result .= (array_shift($replace) ?? $search) . $segment;
         }
 
         return $result;
@@ -926,8 +926,8 @@ class Str
         }
 
         $subject = $caseSensitive
-                    ? str_replace($search, '', $subject)
-                    : str_ireplace($search, '', $subject);
+            ? str_replace($search, '', $subject)
+            : str_ireplace($search, '', $subject);
 
         return $subject;
     }
@@ -954,7 +954,7 @@ class Str
     {
         $quoted = preg_quote($prefix, '/');
 
-        return $prefix.preg_replace('/^(?:'.$quoted.')+/u', '', $value);
+        return $prefix . preg_replace('/^(?:' . $quoted . ')+/u', '', $value);
     }
 
     /**
@@ -1025,20 +1025,20 @@ class Str
         // Convert all dashes/underscores into separator
         $flip = $separator === '-' ? '_' : '-';
 
-        $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
+        $title = preg_replace('![' . preg_quote($flip) . ']+!u', $separator, $title);
 
         // Replace dictionary words
         foreach ($dictionary as $key => $value) {
-            $dictionary[$key] = $separator.$value.$separator;
+            $dictionary[$key] = $separator . $value . $separator;
         }
 
         $title = str_replace(array_keys($dictionary), array_values($dictionary), $title);
 
         // Remove all characters that are not the separator, letters, numbers, or whitespace
-        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', static::lower($title));
+        $title = preg_replace('![^' . preg_quote($separator) . '\pL\pN\s]+!u', '', static::lower($title));
 
         // Replace all separator characters and whitespace by a single separator
-        $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+        $title = preg_replace('![' . preg_quote($separator) . '\s]+!u', $separator, $title);
 
         return trim($title, $separator);
     }
@@ -1058,10 +1058,10 @@ class Str
             return static::$snakeCache[$key][$delimiter];
         }
 
-        if (! ctype_lower($value)) {
+        if (!ctype_lower($value)) {
             $value = preg_replace('/\s+/u', '', ucwords($value));
 
-            $value = static::lower(preg_replace('/(.)(?=[A-Z])/u', '$1'.$delimiter, $value));
+            $value = static::lower(preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $value));
         }
 
         return static::$snakeCache[$key][$delimiter] = $value;
@@ -1087,7 +1087,7 @@ class Str
      */
     public static function startsWith($haystack, $needles)
     {
-        if (! is_iterable($needles)) {
+        if (!is_iterable($needles)) {
             $needles = [$needles];
         }
 
@@ -1146,7 +1146,7 @@ class Str
      */
     public static function substrCount($haystack, $needle, $offset = 0, $length = null)
     {
-        if (! is_null($length)) {
+        if (!is_null($length)) {
             return substr_count($haystack, $needle, $offset, $length);
         }
 
@@ -1191,7 +1191,7 @@ class Str
      */
     public static function lcfirst($string)
     {
-        return static::lower(static::substr($string, 0, 1)).static::substr($string, 1);
+        return static::lower(static::substr($string, 0, 1)) . static::substr($string, 1);
     }
 
     /**
@@ -1202,7 +1202,7 @@ class Str
      */
     public static function ucfirst($string)
     {
-        return static::upper(static::substr($string, 0, 1)).static::substr($string, 1);
+        return static::upper(static::substr($string, 0, 1)) . static::substr($string, 1);
     }
 
     /**
@@ -1236,8 +1236,8 @@ class Str
     public static function uuid()
     {
         return static::$uuidFactory
-                    ? call_user_func(static::$uuidFactory)
-                    : Uuid::uuid4();
+            ? call_user_func(static::$uuidFactory)
+            : Uuid::uuid4();
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Relations\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\Model;
 
 trait SupportsDefaultModels
 {
@@ -18,8 +18,8 @@ trait SupportsDefaultModels
     /**
      * Make a new related instance for the given model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @return \Illuminate\Database\Eloquent\Model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     abstract protected function newRelatedInstanceFor(Model $parent);
 
@@ -39,12 +39,12 @@ trait SupportsDefaultModels
     /**
      * Get the default value for this relation.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
+     * @return \AwesomeCoder\Database\Eloquent\Model|null
      */
     protected function getDefaultFor(Model $parent)
     {
-        if (! $this->withDefault) {
+        if (!$this->withDefault) {
             return;
         }
 

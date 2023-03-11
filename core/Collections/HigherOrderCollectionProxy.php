@@ -1,16 +1,16 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 /**
- * @mixin \Illuminate\Support\Enumerable
+ * @mixin \AwesomeCoder\Support\Enumerable
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Illuminate\Support\Enumerable
+     * @var \AwesomeCoder\Support\Enumerable
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Illuminate\Support\Enumerable  $collection
+     * @param  \AwesomeCoder\Support\Enumerable  $collection
      * @param  string  $method
      * @return void
      */

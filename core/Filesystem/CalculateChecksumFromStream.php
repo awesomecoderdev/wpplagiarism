@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Filesystem;
+namespace AwesomeCoder\Filesystem;
 
 use function hash_final;
 use function hash_init;

@@ -21,11 +21,13 @@
 	"autoload": {
 		"files": [
 			"core/Collections/helpers.php",
-			"core/Support/helpers.php"
+			"core/Support/helpers.php",
+			"core/Foundation/helpers.php"
 		],
 		"psr-4": {
-			"Illuminate\\": "core/",
-			"Illuminate\\Support\\": [
+			"AwesomeCoder\\": "core/",
+			"AwesomeCoder\\Plugin\\": "backend/",
+			"AwesomeCoder\\Support\\": [
 				"core/Macroable/",
 				"core/Collections/",
 				"core/Conditionable/"

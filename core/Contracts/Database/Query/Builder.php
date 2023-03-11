@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Contracts\Database\Query;
+namespace AwesomeCoder\Contracts\Database\Query;
 
 /**
  * This interface is intentionally empty and exists to improve IDE support.
  *
- * @mixin \Illuminate\Database\Query\Builder
+ * @mixin \AwesomeCoder\Database\Query\Builder
  */
 interface Builder
 {

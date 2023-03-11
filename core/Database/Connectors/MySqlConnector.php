@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
 use PDO;
 
@@ -23,7 +23,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
         // connection's behavior, and some might be specified by the developers.
         $connection = $this->createConnection($dsn, $config, $options);
 
-        if (! empty($config['database'])) {
+        if (!empty($config['database'])) {
             $connection->exec("use `{$config['database']}`;");
         }
 
@@ -50,7 +50,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function configureIsolationLevel($connection, array $config)
     {
-        if (! isset($config['isolation_level'])) {
+        if (!isset($config['isolation_level'])) {
             return;
         }
 
@@ -68,12 +68,12 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function configureEncoding($connection, array $config)
     {
-        if (! isset($config['charset'])) {
+        if (!isset($config['charset'])) {
             return $connection;
         }
 
         $connection->prepare(
-            "set names '{$config['charset']}'".$this->getCollation($config)
+            "set names '{$config['charset']}'" . $this->getCollation($config)
         )->execute();
     }
 
@@ -98,7 +98,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function configureTimezone($connection, array $config)
     {
         if (isset($config['timezone'])) {
-            $connection->prepare('set time_zone="'.$config['timezone'].'"')->execute();
+            $connection->prepare('set time_zone="' . $config['timezone'] . '"')->execute();
         }
     }
 
@@ -113,8 +113,8 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function getDsn(array $config)
     {
         return $this->hasSocket($config)
-                            ? $this->getSocketDsn($config)
-                            : $this->getHostDsn($config);
+            ? $this->getSocketDsn($config)
+            : $this->getHostDsn($config);
     }
 
     /**
@@ -125,7 +125,7 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function hasSocket(array $config)
     {
-        return isset($config['unix_socket']) && ! empty($config['unix_socket']);
+        return isset($config['unix_socket']) && !empty($config['unix_socket']);
     }
 
     /**
@@ -150,8 +150,8 @@ class MySqlConnector extends Connector implements ConnectorInterface
         extract($config, EXTR_SKIP);
 
         return isset($port)
-                    ? "mysql:host={$host};port={$port};dbname={$database}"
-                    : "mysql:host={$host};dbname={$database}";
+            ? "mysql:host={$host};port={$port};dbname={$database}"
+            : "mysql:host={$host};dbname={$database}";
     }
 
     /**

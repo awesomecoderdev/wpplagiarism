@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace AwesomeCoder\Support\Facades;
 
 /**
  * @method static bool hasForLocale(string $key, string|null $locale = null)
@@ -13,9 +13,9 @@ namespace Illuminate\Support\Facades;
  * @method static void addJsonPath(string $path)
  * @method static array parseKey(string $key)
  * @method static void determineLocalesUsing(callable $callback)
- * @method static \Illuminate\Translation\MessageSelector getSelector()
- * @method static void setSelector(\Illuminate\Translation\MessageSelector $selector)
- * @method static \Illuminate\Contracts\Translation\Loader getLoader()
+ * @method static \AwesomeCoder\Translation\MessageSelector getSelector()
+ * @method static void setSelector(\AwesomeCoder\Translation\MessageSelector $selector)
+ * @method static \AwesomeCoder\Contracts\Translation\Loader getLoader()
  * @method static string locale()
  * @method static string getLocale()
  * @method static void setLocale(string $locale)
@@ -30,7 +30,7 @@ namespace Illuminate\Support\Facades;
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see \Illuminate\Translation\Translator
+ * @see \AwesomeCoder\Translation\Translator
  */
 class Lang extends Facade
 {

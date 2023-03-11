@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Query;
+namespace AwesomeCoder\Database\Query;
 
 use Closure;
 
@@ -23,21 +23,21 @@ class JoinClause extends Builder
     /**
      * The connection of the parent query builder.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var \AwesomeCoder\Database\ConnectionInterface
      */
     protected $parentConnection;
 
     /**
      * The grammar of the parent query builder.
      *
-     * @var \Illuminate\Database\Query\Grammars\Grammar
+     * @var \AwesomeCoder\Database\Query\Grammars\Grammar
      */
     protected $parentGrammar;
 
     /**
      * The processor of the parent query builder.
      *
-     * @var \Illuminate\Database\Query\Processors\Processor
+     * @var \AwesomeCoder\Database\Query\Processors\Processor
      */
     protected $parentProcessor;
 
@@ -51,7 +51,7 @@ class JoinClause extends Builder
     /**
      * Create a new join clause instance.
      *
-     * @param  \Illuminate\Database\Query\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Query\Builder  $parentQuery
      * @param  string  $type
      * @param  string  $table
      * @return void
@@ -66,7 +66,9 @@ class JoinClause extends Builder
         $this->parentConnection = $parentQuery->getConnection();
 
         parent::__construct(
-            $this->parentConnection, $this->parentGrammar, $this->parentProcessor
+            $this->parentConnection,
+            $this->parentGrammar,
+            $this->parentProcessor
         );
     }
 
@@ -84,7 +86,7 @@ class JoinClause extends Builder
      *
      * @param  \Closure|string  $first
      * @param  string|null  $operator
-     * @param  \Illuminate\Database\Query\Expression|string|null  $second
+     * @param  \AwesomeCoder\Database\Query\Expression|string|null  $second
      * @param  string  $boolean
      * @return $this
      *
@@ -104,8 +106,8 @@ class JoinClause extends Builder
      *
      * @param  \Closure|string  $first
      * @param  string|null  $operator
-     * @param  \Illuminate\Database\Query\Expression|string|null  $second
-     * @return \Illuminate\Database\Query\JoinClause
+     * @param  \AwesomeCoder\Database\Query\Expression|string|null  $second
+     * @return \AwesomeCoder\Database\Query\JoinClause
      */
     public function orOn($first, $operator = null, $second = null)
     {
@@ -115,7 +117,7 @@ class JoinClause extends Builder
     /**
      * Get a new instance of the join clause builder.
      *
-     * @return \Illuminate\Database\Query\JoinClause
+     * @return \AwesomeCoder\Database\Query\JoinClause
      */
     public function newQuery()
     {
@@ -125,7 +127,7 @@ class JoinClause extends Builder
     /**
      * Create a new query instance for sub-query.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     protected function forSubQuery()
     {
@@ -135,7 +137,7 @@ class JoinClause extends Builder
     /**
      * Create a new parent query instance.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     protected function newParentQuery()
     {

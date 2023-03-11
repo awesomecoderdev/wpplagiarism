@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 use RuntimeException;
 

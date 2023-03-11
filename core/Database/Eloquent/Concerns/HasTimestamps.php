@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
-use Illuminate\Support\Facades\Date;
+use AwesomeCoder\Support\Facades\Date;
 
 trait HasTimestamps
 {
@@ -34,7 +34,7 @@ trait HasTimestamps
             return $this->save();
         }
 
-        if (! $this->usesTimestamps()) {
+        if (!$this->usesTimestamps()) {
             return false;
         }
 
@@ -65,13 +65,13 @@ trait HasTimestamps
 
         $updatedAtColumn = $this->getUpdatedAtColumn();
 
-        if (! is_null($updatedAtColumn) && ! $this->isDirty($updatedAtColumn)) {
+        if (!is_null($updatedAtColumn) && !$this->isDirty($updatedAtColumn)) {
             $this->setUpdatedAt($time);
         }
 
         $createdAtColumn = $this->getCreatedAtColumn();
 
-        if (! $this->exists && ! is_null($createdAtColumn) && ! $this->isDirty($createdAtColumn)) {
+        if (!$this->exists && !is_null($createdAtColumn) && !$this->isDirty($createdAtColumn)) {
             $this->setCreatedAt($time);
         }
 
@@ -107,7 +107,7 @@ trait HasTimestamps
     /**
      * Get a fresh timestamp for the model.
      *
-     * @return \Illuminate\Support\Carbon
+     * @return \AwesomeCoder\Support\Carbon
      */
     public function freshTimestamp()
     {
@@ -131,7 +131,7 @@ trait HasTimestamps
      */
     public function usesTimestamps()
     {
-        return $this->timestamps && ! static::isIgnoringTimestamps($this::class);
+        return $this->timestamps && !static::isIgnoringTimestamps($this::class);
     }
 
     /**

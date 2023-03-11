@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
-use Illuminate\Contracts\Queue\EntityNotFoundException;
-use Illuminate\Contracts\Queue\EntityResolver as EntityResolverContract;
+use AwesomeCoder\Contracts\Queue\EntityNotFoundException;
+use AwesomeCoder\Contracts\Queue\EntityResolver as EntityResolverContract;
 
 class QueueEntityResolver implements EntityResolverContract
 {
@@ -14,7 +14,7 @@ class QueueEntityResolver implements EntityResolverContract
      * @param  mixed  $id
      * @return mixed
      *
-     * @throws \Illuminate\Contracts\Queue\EntityNotFoundException
+     * @throws \AwesomeCoder\Contracts\Queue\EntityNotFoundException
      */
     public function resolve($type, $id)
     {

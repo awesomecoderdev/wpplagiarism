@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\Wp;
+namespace AwesomeCoder\Plugin\Wp;
 
 /**
  * Represents an asset, a WordPress mechanism used for enqueueing scripts and stylesheets,

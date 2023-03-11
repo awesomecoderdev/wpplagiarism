@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Casts;
+namespace AwesomeCoder\Database\Eloquent\Casts;
 
-use Illuminate\Contracts\Database\Eloquent\Castable;
-use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use AwesomeCoder\Contracts\Database\Eloquent\Castable;
+use AwesomeCoder\Contracts\Database\Eloquent\CastsAttributes;
 
 class AsArrayObject implements Castable
 {
@@ -19,7 +19,7 @@ class AsArrayObject implements Castable
         {
             public function get($model, $key, $value, $attributes)
             {
-                if (! isset($attributes[$key])) {
+                if (!isset($attributes[$key])) {
                     return;
                 }
 

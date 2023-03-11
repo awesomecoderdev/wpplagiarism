@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use Closure;
-use Illuminate\Contracts\Container\Container;
+use AwesomeCoder\Contracts\Container\Container;
 use InvalidArgumentException;
 
 abstract class Manager
@@ -11,14 +11,14 @@ abstract class Manager
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var \AwesomeCoder\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * The configuration repository instance.
      *
-     * @var \Illuminate\Contracts\Config\Repository
+     * @var \AwesomeCoder\Contracts\Config\Repository
      */
     protected $config;
 
@@ -39,7 +39,7 @@ abstract class Manager
     /**
      * Create a new manager instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -69,14 +69,15 @@ abstract class Manager
 
         if (is_null($driver)) {
             throw new InvalidArgumentException(sprintf(
-                'Unable to resolve NULL driver for [%s].', static::class
+                'Unable to resolve NULL driver for [%s].',
+                static::class
             ));
         }
 
         // If the given driver has not been created before, we will create the instances
         // here and cache it so we can return it next time very quickly. If there is
         // already a driver created by this name, we'll just return that instance.
-        if (! isset($this->drivers[$driver])) {
+        if (!isset($this->drivers[$driver])) {
             $this->drivers[$driver] = $this->createDriver($driver);
         }
 
@@ -99,7 +100,7 @@ abstract class Manager
         if (isset($this->customCreators[$driver])) {
             return $this->callCustomCreator($driver);
         } else {
-            $method = 'create'.Str::studly($driver).'Driver';
+            $method = 'create' . Str::studly($driver) . 'Driver';
 
             if (method_exists($this, $method)) {
                 return $this->$method();
@@ -147,7 +148,7 @@ abstract class Manager
     /**
      * Get the container instance used by the manager.
      *
-     * @return \Illuminate\Contracts\Container\Container
+     * @return \AwesomeCoder\Contracts\Container\Container
      */
     public function getContainer()
     {
@@ -157,7 +158,7 @@ abstract class Manager
     /**
      * Set the container instance used by the manager.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container  $container
      * @return $this
      */
     public function setContainer(Container $container)

@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Concerns\AsPivot;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\AsPivot;
 
 class Pivot extends Model
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace AwesomeCoder\Support\Traits;
 
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Fluent;
+use AwesomeCoder\Contracts\Container\Container;
+use AwesomeCoder\Support\Fluent;
 
 trait CapsuleManagerTrait
 {
@@ -17,21 +17,21 @@ trait CapsuleManagerTrait
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container
+     * @var \AwesomeCoder\Contracts\Container\Container
      */
     protected $container;
 
     /**
      * Setup the IoC container instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container  $container
      * @return void
      */
     protected function setupContainer(Container $container)
     {
         $this->container = $container;
 
-        if (! $this->container->bound('config')) {
+        if (!$this->container->bound('config')) {
             $this->container->instance('config', new Fluent);
         }
     }
@@ -49,7 +49,7 @@ trait CapsuleManagerTrait
     /**
      * Get the IoC container instance.
      *
-     * @return \Illuminate\Contracts\Container\Container
+     * @return \AwesomeCoder\Contracts\Container\Container
      */
     public function getContainer()
     {
@@ -59,7 +59,7 @@ trait CapsuleManagerTrait
     /**
      * Set the IoC container instance.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container  $container
      * @return void
      */
     public function setContainer(Container $container)

@@ -1,16 +1,16 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \AwesomeCoder\Database\Eloquent\Builder
  */
 class HigherOrderBuilderProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Illuminate\Database\Eloquent\Builder
+     * @var \AwesomeCoder\Database\Eloquent\Builder
      */
     protected $builder;
 
@@ -24,7 +24,7 @@ class HigherOrderBuilderProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $builder
      * @param  string  $method
      * @return void
      */

@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Cookie\Middleware;
+namespace AwesomeCoder\Cookie\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
-use Illuminate\Cookie\CookieValuePrefix;
+use AwesomeCoder\Contracts\Encryption\DecryptException;
+use AwesomeCoder\Contracts\Encryption\Encrypter as EncrypterContract;
+use AwesomeCoder\Cookie\CookieValuePrefix;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ class EncryptCookies
     /**
      * The encrypter instance.
      *
-     * @var \Illuminate\Contracts\Encryption\Encrypter
+     * @var \AwesomeCoder\Contracts\Encryption\Encrypter
      */
     protected $encrypter;
 
@@ -36,7 +36,7 @@ class EncryptCookies
     /**
      * Create a new CookieGuard instance.
      *
-     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
+     * @param  \AwesomeCoder\Contracts\Encryption\Encrypter  $encrypter
      * @return void
      */
     public function __construct(EncrypterContract $encrypter)
@@ -58,7 +58,7 @@ class EncryptCookies
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \AwesomeCoder\Http\Request  $request
      * @param  \Closure  $next
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -102,8 +102,8 @@ class EncryptCookies
     protected function validateValue(string $key, $value)
     {
         return is_array($value)
-                    ? $this->validateArray($key, $value)
-                    : CookieValuePrefix::validate($key, $value, $this->encrypter->getKey());
+            ? $this->validateArray($key, $value)
+            : CookieValuePrefix::validate($key, $value, $this->encrypter->getKey());
     }
 
     /**
@@ -134,8 +134,8 @@ class EncryptCookies
     protected function decryptCookie($name, $cookie)
     {
         return is_array($cookie)
-                        ? $this->decryptArray($cookie)
-                        : $this->encrypter->decrypt($cookie, static::serialized($name));
+            ? $this->decryptArray($cookie)
+            : $this->encrypter->decrypt($cookie, static::serialized($name));
     }
 
     /**
@@ -177,7 +177,7 @@ class EncryptCookies
             $response->headers->setCookie($this->duplicate(
                 $cookie,
                 $this->encrypter->encrypt(
-                    CookieValuePrefix::create($cookie->getName(), $this->encrypter->getKey()).$cookie->getValue(),
+                    CookieValuePrefix::create($cookie->getName(), $this->encrypter->getKey()) . $cookie->getValue(),
                     static::serialized($cookie->getName())
                 )
             ));
@@ -196,9 +196,15 @@ class EncryptCookies
     protected function duplicate(Cookie $cookie, $value)
     {
         return new Cookie(
-            $cookie->getName(), $value, $cookie->getExpiresTime(),
-            $cookie->getPath(), $cookie->getDomain(), $cookie->isSecure(),
-            $cookie->isHttpOnly(), $cookie->isRaw(), $cookie->getSameSite()
+            $cookie->getName(),
+            $value,
+            $cookie->getExpiresTime(),
+            $cookie->getPath(),
+            $cookie->getDomain(),
+            $cookie->isSecure(),
+            $cookie->isHttpOnly(),
+            $cookie->isRaw(),
+            $cookie->getSameSite()
         );
     }
 

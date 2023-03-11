@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
 class NoLock extends Lock
 {

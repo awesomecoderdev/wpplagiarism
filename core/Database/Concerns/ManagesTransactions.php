@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Concerns;
+namespace AwesomeCoder\Database\Concerns;
 
 use Closure;
-use Illuminate\Database\DeadlockException;
+use AwesomeCoder\Database\DeadlockException;
 use RuntimeException;
 use Throwable;
 
@@ -35,7 +35,9 @@ trait ManagesTransactions
             // exception back out, and let the developer handle an uncaught exception.
             catch (Throwable $e) {
                 $this->handleTransactionException(
-                    $e, $currentAttempt, $attempts
+                    $e,
+                    $currentAttempt,
+                    $attempts
                 );
 
                 continue;
@@ -54,7 +56,9 @@ trait ManagesTransactions
                 }
             } catch (Throwable $e) {
                 $this->handleCommitTransactionException(
-                    $e, $currentAttempt, $attempts
+                    $e,
+                    $currentAttempt,
+                    $attempts
                 );
 
                 continue;
@@ -81,12 +85,15 @@ trait ManagesTransactions
         // On a deadlock, MySQL rolls back the entire transaction so we can't just
         // retry the query. We have to throw this exception all the way out and
         // let the developer handle it in another way. We will decrement too.
-        if ($this->causedByConcurrencyError($e) &&
-            $this->transactions > 1) {
+        if (
+            $this->causedByConcurrencyError($e) &&
+            $this->transactions > 1
+        ) {
             $this->transactions--;
 
             $this->transactionsManager?->rollback(
-                $this->getName(), $this->transactions
+                $this->getName(),
+                $this->transactions
             );
 
             throw new DeadlockException($e->getMessage(), is_int($e->getCode()) ? $e->getCode() : 0, $e);
@@ -97,8 +104,10 @@ trait ManagesTransactions
         // if we haven't we will return and try this query again in our loop.
         $this->rollBack();
 
-        if ($this->causedByConcurrencyError($e) &&
-            $currentAttempt < $maxAttempts) {
+        if (
+            $this->causedByConcurrencyError($e) &&
+            $currentAttempt < $maxAttempts
+        ) {
             return;
         }
 
@@ -119,7 +128,8 @@ trait ManagesTransactions
         $this->transactions++;
 
         $this->transactionsManager?->begin(
-            $this->getName(), $this->transactions
+            $this->getName(),
+            $this->transactions
         );
 
         $this->fireConnectionEvent('beganTransaction');
@@ -157,7 +167,7 @@ trait ManagesTransactions
     protected function createSavepoint()
     {
         $this->getPdo()->exec(
-            $this->queryGrammar->compileSavepoint('trans'.($this->transactions + 1))
+            $this->queryGrammar->compileSavepoint('trans' . ($this->transactions + 1))
         );
     }
 
@@ -212,7 +222,7 @@ trait ManagesTransactions
     {
         return $this->transactions == 0 ||
             ($this->transactionsManager &&
-             $this->transactionsManager->callbackApplicableTransactions()->count() === 1);
+                $this->transactionsManager->callbackApplicableTransactions()->count() === 1);
     }
 
     /**
@@ -254,8 +264,8 @@ trait ManagesTransactions
         // that this given transaction level is valid before attempting to rollback to
         // that level. If it's not we will just return out and not attempt anything.
         $toLevel = is_null($toLevel)
-                    ? $this->transactions - 1
-                    : $toLevel;
+            ? $this->transactions - 1
+            : $toLevel;
 
         if ($toLevel < 0 || $toLevel >= $this->transactions) {
             return;
@@ -273,7 +283,8 @@ trait ManagesTransactions
         $this->transactions = $toLevel;
 
         $this->transactionsManager?->rollback(
-            $this->getName(), $this->transactions
+            $this->getName(),
+            $this->transactions
         );
 
         $this->fireConnectionEvent('rollingBack');
@@ -297,7 +308,7 @@ trait ManagesTransactions
             }
         } elseif ($this->queryGrammar->supportsSavepoints()) {
             $this->getPdo()->exec(
-                $this->queryGrammar->compileSavepointRollBack('trans'.($toLevel + 1))
+                $this->queryGrammar->compileSavepointRollBack('trans' . ($toLevel + 1))
             );
         }
     }
@@ -316,7 +327,8 @@ trait ManagesTransactions
             $this->transactions = 0;
 
             $this->transactionsManager?->rollback(
-                $this->getName(), $this->transactions
+                $this->getName(),
+                $this->transactions
             );
         }
 

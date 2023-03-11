@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth\Access;
+namespace AwesomeCoder\Contracts\Auth\Access;
 
 interface Gate
 {
@@ -97,9 +97,9 @@ interface Gate
      *
      * @param  string  $ability
      * @param  array|mixed  $arguments
-     * @return \Illuminate\Auth\Access\Response
+     * @return \AwesomeCoder\Auth\Access\Response
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \AwesomeCoder\Auth\Access\AuthorizationException
      */
     public function authorize($ability, $arguments = []);
 
@@ -108,7 +108,7 @@ interface Gate
      *
      * @param  string  $ability
      * @param  array|mixed  $arguments
-     * @return \Illuminate\Auth\Access\Response
+     * @return \AwesomeCoder\Auth\Access\Response
      */
     public function inspect($ability, $arguments = []);
 
@@ -119,7 +119,7 @@ interface Gate
      * @param  array|mixed  $arguments
      * @return mixed
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \AwesomeCoder\Auth\Access\AuthorizationException
      */
     public function raw($ability, $arguments = []);
 
@@ -136,7 +136,7 @@ interface Gate
     /**
      * Get a guard instance for the given user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
+     * @param  \AwesomeCoder\Contracts\Auth\Authenticatable|mixed  $user
      * @return static
      */
     public function forUser($user);

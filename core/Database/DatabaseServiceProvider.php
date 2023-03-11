@@ -1,14 +1,14 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
-use Illuminate\Contracts\Queue\EntityResolver;
-use Illuminate\Database\Connectors\ConnectionFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\QueueEntityResolver;
-use Illuminate\Support\ServiceProvider;
+use AwesomeCoder\Contracts\Queue\EntityResolver;
+use AwesomeCoder\Database\Connectors\ConnectionFactory;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\QueueEntityResolver;
+use AwesomeCoder\Support\ServiceProvider;
 
 class DatabaseServiceProvider extends ServiceProvider
 {
@@ -89,7 +89,7 @@ class DatabaseServiceProvider extends ServiceProvider
         $this->app->singleton(FakerGenerator::class, function ($app, $parameters) {
             $locale = $parameters['locale'] ?? $app['config']->get('app.faker_locale', 'en_US');
 
-            if (! isset(static::$fakers[$locale])) {
+            if (!isset(static::$fakers[$locale])) {
                 static::$fakers[$locale] = FakerFactory::create($locale);
             }
 

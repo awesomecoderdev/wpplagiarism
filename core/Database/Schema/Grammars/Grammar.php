@@ -1,15 +1,15 @@
 <?php
 
-namespace Illuminate\Database\Schema\Grammars;
+namespace AwesomeCoder\Database\Schema\Grammars;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager as SchemaManager;
 use Doctrine\DBAL\Schema\TableDiff;
-use Illuminate\Database\Concerns\CompilesJsonPaths;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Grammar as BaseGrammar;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Fluent;
+use AwesomeCoder\Database\Concerns\CompilesJsonPaths;
+use AwesomeCoder\Database\Connection;
+use AwesomeCoder\Database\Grammar as BaseGrammar;
+use AwesomeCoder\Database\Query\Expression;
+use AwesomeCoder\Database\Schema\Blueprint;
+use AwesomeCoder\Support\Fluent;
 use LogicException;
 use RuntimeException;
 
@@ -35,7 +35,7 @@ abstract class Grammar extends BaseGrammar
      * Compile a create database command.
      *
      * @param  string  $name
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @return void
      *
      * @throws \LogicException
@@ -61,9 +61,9 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a rename column command.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Support\Fluent  $command
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @return array|string
      */
     public function compileRenameColumn(Blueprint $blueprint, Fluent $command, Connection $connection)
@@ -74,9 +74,9 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a change column command into a series of SQL statements.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Support\Fluent  $command
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @return array
      *
      * @throws \RuntimeException
@@ -89,8 +89,8 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a fulltext index key command.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Support\Fluent  $command
      * @return string
      *
      * @throws \RuntimeException
@@ -103,8 +103,8 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a drop fulltext index command.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Support\Fluent  $command
      * @return string
      *
      * @throws \RuntimeException
@@ -117,8 +117,8 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile a foreign key command.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Support\Fluent  $command
      * @return string
      */
     public function compileForeign(Blueprint $blueprint, Fluent $command)
@@ -126,7 +126,8 @@ abstract class Grammar extends BaseGrammar
         // We need to prepare several of the elements of the foreign key definition
         // before we can create the SQL, such as wrapping the tables and convert
         // an array of columns to comma-delimited strings for the SQL queries.
-        $sql = sprintf('alter table %s add constraint %s ',
+        $sql = sprintf(
+            'alter table %s add constraint %s ',
             $this->wrapTable($blueprint),
             $this->wrap($command->index)
         );
@@ -134,7 +135,8 @@ abstract class Grammar extends BaseGrammar
         // Once we have the initial portion of the SQL statement we will add on the
         // key name, table name, and referenced columns. These will complete the
         // main portion of the SQL statement and this SQL will almost be done.
-        $sql .= sprintf('foreign key (%s) references %s (%s)',
+        $sql .= sprintf(
+            'foreign key (%s) references %s (%s)',
             $this->columnize($command->columns),
             $this->wrapTable($command->on),
             $this->columnize((array) $command->references)
@@ -143,11 +145,11 @@ abstract class Grammar extends BaseGrammar
         // Once we have the basic foreign key creation statement constructed we can
         // build out the syntax for what should happen on an update or delete of
         // the affected columns, which will get something like "cascade", etc.
-        if (! is_null($command->onDelete)) {
+        if (!is_null($command->onDelete)) {
             $sql .= " on delete {$command->onDelete}";
         }
 
-        if (! is_null($command->onUpdate)) {
+        if (!is_null($command->onUpdate)) {
             $sql .= " on update {$command->onUpdate}";
         }
 
@@ -157,7 +159,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile the blueprint's column definitions.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
      * @return array
      */
     protected function getColumns(Blueprint $blueprint)
@@ -168,7 +170,7 @@ abstract class Grammar extends BaseGrammar
             // Each of the column types has their own compiler functions, which are tasked
             // with turning the column definition into its SQL format for this platform
             // used by the connection. The column's modifiers are compiled and added.
-            $sql = $this->wrap($column).' '.$this->getType($column);
+            $sql = $this->wrap($column) . ' ' . $this->getType($column);
 
             $columns[] = $this->addModifiers($sql, $blueprint, $column);
         }
@@ -179,18 +181,18 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get the SQL for the column data type.
      *
-     * @param  \Illuminate\Support\Fluent  $column
+     * @param  \AwesomeCoder\Support\Fluent  $column
      * @return string
      */
     protected function getType(Fluent $column)
     {
-        return $this->{'type'.ucfirst($column->type)}($column);
+        return $this->{'type' . ucfirst($column->type)}($column);
     }
 
     /**
      * Create the column definition for a generated, computed column type.
      *
-     * @param  \Illuminate\Support\Fluent  $column
+     * @param  \AwesomeCoder\Support\Fluent  $column
      * @return void
      *
      * @throws \RuntimeException
@@ -204,8 +206,8 @@ abstract class Grammar extends BaseGrammar
      * Add the column modifiers to the definition.
      *
      * @param  string  $sql
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $column
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Support\Fluent  $column
      * @return string
      */
     protected function addModifiers($sql, Blueprint $blueprint, Fluent $column)
@@ -222,9 +224,9 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get the primary key command if it exists on the blueprint.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
      * @param  string  $name
-     * @return \Illuminate\Support\Fluent|null
+     * @return \AwesomeCoder\Support\Fluent|null
      */
     protected function getCommandByName(Blueprint $blueprint, $name)
     {
@@ -238,7 +240,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Get all of the commands with a given name.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
      * @param  string  $name
      * @return array
      */
@@ -259,7 +261,7 @@ abstract class Grammar extends BaseGrammar
     public function prefixArray($prefix, array $values)
     {
         return array_map(function ($value) use ($prefix) {
-            return $prefix.' '.$value;
+            return $prefix . ' ' . $value;
         }, $values);
     }
 
@@ -279,14 +281,15 @@ abstract class Grammar extends BaseGrammar
     /**
      * Wrap a value in keyword identifiers.
      *
-     * @param  \Illuminate\Database\Query\Expression|string  $value
+     * @param  \AwesomeCoder\Database\Query\Expression|string  $value
      * @param  bool  $prefixAlias
      * @return string
      */
     public function wrap($value, $prefixAlias = false)
     {
         return parent::wrap(
-            $value instanceof Fluent ? $value->name : $value, $prefixAlias
+            $value instanceof Fluent ? $value->name : $value,
+            $prefixAlias
         );
     }
 
@@ -303,20 +306,20 @@ abstract class Grammar extends BaseGrammar
         }
 
         return is_bool($value)
-                    ? "'".(int) $value."'"
-                    : "'".(string) $value."'";
+            ? "'" . (int) $value . "'"
+            : "'" . (string) $value . "'";
     }
 
     /**
      * Create an empty Doctrine DBAL TableDiff from the Blueprint.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
      * @param  \Doctrine\DBAL\Schema\AbstractSchemaManager  $schema
      * @return \Doctrine\DBAL\Schema\TableDiff
      */
     public function getDoctrineTableDiff(Blueprint $blueprint, SchemaManager $schema)
     {
-        $table = $this->getTablePrefix().$blueprint->getTable();
+        $table = $this->getTablePrefix() . $blueprint->getTable();
 
         return tap(new TableDiff($table), function ($tableDiff) use ($schema, $table) {
             $tableDiff->fromTable = $schema->listTableDetails($table);

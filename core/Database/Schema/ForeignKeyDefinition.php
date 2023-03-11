@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Support\Fluent;
+use AwesomeCoder\Support\Fluent;
 
 /**
  * @method ForeignKeyDefinition deferrable(bool $value = true) Set the foreign key as deferrable (PostgreSQL)

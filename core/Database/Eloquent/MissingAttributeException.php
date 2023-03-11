@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 use OutOfBoundsException;
 
@@ -9,7 +9,7 @@ class MissingAttributeException extends OutOfBoundsException
     /**
      * Create a new missing attribute exception instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @param  string  $key
      * @return void
      */
@@ -17,7 +17,8 @@ class MissingAttributeException extends OutOfBoundsException
     {
         parent::__construct(sprintf(
             'The attribute [%s] either does not exist or was not retrieved for model [%s].',
-            $key, get_class($model)
+            $key,
+            get_class($model)
         ));
     }
 }

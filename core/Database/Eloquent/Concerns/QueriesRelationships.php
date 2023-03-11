@@ -1,18 +1,18 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
 use BadMethodCallException;
 use Closure;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\RelationNotFoundException;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\RelationNotFoundException;
+use AwesomeCoder\Database\Eloquent\Relations\BelongsTo;
+use AwesomeCoder\Database\Eloquent\Relations\MorphTo;
+use AwesomeCoder\Database\Eloquent\Relations\Relation;
+use AwesomeCoder\Database\Query\Builder as QueryBuilder;
+use AwesomeCoder\Database\Query\Expression;
+use AwesomeCoder\Support\Str;
 use InvalidArgumentException;
 
 trait QueriesRelationships
@@ -20,12 +20,12 @@ trait QueriesRelationships
     /**
      * Add a relationship count / exists condition to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\Relation|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\Relation|string  $relation
      * @param  string  $operator
      * @param  int  $count
      * @param  string  $boolean
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      *
      * @throws \RuntimeException
      */
@@ -47,11 +47,12 @@ trait QueriesRelationships
         // the subquery to only run a "where exists" clause instead of this full "count"
         // clause. This will make these queries run much faster compared with a count.
         $method = $this->canUseExistsForExistenceCheck($operator, $count)
-                        ? 'getRelationExistenceQuery'
-                        : 'getRelationExistenceCountQuery';
+            ? 'getRelationExistenceQuery'
+            : 'getRelationExistenceCountQuery';
 
         $hasQuery = $relation->{$method}(
-            $relation->getRelated()->newQueryWithoutRelationships(), $this
+            $relation->getRelated()->newQueryWithoutRelationships(),
+            $this
         );
 
         // Next we will call any given callback as an "anonymous" scope so they can get the
@@ -62,7 +63,11 @@ trait QueriesRelationships
         }
 
         return $this->addHasWhere(
-            $hasQuery, $relation, $operator, $count, $boolean
+            $hasQuery,
+            $relation,
+            $operator,
+            $count,
+            $boolean
         );
     }
 
@@ -76,7 +81,7 @@ trait QueriesRelationships
      * @param  int  $count
      * @param  string  $boolean
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     protected function hasNested($relations, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
     {
@@ -107,7 +112,7 @@ trait QueriesRelationships
      * @param  string  $relation
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orHas($relation, $operator = '>=', $count = 1)
     {
@@ -120,7 +125,7 @@ trait QueriesRelationships
      * @param  string  $relation
      * @param  string  $boolean
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function doesntHave($relation, $boolean = 'and', Closure $callback = null)
     {
@@ -131,7 +136,7 @@ trait QueriesRelationships
      * Add a relationship count / exists condition to the query with an "or".
      *
      * @param  string  $relation
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orDoesntHave($relation)
     {
@@ -145,7 +150,7 @@ trait QueriesRelationships
      * @param  \Closure|null  $callback
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
     {
@@ -161,7 +166,7 @@ trait QueriesRelationships
      * @param  \Closure|null  $callback
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function withWhereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
     {
@@ -176,7 +181,7 @@ trait QueriesRelationships
      * @param  \Closure|null  $callback
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
     {
@@ -188,7 +193,7 @@ trait QueriesRelationships
      *
      * @param  string  $relation
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereDoesntHave($relation, Closure $callback = null)
     {
@@ -200,7 +205,7 @@ trait QueriesRelationships
      *
      * @param  string  $relation
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereDoesntHave($relation, Closure $callback = null)
     {
@@ -210,13 +215,13 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  string  $operator
      * @param  int  $count
      * @param  string  $boolean
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function hasMorph($relation, $types, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
     {
@@ -246,7 +251,7 @@ trait QueriesRelationships
                     }
 
                     $query->where($this->qualifyColumn($relation->getMorphType()), '=', (new $type)->getMorphClass())
-                                ->whereHas($belongsTo, $callback, $operator, $count);
+                        ->whereHas($belongsTo, $callback, $operator, $count);
                 });
             }
         }, null, null, $boolean);
@@ -255,9 +260,9 @@ trait QueriesRelationships
     /**
      * Get the BelongsTo relationship for a single polymorphic type.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo  $relation
      * @param  string  $type
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\BelongsTo
      */
     protected function getBelongsToRelation(MorphTo $relation, $type)
     {
@@ -277,11 +282,11 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query with an "or".
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orHasMorph($relation, $types, $operator = '>=', $count = 1)
     {
@@ -291,11 +296,11 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  string  $boolean
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function doesntHaveMorph($relation, $types, $boolean = 'and', Closure $callback = null)
     {
@@ -305,9 +310,9 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query with an "or".
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orDoesntHaveMorph($relation, $types)
     {
@@ -317,12 +322,12 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query with where clauses.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  \Closure|null  $callback
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereHasMorph($relation, $types, Closure $callback = null, $operator = '>=', $count = 1)
     {
@@ -332,12 +337,12 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  \Closure|null  $callback
      * @param  string  $operator
      * @param  int  $count
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereHasMorph($relation, $types, Closure $callback = null, $operator = '>=', $count = 1)
     {
@@ -347,10 +352,10 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query with where clauses.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereDoesntHaveMorph($relation, $types, Closure $callback = null)
     {
@@ -360,10 +365,10 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereDoesntHaveMorph($relation, $types, Closure $callback = null)
     {
@@ -374,10 +379,10 @@ trait QueriesRelationships
      * Add a basic where clause to a relationship query.
      *
      * @param  string  $relation
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereRelation($relation, $column, $operator = null, $value = null)
     {
@@ -394,10 +399,10 @@ trait QueriesRelationships
      * Add an "or where" clause to a relationship query.
      *
      * @param  string  $relation
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereRelation($relation, $column, $operator = null, $value = null)
     {
@@ -413,12 +418,12 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship condition to the query with a where clause.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereMorphRelation($relation, $types, $column, $operator = null, $value = null)
     {
@@ -430,12 +435,12 @@ trait QueriesRelationships
     /**
      * Add a polymorphic relationship condition to the query with an "or where" clause.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
      * @param  string|array  $types
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereMorphRelation($relation, $types, $column, $operator = null, $value = null)
     {
@@ -447,9 +452,9 @@ trait QueriesRelationships
     /**
      * Add a morph-to relationship condition to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Model|string  $model
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereMorphedTo($relation, $model, $boolean = 'and')
     {
@@ -460,7 +465,7 @@ trait QueriesRelationships
         if (is_string($model)) {
             $morphMap = Relation::morphMap();
 
-            if (! empty($morphMap) && in_array($model, $morphMap)) {
+            if (!empty($morphMap) && in_array($model, $morphMap)) {
                 $model = array_search($model, $morphMap, true);
             }
 
@@ -476,9 +481,9 @@ trait QueriesRelationships
     /**
      * Add a not morph-to relationship condition to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Model|string  $model
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function whereNotMorphedTo($relation, $model, $boolean = 'and')
     {
@@ -489,7 +494,7 @@ trait QueriesRelationships
         if (is_string($model)) {
             $morphMap = Relation::morphMap();
 
-            if (! empty($morphMap) && in_array($model, $morphMap)) {
+            if (!empty($morphMap) && in_array($model, $morphMap)) {
                 $model = array_search($model, $morphMap, true);
             }
 
@@ -505,9 +510,9 @@ trait QueriesRelationships
     /**
      * Add a morph-to relationship condition to the query with an "or where" clause.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Model|string  $model
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereMorphedTo($relation, $model)
     {
@@ -517,9 +522,9 @@ trait QueriesRelationships
     /**
      * Add a not morph-to relationship condition to the query with an "or where" clause.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Model|string  $model
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function orWhereNotMorphedTo($relation, $model)
     {
@@ -529,16 +534,16 @@ trait QueriesRelationships
     /**
      * Add a "belongs to" relationship where clause to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection<\Illuminate\Database\Eloquent\Model>  $related
+     * @param  \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection<\AwesomeCoder\Database\Eloquent\Model>  $related
      * @param  string|null  $relationshipName
      * @param  string  $boolean
      * @return $this
      *
-     * @throws \Illuminate\Database\Eloquent\RelationNotFoundException
+     * @throws \AwesomeCoder\Database\Eloquent\RelationNotFoundException
      */
     public function whereBelongsTo($related, $relationshipName = null, $boolean = 'and')
     {
-        if (! $related instanceof Collection) {
+        if (!$related instanceof Collection) {
             $relatedCollection = $related->newCollection([$related]);
         } else {
             $relatedCollection = $related;
@@ -560,7 +565,7 @@ trait QueriesRelationships
             throw RelationNotFoundException::make($this->model, $relationshipName);
         }
 
-        if (! $relationship instanceof BelongsTo) {
+        if (!$relationship instanceof BelongsTo) {
             throw RelationNotFoundException::make($this->model, $relationshipName, BelongsTo::class);
         }
 
@@ -576,7 +581,7 @@ trait QueriesRelationships
     /**
      * Add an "BelongsTo" relationship with an "or where" clause to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $related
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $related
      * @param  string|null  $relationshipName
      * @return $this
      *
@@ -602,7 +607,7 @@ trait QueriesRelationships
         }
 
         if (is_null($this->query->columns)) {
-            $this->query->select([$this->query->from.'.*']);
+            $this->query->select([$this->query->from . '.*']);
         }
 
         $relations = is_array($relations) ? $relations : [$relations];
@@ -637,7 +642,9 @@ trait QueriesRelationships
             // as a sub-select. First, we'll get the "has" query and use that to get the relation
             // sub-query. We'll format this relationship name and append this column if needed.
             $query = $relation->getRelationExistenceQuery(
-                $relation->getRelated()->newQuery(), $this, new Expression($expression)
+                $relation->getRelated()->newQuery(),
+                $this,
+                new Expression($expression)
             )->setBindings([], 'select');
 
             $query->callScope($constraints);
@@ -682,7 +689,7 @@ trait QueriesRelationships
      * Get the relation hashed column name for the given column and relation.
      *
      * @param  string  $column
-     * @param  \Illuminate\Database\Eloquent\Relations\Relationship  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\Relationship  $relation
      * @return string
      */
     protected function getRelationHashedColumn($column, $relation)
@@ -769,27 +776,27 @@ trait QueriesRelationships
     /**
      * Add the "has" condition where clause to the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $hasQuery
-     * @param  \Illuminate\Database\Eloquent\Relations\Relation  $relation
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $hasQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\Relation  $relation
      * @param  string  $operator
      * @param  int  $count
      * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     protected function addHasWhere(Builder $hasQuery, Relation $relation, $operator, $count, $boolean)
     {
         $hasQuery->mergeConstraintsFrom($relation->getQuery());
 
         return $this->canUseExistsForExistenceCheck($operator, $count)
-                ? $this->addWhereExistsQuery($hasQuery->toBase(), $boolean, $operator === '<' && $count === 1)
-                : $this->addWhereCountQuery($hasQuery->toBase(), $operator, $count, $boolean);
+            ? $this->addWhereExistsQuery($hasQuery->toBase(), $boolean, $operator === '<' && $count === 1)
+            : $this->addWhereCountQuery($hasQuery->toBase(), $operator, $count, $boolean);
     }
 
     /**
      * Merge the where constraints from another query to the current query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $from
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $from
+     * @return \AwesomeCoder\Database\Eloquent\Builder|static
      */
     public function mergeConstraintsFrom(Builder $from)
     {
@@ -808,7 +815,8 @@ trait QueriesRelationships
         return $this->withoutGlobalScopes(
             $from->removedScopes()
         )->mergeWheres(
-            $wheres, $whereBindings
+            $wheres,
+            $whereBindings
         );
     }
 
@@ -824,8 +832,8 @@ trait QueriesRelationships
     {
         return collect($wheres)->map(function ($where) use ($from, $to) {
             return collect($where)->map(function ($value) use ($from, $to) {
-                return is_string($value) && str_starts_with($value, $from.'.')
-                    ? $to.'.'.Str::afterLast($value, '.')
+                return is_string($value) && str_starts_with($value, $from . '.')
+                    ? $to . '.' . Str::afterLast($value, '.')
                     : $value;
             });
         })->toArray();
@@ -834,7 +842,7 @@ trait QueriesRelationships
     /**
      * Add a sub-query count clause to this query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $operator
      * @param  int  $count
      * @param  string  $boolean
@@ -845,7 +853,7 @@ trait QueriesRelationships
         $this->query->addBinding($query->getBindings(), 'where');
 
         return $this->where(
-            new Expression('('.$query->toSql().')'),
+            new Expression('(' . $query->toSql() . ')'),
             $operator,
             is_numeric($count) ? new Expression($count) : $count,
             $boolean
@@ -856,7 +864,7 @@ trait QueriesRelationships
      * Get the "has relation" base query instance.
      *
      * @param  string  $relation
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     * @return \AwesomeCoder\Database\Eloquent\Relations\Relation
      */
     protected function getRelationWithoutConstraints($relation)
     {

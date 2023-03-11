@@ -1,15 +1,15 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
 use Closure;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use AwesomeCoder\Contracts\Support\Arrayable;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\ModelNotFoundException;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
+use AwesomeCoder\Database\Eloquent\SoftDeletes;
 
 class HasManyThrough extends Relation
 {
@@ -18,14 +18,14 @@ class HasManyThrough extends Relation
     /**
      * The "through" parent model instance.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \AwesomeCoder\Database\Eloquent\Model
      */
     protected $throughParent;
 
     /**
      * The far parent model instance.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \AwesomeCoder\Database\Eloquent\Model
      */
     protected $farParent;
 
@@ -60,9 +60,9 @@ class HasManyThrough extends Relation
     /**
      * Create a new has many through relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $farParent
-     * @param  \Illuminate\Database\Eloquent\Model  $throughParent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $farParent
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $throughParent
      * @param  string  $firstKey
      * @param  string  $secondKey
      * @param  string  $localKey
@@ -100,7 +100,7 @@ class HasManyThrough extends Relation
     /**
      * Set the join clause on the query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder|null  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder|null  $query
      * @return void
      */
     protected function performJoin(Builder $query = null)
@@ -161,7 +161,8 @@ class HasManyThrough extends Relation
         $whereIn = $this->whereInMethod($this->farParent, $this->localKey);
 
         $this->query->{$whereIn}(
-            $this->getQualifiedFirstKeyName(), $this->getKeys($models, $this->localKey)
+            $this->getQualifiedFirstKeyName(),
+            $this->getKeys($models, $this->localKey)
         );
     }
 
@@ -185,7 +186,7 @@ class HasManyThrough extends Relation
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -199,7 +200,8 @@ class HasManyThrough extends Relation
         foreach ($models as $model) {
             if (isset($dictionary[$key = $this->getDictionaryKey($model->getAttribute($this->localKey))])) {
                 $model->setRelation(
-                    $relation, $this->related->newCollection($dictionary[$key])
+                    $relation,
+                    $this->related->newCollection($dictionary[$key])
                 );
             }
         }
@@ -210,7 +212,7 @@ class HasManyThrough extends Relation
     /**
      * Build model dictionary keyed by the relation's foreign key.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @return array
      */
     protected function buildDictionary(Collection $results)
@@ -231,7 +233,7 @@ class HasManyThrough extends Relation
      * Get the first related model record matching the attributes or instantiate it.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function firstOrNew(array $attributes)
     {
@@ -247,7 +249,7 @@ class HasManyThrough extends Relation
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function updateOrCreate(array $attributes, array $values = [])
     {
@@ -265,7 +267,7 @@ class HasManyThrough extends Relation
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
     {
@@ -289,13 +291,13 @@ class HasManyThrough extends Relation
      * Execute the query and get the first result or throw an exception.
      *
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function firstOrFail($columns = ['*'])
     {
-        if (! is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -307,7 +309,7 @@ class HasManyThrough extends Relation
      *
      * @param  \Closure|array  $columns
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Model|static|mixed
+     * @return \AwesomeCoder\Database\Eloquent\Model|static|mixed
      */
     public function firstOr($columns = ['*'], Closure $callback = null)
     {
@@ -317,7 +319,7 @@ class HasManyThrough extends Relation
             $columns = ['*'];
         }
 
-        if (! is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -329,7 +331,7 @@ class HasManyThrough extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|null
      */
     public function find($id, $columns = ['*'])
     {
@@ -338,16 +340,18 @@ class HasManyThrough extends Relation
         }
 
         return $this->where(
-            $this->getRelated()->getQualifiedKeyName(), '=', $id
+            $this->getRelated()->getQualifiedKeyName(),
+            '=',
+            $id
         )->first($columns);
     }
 
     /**
      * Find multiple related models by their primary keys.
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
+     * @param  \AwesomeCoder\Contracts\Support\Arrayable|array  $ids
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function findMany($ids, $columns = ['*'])
     {
@@ -358,7 +362,8 @@ class HasManyThrough extends Relation
         }
 
         return $this->whereIn(
-            $this->getRelated()->getQualifiedKeyName(), $ids
+            $this->getRelated()->getQualifiedKeyName(),
+            $ids
         )->get($columns);
     }
 
@@ -367,9 +372,9 @@ class HasManyThrough extends Relation
      *
      * @param  mixed  $id
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function findOrFail($id, $columns = ['*'])
     {
@@ -381,7 +386,7 @@ class HasManyThrough extends Relation
             if (count($result) === count(array_unique($id))) {
                 return $result;
             }
-        } elseif (! is_null($result)) {
+        } elseif (!is_null($result)) {
             return $result;
         }
 
@@ -394,7 +399,7 @@ class HasManyThrough extends Relation
      * @param  mixed  $id
      * @param  \Closure|array  $columns
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|mixed
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|mixed
      */
     public function findOr($id, $columns = ['*'], Closure $callback = null)
     {
@@ -412,7 +417,7 @@ class HasManyThrough extends Relation
             if (count($result) === count(array_unique($id))) {
                 return $result;
             }
-        } elseif (! is_null($result)) {
+        } elseif (!is_null($result)) {
             return $result;
         }
 
@@ -426,16 +431,16 @@ class HasManyThrough extends Relation
      */
     public function getResults()
     {
-        return ! is_null($this->farParent->{$this->localKey})
-                ? $this->get()
-                : $this->related->newCollection();
+        return !is_null($this->farParent->{$this->localKey})
+            ? $this->get()
+            : $this->related->newCollection();
     }
 
     /**
      * Execute the query as a "select" statement.
      *
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function get($columns = ['*'])
     {
@@ -460,7 +465,7 @@ class HasManyThrough extends Relation
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int  $page
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \AwesomeCoder\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -476,7 +481,7 @@ class HasManyThrough extends Relation
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return \AwesomeCoder\Contracts\Pagination\Paginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -492,7 +497,7 @@ class HasManyThrough extends Relation
      * @param  array  $columns
      * @param  string  $cursorName
      * @param  string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     * @return \AwesomeCoder\Contracts\Pagination\CursorPaginator
      */
     public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
@@ -510,10 +515,10 @@ class HasManyThrough extends Relation
     protected function shouldSelect(array $columns = ['*'])
     {
         if ($columns == ['*']) {
-            $columns = [$this->related->getTable().'.*'];
+            $columns = [$this->related->getTable() . '.*'];
         }
 
-        return array_merge($columns, [$this->getQualifiedFirstKeyName().' as laravel_through_key']);
+        return array_merge($columns, [$this->getQualifiedFirstKeyName() . ' as laravel_through_key']);
     }
 
     /**
@@ -549,7 +554,7 @@ class HasManyThrough extends Relation
     /**
      * Get a generator for the given query.
      *
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function cursor()
     {
@@ -578,7 +583,7 @@ class HasManyThrough extends Relation
      * Query lazily, by chunks of the given size.
      *
      * @param  int  $chunkSize
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function lazy($chunkSize = 1000)
     {
@@ -591,7 +596,7 @@ class HasManyThrough extends Relation
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function lazyById($chunkSize = 1000, $column = null, $alias = null)
     {
@@ -606,7 +611,7 @@ class HasManyThrough extends Relation
      * Prepare the query builder for query execution.
      *
      * @param  array  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     protected function prepareQueryBuilder($columns = ['*'])
     {
@@ -620,10 +625,10 @@ class HasManyThrough extends Relation
     /**
      * Add the constraints for a relationship query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -638,23 +643,25 @@ class HasManyThrough extends Relation
         $this->performJoin($query);
 
         return $query->select($columns)->whereColumn(
-            $this->getQualifiedLocalKeyName(), '=', $this->getQualifiedFirstKeyName()
+            $this->getQualifiedLocalKeyName(),
+            '=',
+            $this->getQualifiedFirstKeyName()
         );
     }
 
     /**
      * Add the constraints for a relationship query on the same table.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQueryForSelfRelation(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
-        $query->from($query->getModel()->getTable().' as '.$hash = $this->getRelationCountHash());
+        $query->from($query->getModel()->getTable() . ' as ' . $hash = $this->getRelationCountHash());
 
-        $query->join($this->throughParent->getTable(), $this->getQualifiedParentKeyName(), '=', $hash.'.'.$this->secondKey);
+        $query->join($this->throughParent->getTable(), $this->getQualifiedParentKeyName(), '=', $hash . '.' . $this->secondKey);
 
         if ($this->throughParentSoftDeletes()) {
             $query->whereNull($this->throughParent->getQualifiedDeletedAtColumn());
@@ -663,30 +670,34 @@ class HasManyThrough extends Relation
         $query->getModel()->setTable($hash);
 
         return $query->select($columns)->whereColumn(
-            $parentQuery->getQuery()->from.'.'.$this->localKey, '=', $this->getQualifiedFirstKeyName()
+            $parentQuery->getQuery()->from . '.' . $this->localKey,
+            '=',
+            $this->getQualifiedFirstKeyName()
         );
     }
 
     /**
      * Add the constraints for a relationship query on the same table as the through parent.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQueryForThroughSelfRelation(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
-        $table = $this->throughParent->getTable().' as '.$hash = $this->getRelationCountHash();
+        $table = $this->throughParent->getTable() . ' as ' . $hash = $this->getRelationCountHash();
 
-        $query->join($table, $hash.'.'.$this->secondLocalKey, '=', $this->getQualifiedFarKeyName());
+        $query->join($table, $hash . '.' . $this->secondLocalKey, '=', $this->getQualifiedFarKeyName());
 
         if ($this->throughParentSoftDeletes()) {
-            $query->whereNull($hash.'.'.$this->throughParent->getDeletedAtColumn());
+            $query->whereNull($hash . '.' . $this->throughParent->getDeletedAtColumn());
         }
 
         return $query->select($columns)->whereColumn(
-            $parentQuery->getQuery()->from.'.'.$this->localKey, '=', $hash.'.'.$this->firstKey
+            $parentQuery->getQuery()->from . '.' . $this->localKey,
+            '=',
+            $hash . '.' . $this->firstKey
         );
     }
 

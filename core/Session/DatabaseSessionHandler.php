@@ -1,14 +1,14 @@
 <?php
 
-namespace Illuminate\Session;
+namespace AwesomeCoder\Session;
 
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\InteractsWithTime;
+use AwesomeCoder\Contracts\Auth\Guard;
+use AwesomeCoder\Contracts\Container\Container;
+use AwesomeCoder\Database\ConnectionInterface;
+use AwesomeCoder\Database\QueryException;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Carbon;
+use AwesomeCoder\Support\InteractsWithTime;
 use SessionHandlerInterface;
 
 class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerInterface
@@ -18,7 +18,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var \AwesomeCoder\Database\ConnectionInterface
      */
     protected $connection;
 
@@ -39,7 +39,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * The container instance.
      *
-     * @var \Illuminate\Contracts\Container\Container|null
+     * @var \AwesomeCoder\Contracts\Container\Container|null
      */
     protected $container;
 
@@ -53,10 +53,10 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Create a new database session handler instance.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @param  \AwesomeCoder\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @param  int  $minutes
-     * @param  \Illuminate\Contracts\Container\Container|null  $container
+     * @param  \AwesomeCoder\Contracts\Container\Container|null  $container
      * @return void
      */
     public function __construct(ConnectionInterface $connection, $table, $minutes, Container $container = null)
@@ -132,7 +132,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     {
         $payload = $this->getDefaultPayload($data);
 
-        if (! $this->exists) {
+        if (!$this->exists) {
             $this->read($sessionId);
         }
 
@@ -186,13 +186,13 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
             'last_activity' => $this->currentTime(),
         ];
 
-        if (! $this->container) {
+        if (!$this->container) {
             return $payload;
         }
 
         return tap($payload, function (&$payload) {
             $this->addUserInformation($payload)
-                 ->addRequestInformation($payload);
+                ->addRequestInformation($payload);
         });
     }
 
@@ -284,7 +284,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Get a fresh query builder instance for the table.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     protected function getQuery()
     {
@@ -294,7 +294,7 @@ class DatabaseSessionHandler implements ExistenceAwareInterface, SessionHandlerI
     /**
      * Set the application instance used by the handler.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $container
+     * @param  \AwesomeCoder\Contracts\Foundation\Application  $container
      * @return $this
      */
     public function setContainer($container)

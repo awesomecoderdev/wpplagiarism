@@ -1,22 +1,22 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Support\Str;
+use AwesomeCoder\Support\Str;
 
 class ForeignIdColumnDefinition extends ColumnDefinition
 {
     /**
      * The schema builder blueprint instance.
      *
-     * @var \Illuminate\Database\Schema\Blueprint
+     * @var \AwesomeCoder\Database\Schema\Blueprint
      */
     protected $blueprint;
 
     /**
      * Create a new foreign ID column definition.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
      * @param  array  $attributes
      * @return void
      */
@@ -32,18 +32,18 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      *
      * @param  string|null  $table
      * @param  string  $column
-     * @return \Illuminate\Database\Schema\ForeignKeyDefinition
+     * @return \AwesomeCoder\Database\Schema\ForeignKeyDefinition
      */
     public function constrained($table = null, $column = 'id')
     {
-        return $this->references($column)->on($table ?? Str::of($this->name)->beforeLast('_'.$column)->plural());
+        return $this->references($column)->on($table ?? Str::of($this->name)->beforeLast('_' . $column)->plural());
     }
 
     /**
      * Specify which column this foreign ID references on another table.
      *
      * @param  string  $column
-     * @return \Illuminate\Database\Schema\ForeignKeyDefinition
+     * @return \AwesomeCoder\Database\Schema\ForeignKeyDefinition
      */
     public function references($column)
     {

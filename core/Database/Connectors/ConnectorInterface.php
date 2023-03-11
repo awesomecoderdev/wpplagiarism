@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
 interface ConnectorInterface
 {

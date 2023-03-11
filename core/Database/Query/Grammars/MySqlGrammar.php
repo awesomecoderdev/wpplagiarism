@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Query\Grammars;
+namespace AwesomeCoder\Database\Query\Grammars;
 
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\Query\Builder;
+use AwesomeCoder\Support\Str;
 
 class MySqlGrammar extends Grammar
 {
@@ -17,7 +17,7 @@ class MySqlGrammar extends Grammar
     /**
      * Add a "where null" clause to the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -26,7 +26,7 @@ class MySqlGrammar extends Grammar
         if ($this->isJsonSelector($where['column'])) {
             [$field, $path] = $this->wrapJsonFieldAndPath($where['column']);
 
-            return '(json_extract('.$field.$path.') is null OR json_type(json_extract('.$field.$path.')) = \'NULL\')';
+            return '(json_extract(' . $field . $path . ') is null OR json_type(json_extract(' . $field . $path . ')) = \'NULL\')';
         }
 
         return parent::whereNull($query, $where);
@@ -35,7 +35,7 @@ class MySqlGrammar extends Grammar
     /**
      * Add a "where not null" clause to the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -44,7 +44,7 @@ class MySqlGrammar extends Grammar
         if ($this->isJsonSelector($where['column'])) {
             [$field, $path] = $this->wrapJsonFieldAndPath($where['column']);
 
-            return '(json_extract('.$field.$path.') is not null AND json_type(json_extract('.$field.$path.')) != \'NULL\')';
+            return '(json_extract(' . $field . $path . ') is not null AND json_type(json_extract(' . $field . $path . ')) != \'NULL\')';
         }
 
         return parent::whereNotNull($query, $where);
@@ -53,7 +53,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a "where fulltext" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -71,14 +71,14 @@ class MySqlGrammar extends Grammar
             ? ' with query expansion'
             : '';
 
-        return "match ({$columns}) against (".$value."{$mode}{$expanded})";
+        return "match ({$columns}) against (" . $value . "{$mode}{$expanded})";
     }
 
     /**
      * Compile the index hints for the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  \Illuminate\Database\Query\IndexHint  $indexHint
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\IndexHint  $indexHint
      * @return string
      */
     protected function compileIndexHint(Builder $query, $indexHint)
@@ -93,7 +93,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -113,7 +113,7 @@ class MySqlGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return 'json_contains('.$field.', '.$value.$path.')';
+        return 'json_contains(' . $field . ', ' . $value . $path . ')';
     }
 
     /**
@@ -126,7 +126,7 @@ class MySqlGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return 'ifnull(json_contains_path('.$field.', \'one\''.$path.'), 0)';
+        return 'ifnull(json_contains_path(' . $field . ', \'one\'' . $path . '), 0)';
     }
 
     /**
@@ -141,7 +141,7 @@ class MySqlGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return 'json_length('.$field.$path.') '.$operator.' '.$value;
+        return 'json_length(' . $field . $path . ') ' . $operator . ' ' . $value;
     }
 
     /**
@@ -152,7 +152,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileJsonValueCast($value)
     {
-        return 'cast('.$value.' as json)';
+        return 'cast(' . $value . ' as json)';
     }
 
     /**
@@ -163,19 +163,19 @@ class MySqlGrammar extends Grammar
      */
     public function compileRandom($seed)
     {
-        return 'RAND('.$seed.')';
+        return 'RAND(' . $seed . ')';
     }
 
     /**
      * Compile the lock into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  bool|string  $value
      * @return string
      */
     protected function compileLock(Builder $query, $value)
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return $value ? 'for update' : 'lock in share mode';
         }
 
@@ -185,7 +185,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an insert statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -201,7 +201,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the columns for an update statement.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -212,14 +212,14 @@ class MySqlGrammar extends Grammar
                 return $this->compileJsonUpdateColumn($key, $value);
             }
 
-            return $this->wrap($key).' = '.$this->parameter($value);
+            return $this->wrap($key) . ' = ' . $this->parameter($value);
         })->implode(', ');
     }
 
     /**
      * Compile an "upsert" statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @param  array  $uniqueBy
      * @param  array  $update
@@ -238,16 +238,16 @@ class MySqlGrammar extends Grammar
         $sql .= ' on duplicate key update ';
 
         $columns = collect($update)->map(function ($value, $key) use ($useUpsertAlias) {
-            if (! is_numeric($key)) {
-                return $this->wrap($key).' = '.$this->parameter($value);
+            if (!is_numeric($key)) {
+                return $this->wrap($key) . ' = ' . $this->parameter($value);
             }
 
             return $useUpsertAlias
-                ? $this->wrap($value).' = '.$this->wrap('laravel_upsert_alias').'.'.$this->wrap($value)
-                : $this->wrap($value).' = values('.$this->wrap($value).')';
+                ? $this->wrap($value) . ' = ' . $this->wrap('laravel_upsert_alias') . '.' . $this->wrap($value)
+                : $this->wrap($value) . ' = values(' . $this->wrap($value) . ')';
         })->implode(', ');
 
-        return $sql.$columns;
+        return $sql . $columns;
     }
 
     /**
@@ -275,7 +275,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an update statement without joins into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $columns
      * @param  string  $where
@@ -285,12 +285,12 @@ class MySqlGrammar extends Grammar
     {
         $sql = parent::compileUpdateWithoutJoins($query, $table, $columns, $where);
 
-        if (! empty($query->orders)) {
-            $sql .= ' '.$this->compileOrders($query, $query->orders);
+        if (!empty($query->orders)) {
+            $sql .= ' ' . $this->compileOrders($query, $query->orders);
         }
 
         if (isset($query->limit)) {
-            $sql .= ' '.$this->compileLimit($query, $query->limit);
+            $sql .= ' ' . $this->compileLimit($query, $query->limit);
         }
 
         return $sql;
@@ -319,7 +319,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a delete query that does not use joins.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $table
      * @param  string  $where
      * @return string
@@ -331,12 +331,12 @@ class MySqlGrammar extends Grammar
         // When using MySQL, delete statements may contain order by statements and limits
         // so we will compile both of those here. Once we have finished compiling this
         // we will return the completed SQL statement so it will be executed for us.
-        if (! empty($query->orders)) {
-            $sql .= ' '.$this->compileOrders($query, $query->orders);
+        if (!empty($query->orders)) {
+            $sql .= ' ' . $this->compileOrders($query, $query->orders);
         }
 
         if (isset($query->limit)) {
-            $sql .= ' '.$this->compileLimit($query, $query->limit);
+            $sql .= ' ' . $this->compileLimit($query, $query->limit);
         }
 
         return $sql;
@@ -350,7 +350,7 @@ class MySqlGrammar extends Grammar
      */
     protected function wrapValue($value)
     {
-        return $value === '*' ? $value : '`'.str_replace('`', '``', $value).'`';
+        return $value === '*' ? $value : '`' . str_replace('`', '``', $value) . '`';
     }
 
     /**
@@ -363,7 +363,7 @@ class MySqlGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($value);
 
-        return 'json_unquote(json_extract('.$field.$path.'))';
+        return 'json_unquote(json_extract(' . $field . $path . '))';
     }
 
     /**
@@ -376,6 +376,6 @@ class MySqlGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($value);
 
-        return 'json_extract('.$field.$path.')';
+        return 'json_extract(' . $field . $path . ')';
     }
 }

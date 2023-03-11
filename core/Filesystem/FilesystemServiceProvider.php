@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Filesystem;
+namespace AwesomeCoder\Filesystem;
 
-use Illuminate\Support\ServiceProvider;
+use AwesomeCoder\Support\ServiceProvider;
 
 class FilesystemServiceProvider extends ServiceProvider
 {

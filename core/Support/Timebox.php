@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 class Timebox
 {
@@ -28,7 +28,7 @@ class Timebox
 
         $remainder = intval($microseconds - ((microtime(true) - $start) * 1000000));
 
-        if (! $this->earlyReturn && $remainder > 0) {
+        if (!$this->earlyReturn && $remainder > 0) {
             $this->usleep($remainder);
         }
 

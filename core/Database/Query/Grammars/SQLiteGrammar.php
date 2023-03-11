@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Query\Grammars;
+namespace AwesomeCoder\Database\Query\Grammars;
 
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\Query\Builder;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Str;
 
 class SQLiteGrammar extends Grammar
 {
@@ -22,7 +22,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  bool|string  $value
      * @return string
      */
@@ -39,13 +39,13 @@ class SQLiteGrammar extends Grammar
      */
     protected function wrapUnion($sql)
     {
-        return 'select * from ('.$sql.')';
+        return 'select * from (' . $sql . ')';
     }
 
     /**
      * Compile a "where date" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -57,7 +57,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where day" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -69,7 +69,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where month" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -81,7 +81,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where year" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -93,7 +93,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a "where time" clause.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -106,7 +106,7 @@ class SQLiteGrammar extends Grammar
      * Compile a date based where clause.
      *
      * @param  string  $type
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $where
      * @return string
      */
@@ -120,15 +120,15 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile the index hints for the query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  \Illuminate\Database\Query\IndexHint  $indexHint
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\IndexHint  $indexHint
      * @return string
      */
     protected function compileIndexHint(Builder $query, $indexHint)
     {
         return $indexHint->type === 'force'
-                ? "indexed by {$indexHint->index}"
-                : '';
+            ? "indexed by {$indexHint->index}"
+            : '';
     }
 
     /**
@@ -143,7 +143,7 @@ class SQLiteGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return 'json_array_length('.$field.$path.') '.$operator.' '.$value;
+        return 'json_array_length(' . $field . $path . ') ' . $operator . ' ' . $value;
     }
 
     /**
@@ -156,13 +156,13 @@ class SQLiteGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($column);
 
-        return 'json_type('.$field.$path.') is not null';
+        return 'json_type(' . $field . $path . ') is not null';
     }
 
     /**
      * Compile an update statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -178,7 +178,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile an insert ignore statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -190,7 +190,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile the columns for an update statement.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -205,14 +205,14 @@ class SQLiteGrammar extends Grammar
 
             $value = isset($jsonGroups[$key]) ? $this->compileJsonPatch($column, $value) : $this->parameter($value);
 
-            return $this->wrap($column).' = '.$value;
+            return $this->wrap($column) . ' = ' . $value;
         })->implode(', ');
     }
 
     /**
      * Compile an "upsert" statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @param  array  $uniqueBy
      * @param  array  $update
@@ -222,15 +222,15 @@ class SQLiteGrammar extends Grammar
     {
         $sql = $this->compileInsert($query, $values);
 
-        $sql .= ' on conflict ('.$this->columnize($uniqueBy).') do update set ';
+        $sql .= ' on conflict (' . $this->columnize($uniqueBy) . ') do update set ';
 
         $columns = collect($update)->map(function ($value, $key) {
             return is_numeric($key)
-                ? $this->wrap($value).' = '.$this->wrapValue('excluded').'.'.$this->wrap($value)
-                : $this->wrap($key).' = '.$this->parameter($value);
+                ? $this->wrap($value) . ' = ' . $this->wrapValue('excluded') . '.' . $this->wrap($value)
+                : $this->wrap($key) . ' = ' . $this->parameter($value);
         })->implode(', ');
 
-        return $sql.$columns;
+        return $sql . $columns;
     }
 
     /**
@@ -267,7 +267,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile an update statement with joins or limit into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $values
      * @return string
      */
@@ -279,7 +279,7 @@ class SQLiteGrammar extends Grammar
 
         $alias = last(preg_split('/\s+as\s+/i', $query->from));
 
-        $selectSql = $this->compileSelect($query->select($alias.'.rowid'));
+        $selectSql = $this->compileSelect($query->select($alias . '.rowid'));
 
         return "update {$table} set {$columns} where {$this->wrap('rowid')} in ({$selectSql})";
     }
@@ -311,7 +311,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a delete statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return string
      */
     public function compileDelete(Builder $query)
@@ -326,7 +326,7 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a delete statement with joins or limit into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return string
      */
     protected function compileDeleteWithJoinsOrLimit(Builder $query)
@@ -335,7 +335,7 @@ class SQLiteGrammar extends Grammar
 
         $alias = last(preg_split('/\s+as\s+/i', $query->from));
 
-        $selectSql = $this->compileSelect($query->select($alias.'.rowid'));
+        $selectSql = $this->compileSelect($query->select($alias . '.rowid'));
 
         return "delete from {$table} where {$this->wrap('rowid')} in ({$selectSql})";
     }
@@ -343,14 +343,14 @@ class SQLiteGrammar extends Grammar
     /**
      * Compile a truncate table statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return array
      */
     public function compileTruncate(Builder $query)
     {
         return [
             'delete from sqlite_sequence where name = ?' => [$query->from],
-            'delete from '.$this->wrapTable($query->from) => [],
+            'delete from ' . $this->wrapTable($query->from) => [],
         ];
     }
 
@@ -364,6 +364,6 @@ class SQLiteGrammar extends Grammar
     {
         [$field, $path] = $this->wrapJsonFieldAndPath($value);
 
-        return 'json_extract('.$field.$path.')';
+        return 'json_extract(' . $field . $path . ')';
     }
 }

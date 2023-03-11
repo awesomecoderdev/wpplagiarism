@@ -1,27 +1,27 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
 use Closure;
-use Illuminate\Database\ClassMorphViolationException;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\PendingHasThroughRelationship;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\ClassMorphViolationException;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\PendingHasThroughRelationship;
+use AwesomeCoder\Database\Eloquent\Relations\BelongsTo;
+use AwesomeCoder\Database\Eloquent\Relations\BelongsToMany;
+use AwesomeCoder\Database\Eloquent\Relations\HasMany;
+use AwesomeCoder\Database\Eloquent\Relations\HasManyThrough;
+use AwesomeCoder\Database\Eloquent\Relations\HasOne;
+use AwesomeCoder\Database\Eloquent\Relations\HasOneThrough;
+use AwesomeCoder\Database\Eloquent\Relations\MorphMany;
+use AwesomeCoder\Database\Eloquent\Relations\MorphOne;
+use AwesomeCoder\Database\Eloquent\Relations\MorphTo;
+use AwesomeCoder\Database\Eloquent\Relations\MorphToMany;
+use AwesomeCoder\Database\Eloquent\Relations\Pivot;
+use AwesomeCoder\Database\Eloquent\Relations\Relation;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Str;
 
 trait HasRelationships
 {
@@ -96,7 +96,7 @@ trait HasRelationships
      * @param  string  $related
      * @param  string|null  $foreignKey
      * @param  string|null  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
     {
@@ -106,17 +106,17 @@ trait HasRelationships
 
         $localKey = $localKey ?: $this->getKeyName();
 
-        return $this->newHasOne($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
+        return $this->newHasOne($instance->newQuery(), $this, $instance->getTable() . '.' . $foreignKey, $localKey);
     }
 
     /**
      * Instantiate a new HasOne relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $foreignKey
      * @param  string  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasOne
      */
     protected function newHasOne(Builder $query, Model $parent, $foreignKey, $localKey)
     {
@@ -132,7 +132,7 @@ trait HasRelationships
      * @param  string|null  $secondKey
      * @param  string|null  $localKey
      * @param  string|null  $secondLocalKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasOneThrough
      */
     public function hasOneThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
     {
@@ -143,8 +143,12 @@ trait HasRelationships
         $secondKey = $secondKey ?: $through->getForeignKey();
 
         return $this->newHasOneThrough(
-            $this->newRelatedInstance($related)->newQuery(), $this, $through,
-            $firstKey, $secondKey, $localKey ?: $this->getKeyName(),
+            $this->newRelatedInstance($related)->newQuery(),
+            $this,
+            $through,
+            $firstKey,
+            $secondKey,
+            $localKey ?: $this->getKeyName(),
             $secondLocalKey ?: $through->getKeyName()
         );
     }
@@ -152,14 +156,14 @@ trait HasRelationships
     /**
      * Instantiate a new HasOneThrough relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $farParent
-     * @param  \Illuminate\Database\Eloquent\Model  $throughParent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $farParent
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $throughParent
      * @param  string  $firstKey
      * @param  string  $secondKey
      * @param  string  $localKey
      * @param  string  $secondLocalKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasOneThrough
      */
     protected function newHasOneThrough(Builder $query, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
     {
@@ -174,7 +178,7 @@ trait HasRelationships
      * @param  string|null  $type
      * @param  string|null  $id
      * @param  string|null  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphOne
      */
     public function morphOne($related, $name, $type = null, $id = null, $localKey = null)
     {
@@ -186,18 +190,18 @@ trait HasRelationships
 
         $localKey = $localKey ?: $this->getKeyName();
 
-        return $this->newMorphOne($instance->newQuery(), $this, $table.'.'.$type, $table.'.'.$id, $localKey);
+        return $this->newMorphOne($instance->newQuery(), $this, $table . '.' . $type, $table . '.' . $id, $localKey);
     }
 
     /**
      * Instantiate a new MorphOne relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $type
      * @param  string  $id
      * @param  string  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphOne
      */
     protected function newMorphOne(Builder $query, Model $parent, $type, $id, $localKey)
     {
@@ -211,7 +215,7 @@ trait HasRelationships
      * @param  string|null  $foreignKey
      * @param  string|null  $ownerKey
      * @param  string|null  $relation
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\BelongsTo
      */
     public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relation = null)
     {
@@ -228,7 +232,7 @@ trait HasRelationships
         // foreign key name by using the name of the relationship function, which
         // when combined with an "_id" should conventionally match the columns.
         if (is_null($foreignKey)) {
-            $foreignKey = Str::snake($relation).'_'.$instance->getKeyName();
+            $foreignKey = Str::snake($relation) . '_' . $instance->getKeyName();
         }
 
         // Once we have the foreign key names we'll just create a new Eloquent query
@@ -237,19 +241,23 @@ trait HasRelationships
         $ownerKey = $ownerKey ?: $instance->getKeyName();
 
         return $this->newBelongsTo(
-            $instance->newQuery(), $this, $foreignKey, $ownerKey, $relation
+            $instance->newQuery(),
+            $this,
+            $foreignKey,
+            $ownerKey,
+            $relation
         );
     }
 
     /**
      * Instantiate a new BelongsTo relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $child
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $child
      * @param  string  $foreignKey
      * @param  string  $ownerKey
      * @param  string  $relation
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\BelongsTo
      */
     protected function newBelongsTo(Builder $query, Model $child, $foreignKey, $ownerKey, $relation)
     {
@@ -263,7 +271,7 @@ trait HasRelationships
      * @param  string|null  $type
      * @param  string|null  $id
      * @param  string|null  $ownerKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphTo
      */
     public function morphTo($name = null, $type = null, $id = null, $ownerKey = null)
     {
@@ -273,15 +281,17 @@ trait HasRelationships
         $name = $name ?: $this->guessBelongsToRelation();
 
         [$type, $id] = $this->getMorphs(
-            Str::snake($name), $type, $id
+            Str::snake($name),
+            $type,
+            $id
         );
 
         // If the type value is null it is probably safe to assume we're eager loading
         // the relationship. In this case we'll just pass in a dummy query where we
         // need to remove any eager loads that may already be defined on a model.
         return is_null($class = $this->getAttributeFromArray($type)) || $class === ''
-                    ? $this->morphEagerTo($name, $type, $id, $ownerKey)
-                    : $this->morphInstanceTo($class, $name, $type, $id, $ownerKey);
+            ? $this->morphEagerTo($name, $type, $id, $ownerKey)
+            : $this->morphInstanceTo($class, $name, $type, $id, $ownerKey);
     }
 
     /**
@@ -291,12 +301,17 @@ trait HasRelationships
      * @param  string  $type
      * @param  string  $id
      * @param  string  $ownerKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphTo
      */
     protected function morphEagerTo($name, $type, $id, $ownerKey)
     {
         return $this->newMorphTo(
-            $this->newQuery()->setEagerLoads([]), $this, $id, $ownerKey, $type, $name
+            $this->newQuery()->setEagerLoads([]),
+            $this,
+            $id,
+            $ownerKey,
+            $type,
+            $name
         );
     }
 
@@ -308,7 +323,7 @@ trait HasRelationships
      * @param  string  $type
      * @param  string  $id
      * @param  string  $ownerKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphTo
      */
     protected function morphInstanceTo($target, $name, $type, $id, $ownerKey)
     {
@@ -317,20 +332,25 @@ trait HasRelationships
         );
 
         return $this->newMorphTo(
-            $instance->newQuery(), $this, $id, $ownerKey ?? $instance->getKeyName(), $type, $name
+            $instance->newQuery(),
+            $this,
+            $id,
+            $ownerKey ?? $instance->getKeyName(),
+            $type,
+            $name
         );
     }
 
     /**
      * Instantiate a new MorphTo relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $foreignKey
      * @param  string  $ownerKey
      * @param  string  $type
      * @param  string  $relation
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphTo
      */
     protected function newMorphTo(Builder $query, Model $parent, $foreignKey, $ownerKey, $type, $relation)
     {
@@ -363,8 +383,8 @@ trait HasRelationships
     /**
      * Create a pending has-many-through or has-one-through relationship.
      *
-     * @param  string|\Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne  $relationship
-     * @return \Illuminate\Database\Eloquent\PendingHasThroughRelationship
+     * @param  string|\AwesomeCoder\Database\Eloquent\Relations\HasMany|\AwesomeCoder\Database\Eloquent\Relations\HasOne  $relationship
+     * @return \AwesomeCoder\Database\Eloquent\PendingHasThroughRelationship
      */
     public function through($relationship)
     {
@@ -381,7 +401,7 @@ trait HasRelationships
      * @param  string  $related
      * @param  string|null  $foreignKey
      * @param  string|null  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasMany
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
@@ -392,18 +412,21 @@ trait HasRelationships
         $localKey = $localKey ?: $this->getKeyName();
 
         return $this->newHasMany(
-            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+            $instance->newQuery(),
+            $this,
+            $instance->getTable() . '.' . $foreignKey,
+            $localKey
         );
     }
 
     /**
      * Instantiate a new HasMany relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $foreignKey
      * @param  string  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasMany
      */
     protected function newHasMany(Builder $query, Model $parent, $foreignKey, $localKey)
     {
@@ -419,7 +442,7 @@ trait HasRelationships
      * @param  string|null  $secondKey
      * @param  string|null  $localKey
      * @param  string|null  $secondLocalKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasManyThrough
      */
     public function hasManyThrough($related, $through, $firstKey = null, $secondKey = null, $localKey = null, $secondLocalKey = null)
     {
@@ -443,14 +466,14 @@ trait HasRelationships
     /**
      * Instantiate a new HasManyThrough relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $farParent
-     * @param  \Illuminate\Database\Eloquent\Model  $throughParent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $farParent
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $throughParent
      * @param  string  $firstKey
      * @param  string  $secondKey
      * @param  string  $localKey
      * @param  string  $secondLocalKey
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasManyThrough
      */
     protected function newHasManyThrough(Builder $query, Model $farParent, Model $throughParent, $firstKey, $secondKey, $localKey, $secondLocalKey)
     {
@@ -465,7 +488,7 @@ trait HasRelationships
      * @param  string|null  $type
      * @param  string|null  $id
      * @param  string|null  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphMany
      */
     public function morphMany($related, $name, $type = null, $id = null, $localKey = null)
     {
@@ -480,18 +503,18 @@ trait HasRelationships
 
         $localKey = $localKey ?: $this->getKeyName();
 
-        return $this->newMorphMany($instance->newQuery(), $this, $table.'.'.$type, $table.'.'.$id, $localKey);
+        return $this->newMorphMany($instance->newQuery(), $this, $table . '.' . $type, $table . '.' . $id, $localKey);
     }
 
     /**
      * Instantiate a new MorphMany relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $type
      * @param  string  $id
      * @param  string  $localKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphMany
      */
     protected function newMorphMany(Builder $query, Model $parent, $type, $id, $localKey)
     {
@@ -508,11 +531,17 @@ trait HasRelationships
      * @param  string|null  $parentKey
      * @param  string|null  $relatedKey
      * @param  string|null  $relation
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\BelongsToMany
      */
-    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
-                                  $parentKey = null, $relatedKey = null, $relation = null)
-    {
+    public function belongsToMany(
+        $related,
+        $table = null,
+        $foreignPivotKey = null,
+        $relatedPivotKey = null,
+        $parentKey = null,
+        $relatedKey = null,
+        $relation = null
+    ) {
         // If no relationship name was passed, we will pull backtraces to get the
         // name of the calling function. We will use that function name as the
         // title of this relation since that is a great convention to apply.
@@ -537,28 +566,40 @@ trait HasRelationships
         }
 
         return $this->newBelongsToMany(
-            $instance->newQuery(), $this, $table, $foreignPivotKey,
-            $relatedPivotKey, $parentKey ?: $this->getKeyName(),
-            $relatedKey ?: $instance->getKeyName(), $relation
+            $instance->newQuery(),
+            $this,
+            $table,
+            $foreignPivotKey,
+            $relatedPivotKey,
+            $parentKey ?: $this->getKeyName(),
+            $relatedKey ?: $instance->getKeyName(),
+            $relation
         );
     }
 
     /**
      * Instantiate a new BelongsToMany relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $table
      * @param  string  $foreignPivotKey
      * @param  string  $relatedPivotKey
      * @param  string  $parentKey
      * @param  string  $relatedKey
      * @param  string|null  $relationName
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\BelongsToMany
      */
-    protected function newBelongsToMany(Builder $query, Model $parent, $table, $foreignPivotKey, $relatedPivotKey,
-                                        $parentKey, $relatedKey, $relationName = null)
-    {
+    protected function newBelongsToMany(
+        Builder $query,
+        Model $parent,
+        $table,
+        $foreignPivotKey,
+        $relatedPivotKey,
+        $parentKey,
+        $relatedKey,
+        $relationName = null
+    ) {
         return new BelongsToMany($query, $parent, $table, $foreignPivotKey, $relatedPivotKey, $parentKey, $relatedKey, $relationName);
     }
 
@@ -573,12 +614,18 @@ trait HasRelationships
      * @param  string|null  $parentKey
      * @param  string|null  $relatedKey
      * @param  bool  $inverse
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphToMany
      */
-    public function morphToMany($related, $name, $table = null, $foreignPivotKey = null,
-                                $relatedPivotKey = null, $parentKey = null,
-                                $relatedKey = null, $inverse = false)
-    {
+    public function morphToMany(
+        $related,
+        $name,
+        $table = null,
+        $foreignPivotKey = null,
+        $relatedPivotKey = null,
+        $parentKey = null,
+        $relatedKey = null,
+        $inverse = false
+    ) {
         $caller = $this->guessBelongsToManyRelation();
 
         // First, we will need to determine the foreign key and "other key" for the
@@ -586,33 +633,40 @@ trait HasRelationships
         // instances, as well as the relationship instances we need for these.
         $instance = $this->newRelatedInstance($related);
 
-        $foreignPivotKey = $foreignPivotKey ?: $name.'_id';
+        $foreignPivotKey = $foreignPivotKey ?: $name . '_id';
 
         $relatedPivotKey = $relatedPivotKey ?: $instance->getForeignKey();
 
         // Now we're ready to create a new query builder for the related model and
         // the relationship instances for this relation. This relation will set
         // appropriate query constraints then entirely manage the hydrations.
-        if (! $table) {
+        if (!$table) {
             $words = preg_split('/(_)/u', $name, -1, PREG_SPLIT_DELIM_CAPTURE);
 
             $lastWord = array_pop($words);
 
-            $table = implode('', $words).Str::plural($lastWord);
+            $table = implode('', $words) . Str::plural($lastWord);
         }
 
         return $this->newMorphToMany(
-            $instance->newQuery(), $this, $name, $table,
-            $foreignPivotKey, $relatedPivotKey, $parentKey ?: $this->getKeyName(),
-            $relatedKey ?: $instance->getKeyName(), $caller, $inverse
+            $instance->newQuery(),
+            $this,
+            $name,
+            $table,
+            $foreignPivotKey,
+            $relatedPivotKey,
+            $parentKey ?: $this->getKeyName(),
+            $relatedKey ?: $instance->getKeyName(),
+            $caller,
+            $inverse
         );
     }
 
     /**
      * Instantiate a new MorphToMany relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @param  string  $name
      * @param  string  $table
      * @param  string  $foreignPivotKey
@@ -621,14 +675,32 @@ trait HasRelationships
      * @param  string  $relatedKey
      * @param  string|null  $relationName
      * @param  bool  $inverse
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphToMany
      */
-    protected function newMorphToMany(Builder $query, Model $parent, $name, $table, $foreignPivotKey,
-                                      $relatedPivotKey, $parentKey, $relatedKey,
-                                      $relationName = null, $inverse = false)
-    {
-        return new MorphToMany($query, $parent, $name, $table, $foreignPivotKey, $relatedPivotKey, $parentKey, $relatedKey,
-            $relationName, $inverse);
+    protected function newMorphToMany(
+        Builder $query,
+        Model $parent,
+        $name,
+        $table,
+        $foreignPivotKey,
+        $relatedPivotKey,
+        $parentKey,
+        $relatedKey,
+        $relationName = null,
+        $inverse = false
+    ) {
+        return new MorphToMany(
+            $query,
+            $parent,
+            $name,
+            $table,
+            $foreignPivotKey,
+            $relatedPivotKey,
+            $parentKey,
+            $relatedKey,
+            $relationName,
+            $inverse
+        );
     }
 
     /**
@@ -641,21 +713,33 @@ trait HasRelationships
      * @param  string|null  $relatedPivotKey
      * @param  string|null  $parentKey
      * @param  string|null  $relatedKey
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return \AwesomeCoder\Database\Eloquent\Relations\MorphToMany
      */
-    public function morphedByMany($related, $name, $table = null, $foreignPivotKey = null,
-                                  $relatedPivotKey = null, $parentKey = null, $relatedKey = null)
-    {
+    public function morphedByMany(
+        $related,
+        $name,
+        $table = null,
+        $foreignPivotKey = null,
+        $relatedPivotKey = null,
+        $parentKey = null,
+        $relatedKey = null
+    ) {
         $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey();
 
         // For the inverse of the polymorphic many-to-many relations, we will change
         // the way we determine the foreign and other keys, as it is the opposite
         // of the morph-to-many method since we're figuring out these inverses.
-        $relatedPivotKey = $relatedPivotKey ?: $name.'_id';
+        $relatedPivotKey = $relatedPivotKey ?: $name . '_id';
 
         return $this->morphToMany(
-            $related, $name, $table, $foreignPivotKey,
-            $relatedPivotKey, $parentKey, $relatedKey, true
+            $related,
+            $name,
+            $table,
+            $foreignPivotKey,
+            $relatedPivotKey,
+            $parentKey,
+            $relatedKey,
+            true
         );
     }
 
@@ -667,20 +751,20 @@ trait HasRelationships
     protected function guessBelongsToManyRelation()
     {
         $caller = Arr::first(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), function ($trace) {
-            return ! in_array(
+            return !in_array(
                 $trace['function'],
                 array_merge(static::$manyMethods, ['guessBelongsToManyRelation'])
             );
         });
 
-        return ! is_null($caller) ? $caller['function'] : null;
+        return !is_null($caller) ? $caller['function'] : null;
     }
 
     /**
      * Get the joining table name for a many-to-many relation.
      *
      * @param  string  $related
-     * @param  \Illuminate\Database\Eloquent\Model|null  $instance
+     * @param  \AwesomeCoder\Database\Eloquent\Model|null  $instance
      * @return string
      */
     public function joiningTable($related, $instance = null)
@@ -690,7 +774,7 @@ trait HasRelationships
         // just sort the models and join them together to get the table name.
         $segments = [
             $instance ? $instance->joiningTableSegment()
-                      : Str::snake(class_basename($related)),
+                : Str::snake(class_basename($related)),
             $this->joiningTableSegment(),
         ];
 
@@ -753,7 +837,7 @@ trait HasRelationships
      */
     protected function getMorphs($name, $type, $id)
     {
-        return [$type ?: $name.'_type', $id ?: $name.'_id'];
+        return [$type ?: $name . '_type', $id ?: $name . '_id'];
     }
 
     /**
@@ -765,7 +849,7 @@ trait HasRelationships
     {
         $morphMap = Relation::morphMap();
 
-        if (! empty($morphMap) && in_array(static::class, $morphMap)) {
+        if (!empty($morphMap) && in_array(static::class, $morphMap)) {
             return array_search(static::class, $morphMap, true);
         }
 
@@ -789,7 +873,7 @@ trait HasRelationships
     protected function newRelatedInstance($class)
     {
         return tap(new $class, function ($instance) {
-            if (! $instance->getConnectionName()) {
+            if (!$instance->getConnectionName()) {
                 $instance->setConnection($this->connection);
             }
         });

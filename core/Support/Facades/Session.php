@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace AwesomeCoder\Support\Facades;
 
 /**
  * @method static bool shouldBlock()
@@ -9,11 +9,11 @@ namespace Illuminate\Support\Facades;
  * @method static string getDefaultDriver()
  * @method static void setDefaultDriver(string $name)
  * @method static mixed driver(string|null $driver = null)
- * @method static \Illuminate\Session\SessionManager extend(string $driver, \Closure $callback)
+ * @method static \AwesomeCoder\Session\SessionManager extend(string $driver, \Closure $callback)
  * @method static array getDrivers()
- * @method static \Illuminate\Contracts\Container\Container getContainer()
- * @method static \Illuminate\Session\SessionManager setContainer(\Illuminate\Contracts\Container\Container $container)
- * @method static \Illuminate\Session\SessionManager forgetDrivers()
+ * @method static \AwesomeCoder\Contracts\Container\Container getContainer()
+ * @method static \AwesomeCoder\Session\SessionManager setContainer(\AwesomeCoder\Contracts\Container\Container $container)
+ * @method static \AwesomeCoder\Session\SessionManager forgetDrivers()
  * @method static bool start()
  * @method static void save()
  * @method static void ageFlashData()
@@ -58,13 +58,13 @@ namespace Illuminate\Support\Facades;
  * @method static \SessionHandlerInterface getHandler()
  * @method static \SessionHandlerInterface setHandler(\SessionHandlerInterface $handler)
  * @method static bool handlerNeedsRequest()
- * @method static void setRequestOnHandler(\Illuminate\Http\Request $request)
+ * @method static void setRequestOnHandler(\AwesomeCoder\Http\Request $request)
  * @method static void macro(string $name, object|callable $macro)
  * @method static void mixin(object $mixin, bool $replace = true)
  * @method static bool hasMacro(string $name)
  * @method static void flushMacros()
  *
- * @see \Illuminate\Session\SessionManager
+ * @see \AwesomeCoder\Session\SessionManager
  */
 class Session extends Facade
 {

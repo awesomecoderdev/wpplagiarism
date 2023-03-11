@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Cookie;
+namespace AwesomeCoder\Contracts\Cookie;
 
 interface Factory
 {

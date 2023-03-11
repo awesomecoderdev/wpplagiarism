@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
-use Illuminate\Contracts\Cache\LockProvider;
-use Illuminate\Support\InteractsWithTime;
+use AwesomeCoder\Contracts\Cache\LockProvider;
+use AwesomeCoder\Support\InteractsWithTime;
 
 class ArrayStore extends TaggableStore implements LockProvider
 {
@@ -49,7 +49,7 @@ class ArrayStore extends TaggableStore implements LockProvider
      */
     public function get($key)
     {
-        if (! isset($this->storage[$key])) {
+        if (!isset($this->storage[$key])) {
             return;
         }
 
@@ -93,7 +93,7 @@ class ArrayStore extends TaggableStore implements LockProvider
      */
     public function increment($key, $value = 1)
     {
-        if (! is_null($existing = $this->get($key))) {
+        if (!is_null($existing = $this->get($key))) {
             return tap(((int) $existing) + $value, function ($incremented) use ($key) {
                 $value = $this->serializesValues ? serialize($incremented) : $incremented;
 
@@ -197,7 +197,7 @@ class ArrayStore extends TaggableStore implements LockProvider
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null)
     {
@@ -209,7 +209,7 @@ class ArrayStore extends TaggableStore implements LockProvider
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner)
     {

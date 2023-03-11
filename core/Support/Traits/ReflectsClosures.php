@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace AwesomeCoder\Support\Traits;
 
 use Closure;
-use Illuminate\Support\Reflector;
+use AwesomeCoder\Support\Reflector;
 use ReflectionFunction;
 use RuntimeException;
 
@@ -22,7 +22,7 @@ trait ReflectsClosures
     {
         $types = array_values($this->closureParameterTypes($closure));
 
-        if (! $types) {
+        if (!$types) {
             throw new RuntimeException('The given Closure has no parameters.');
         }
 

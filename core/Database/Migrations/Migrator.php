@@ -1,24 +1,24 @@
 <?php
 
-namespace Illuminate\Database\Migrations;
+namespace AwesomeCoder\Database\Migrations;
 
 use Doctrine\DBAL\Schema\SchemaException;
-use Illuminate\Console\View\Components\BulletList;
-use Illuminate\Console\View\Components\Error;
-use Illuminate\Console\View\Components\Info;
-use Illuminate\Console\View\Components\Task;
-use Illuminate\Console\View\Components\TwoColumnDetail;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\ConnectionResolverInterface as Resolver;
-use Illuminate\Database\Events\MigrationEnded;
-use Illuminate\Database\Events\MigrationsEnded;
-use Illuminate\Database\Events\MigrationsStarted;
-use Illuminate\Database\Events\MigrationStarted;
-use Illuminate\Database\Events\NoPendingMigrations;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use AwesomeCoder\Console\View\Components\BulletList;
+use AwesomeCoder\Console\View\Components\Error;
+use AwesomeCoder\Console\View\Components\Info;
+use AwesomeCoder\Console\View\Components\Task;
+use AwesomeCoder\Console\View\Components\TwoColumnDetail;
+use AwesomeCoder\Contracts\Events\Dispatcher;
+use AwesomeCoder\Database\ConnectionResolverInterface as Resolver;
+use AwesomeCoder\Database\Events\MigrationEnded;
+use AwesomeCoder\Database\Events\MigrationsEnded;
+use AwesomeCoder\Database\Events\MigrationsStarted;
+use AwesomeCoder\Database\Events\MigrationStarted;
+use AwesomeCoder\Database\Events\NoPendingMigrations;
+use AwesomeCoder\Filesystem\Filesystem;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Collection;
+use AwesomeCoder\Support\Str;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -27,28 +27,28 @@ class Migrator
     /**
      * The event dispatcher instance.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var \AwesomeCoder\Contracts\Events\Dispatcher
      */
     protected $events;
 
     /**
      * The migration repository implementation.
      *
-     * @var \Illuminate\Database\Migrations\MigrationRepositoryInterface
+     * @var \AwesomeCoder\Database\Migrations\MigrationRepositoryInterface
      */
     protected $repository;
 
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var \AwesomeCoder\Filesystem\Filesystem
      */
     protected $files;
 
     /**
      * The connection resolver instance.
      *
-     * @var \Illuminate\Database\ConnectionResolverInterface
+     * @var \AwesomeCoder\Database\ConnectionResolverInterface
      */
     protected $resolver;
 
@@ -69,7 +69,7 @@ class Migrator
     /**
      * The paths that have already been required.
      *
-     * @var array<string, \Illuminate\Database\Migrations\Migration|null>
+     * @var array<string, \AwesomeCoder\Database\Migrations\Migration|null>
      */
     protected static $requiredPathCache = [];
 
@@ -83,17 +83,18 @@ class Migrator
     /**
      * Create a new migrator instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
+     * @param  \AwesomeCoder\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param  \AwesomeCoder\Database\ConnectionResolverInterface  $resolver
+     * @param  \AwesomeCoder\Filesystem\Filesystem  $files
+     * @param  \AwesomeCoder\Contracts\Events\Dispatcher|null  $dispatcher
      * @return void
      */
-    public function __construct(MigrationRepositoryInterface $repository,
-                                Resolver $resolver,
-                                Filesystem $files,
-                                Dispatcher $dispatcher = null)
-    {
+    public function __construct(
+        MigrationRepositoryInterface $repository,
+        Resolver $resolver,
+        Filesystem $files,
+        Dispatcher $dispatcher = null
+    ) {
         $this->files = $files;
         $this->events = $dispatcher;
         $this->resolver = $resolver;
@@ -115,7 +116,8 @@ class Migrator
         $files = $this->getMigrationFiles($paths);
 
         $this->requireFiles($migrations = $this->pendingMigrations(
-            $files, $this->repository->getRan()
+            $files,
+            $this->repository->getRan()
         ));
 
         // Once we have all these migrations that are outstanding we are ready to run
@@ -136,9 +138,9 @@ class Migrator
     protected function pendingMigrations($files, $ran)
     {
         return Collection::make($files)
-                ->reject(function ($file) use ($ran) {
-                    return in_array($this->getMigrationName($file), $ran);
-                })->values()->all();
+            ->reject(function ($file) use ($ran) {
+                return in_array($this->getMigrationName($file), $ran);
+            })->values()->all();
     }
 
     /**
@@ -289,7 +291,7 @@ class Migrator
         foreach ($migrations as $migration) {
             $migration = (object) $migration;
 
-            if (! $file = Arr::get($files, $migration->migration)) {
+            if (!$file = Arr::get($files, $migration->migration)) {
                 $this->write(TwoColumnDetail::class, $migration->migration, '<fg=yellow;options=bold>Migration not found</>');
 
                 continue;
@@ -298,7 +300,8 @@ class Migrator
             $rolledBack[] = $file;
 
             $this->runDown(
-                $file, $migration,
+                $file,
+                $migration,
                 $options['pretend'] ?? false
             );
         }
@@ -353,7 +356,9 @@ class Migrator
         })->all();
 
         return $this->rollbackMigrations(
-            $migrations, $paths, compact('pretend')
+            $migrations,
+            $paths,
+            compact('pretend')
         );
     }
 
@@ -411,8 +416,8 @@ class Migrator
 
         $this->getSchemaGrammar($connection)->supportsSchemaTransactions()
             && $migration->withinTransaction
-                    ? $connection->transaction($callback)
-                    : $callback();
+            ? $connection->transaction($callback)
+            : $callback();
     }
 
     /**
@@ -473,7 +478,7 @@ class Migrator
     /**
      * Run a migration method on the given connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @param  object  $migration
      * @param  string  $method
      * @return void
@@ -522,8 +527,8 @@ class Migrator
 
         if (is_object($migration)) {
             return method_exists($migration, '__construct')
-                    ? $this->files->getRequire($path)
-                    : clone $migration;
+                ? $this->files->getRequire($path)
+                : clone $migration;
         }
 
         return new $class;
@@ -549,7 +554,7 @@ class Migrator
     public function getMigrationFiles($paths)
     {
         return Collection::make($paths)->flatMap(function ($path) {
-            return str_ends_with($path, '.php') ? [$path] : $this->files->glob($path.'/*_*.php');
+            return str_ends_with($path, '.php') ? [$path] : $this->files->glob($path . '/*_*.php');
         })->filter()->values()->keyBy(function ($file) {
             return $this->getMigrationName($file);
         })->sortBy(function ($file, $key) {
@@ -638,7 +643,7 @@ class Migrator
      */
     public function setConnection($name)
     {
-        if (! is_null($name)) {
+        if (!is_null($name)) {
             $this->resolver->setDefaultConnection($name);
         }
 
@@ -651,7 +656,7 @@ class Migrator
      * Resolve the database connection instance.
      *
      * @param  string  $connection
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     public function resolveConnection($connection)
     {
@@ -661,8 +666,8 @@ class Migrator
     /**
      * Get the schema grammar out of a migration connection.
      *
-     * @param  \Illuminate\Database\Connection  $connection
-     * @return \Illuminate\Database\Schema\Grammars\Grammar
+     * @param  \AwesomeCoder\Database\Connection  $connection
+     * @return \AwesomeCoder\Database\Schema\Grammars\Grammar
      */
     protected function getSchemaGrammar($connection)
     {
@@ -678,7 +683,7 @@ class Migrator
     /**
      * Get the migration repository instance.
      *
-     * @return \Illuminate\Database\Migrations\MigrationRepositoryInterface
+     * @return \AwesomeCoder\Database\Migrations\MigrationRepositoryInterface
      */
     public function getRepository()
     {
@@ -718,7 +723,7 @@ class Migrator
     /**
      * Get the file system instance.
      *
-     * @return \Illuminate\Filesystem\Filesystem
+     * @return \AwesomeCoder\Filesystem\Filesystem
      */
     public function getFilesystem()
     {
@@ -761,7 +766,7 @@ class Migrator
     /**
      * Fire the given event for the migration.
      *
-     * @param  \Illuminate\Contracts\Database\Events\MigrationEvent  $event
+     * @param  \AwesomeCoder\Contracts\Database\Events\MigrationEvent  $event
      * @return void
      */
     public function fireMigrationEvent($event)

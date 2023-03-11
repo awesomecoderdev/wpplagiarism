@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
 use LogicException;
 

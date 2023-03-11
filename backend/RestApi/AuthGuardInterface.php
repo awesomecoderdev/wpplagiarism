@@ -1,6 +1,6 @@
 <?php
 
-namespace AwesomeCoder\Plagiarism\RestApi;
+namespace AwesomeCoder\Plugin\RestApi;
 
 use WP_REST_Request;
 

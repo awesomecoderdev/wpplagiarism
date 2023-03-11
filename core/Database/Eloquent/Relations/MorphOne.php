@@ -1,15 +1,15 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
-use Illuminate\Contracts\Database\Eloquent\SupportsPartialRelations;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Concerns\CanBeOneOfMany;
-use Illuminate\Database\Eloquent\Relations\Concerns\ComparesRelatedModels;
-use Illuminate\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
-use Illuminate\Database\Query\JoinClause;
+use AwesomeCoder\Contracts\Database\Eloquent\SupportsPartialRelations;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\CanBeOneOfMany;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\ComparesRelatedModels;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
+use AwesomeCoder\Database\Query\JoinClause;
 
 class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
 {
@@ -49,7 +49,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -61,10 +61,10 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Get the relationship query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Builder  $parentQuery
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $parentQuery
      * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \AwesomeCoder\Database\Eloquent\Builder
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
@@ -78,7 +78,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Add constraints for inner join subselect for one of many relationships.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \AwesomeCoder\Database\Eloquent\Builder  $query
      * @param  string|null  $column
      * @param  string|null  $aggregate
      * @return void
@@ -101,7 +101,7 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Add join query constraints for one of many relationships.
      *
-     * @param  \Illuminate\Database\Query\JoinClause  $join
+     * @param  \AwesomeCoder\Database\Query\JoinClause  $join
      * @return void
      */
     public function addOneOfManyJoinSubQueryConstraints(JoinClause $join)
@@ -114,20 +114,20 @@ class MorphOne extends MorphOneOrMany implements SupportsPartialRelations
     /**
      * Make a new related instance for the given model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @return \Illuminate\Database\Eloquent\Model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function newRelatedInstanceFor(Model $parent)
     {
         return $this->related->newInstance()
-                    ->setAttribute($this->getForeignKeyName(), $parent->{$this->localKey})
-                    ->setAttribute($this->getMorphType(), $this->morphClass);
+            ->setAttribute($this->getForeignKeyName(), $parent->{$this->localKey})
+            ->setAttribute($this->getMorphType(), $this->morphClass);
     }
 
     /**
      * Get the value of the model's foreign key.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @return mixed
      */
     protected function getRelatedKeyFrom(Model $model)

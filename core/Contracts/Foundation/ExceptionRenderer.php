@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Foundation;
+namespace AwesomeCoder\Contracts\Foundation;
 
 interface ExceptionRenderer
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Collection;
 
 class MorphMany extends MorphOneOrMany
 {
@@ -13,9 +13,9 @@ class MorphMany extends MorphOneOrMany
      */
     public function getResults()
     {
-        return ! is_null($this->getParentKey())
-                ? $this->query->get()
-                : $this->related->newCollection();
+        return !is_null($this->getParentKey())
+            ? $this->query->get()
+            : $this->related->newCollection();
     }
 
     /**
@@ -38,7 +38,7 @@ class MorphMany extends MorphOneOrMany
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -51,7 +51,7 @@ class MorphMany extends MorphOneOrMany
      * Create a new instance of the related model. Allow mass-assignment.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function forceCreate(array $attributes = [])
     {

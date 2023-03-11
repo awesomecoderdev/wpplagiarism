@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace AwesomeCoder\Database\Connectors;
 
-use Illuminate\Database\Concerns\ParsesSearchPath;
+use AwesomeCoder\Database\Concerns\ParsesSearchPath;
 use PDO;
 
 class PostgresConnector extends Connector implements ConnectorInterface
@@ -33,7 +33,9 @@ class PostgresConnector extends Connector implements ConnectorInterface
         // using the configuration option specified by the developer. We will also
         // set the default character set on the connections to UTF-8 by default.
         $connection = $this->createConnection(
-            $this->getDsn($config), $config, $this->getOptions($config)
+            $this->getDsn($config),
+            $config,
+            $this->getOptions($config)
         );
 
         $this->configureIsolationLevel($connection, $config);
@@ -80,7 +82,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureEncoding($connection, $config)
     {
-        if (! isset($config['charset'])) {
+        if (!isset($config['charset'])) {
             return;
         }
 
@@ -129,7 +131,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function quoteSearchPath($searchPath)
     {
-        return count($searchPath) === 1 ? '"'.$searchPath[0].'"' : '"'.implode('", "', $searchPath).'"';
+        return count($searchPath) === 1 ? '"' . $searchPath[0] . '"' : '"' . implode('", "', $searchPath) . '"';
     }
 
     /**
@@ -207,7 +209,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureSynchronousCommit($connection, array $config)
     {
-        if (! isset($config['synchronous_commit'])) {
+        if (!isset($config['synchronous_commit'])) {
             return;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Events;
+namespace AwesomeCoder\Contracts\Events;
 
 interface Dispatcher
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Migrations;
+namespace AwesomeCoder\Database\Migrations;
 
 use Closure;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
+use AwesomeCoder\Filesystem\Filesystem;
+use AwesomeCoder\Support\Str;
 use InvalidArgumentException;
 
 class MigrationCreator
@@ -12,7 +12,7 @@ class MigrationCreator
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var \AwesomeCoder\Filesystem\Filesystem
      */
     protected $files;
 
@@ -33,7 +33,7 @@ class MigrationCreator
     /**
      * Create a new migration creator instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \AwesomeCoder\Filesystem\Filesystem  $files
      * @param  string  $customStubPath
      * @return void
      */
@@ -68,7 +68,8 @@ class MigrationCreator
         $this->files->ensureDirectoryExists(dirname($path));
 
         $this->files->put(
-            $path, $this->populateStub($stub, $table)
+            $path,
+            $this->populateStub($stub, $table)
         );
 
         // Next, we will fire any hooks that are supposed to fire after a migration is
@@ -90,8 +91,8 @@ class MigrationCreator
      */
     protected function ensureMigrationDoesntAlreadyExist($name, $migrationPath = null)
     {
-        if (! empty($migrationPath)) {
-            $migrationFiles = $this->files->glob($migrationPath.'/*.php');
+        if (!empty($migrationPath)) {
+            $migrationFiles = $this->files->glob($migrationPath . '/*.php');
 
             foreach ($migrationFiles as $migrationFile) {
                 $this->files->requireOnce($migrationFile);
@@ -113,17 +114,17 @@ class MigrationCreator
     protected function getStub($table, $create)
     {
         if (is_null($table)) {
-            $stub = $this->files->exists($customPath = $this->customStubPath.'/migration.stub')
-                            ? $customPath
-                            : $this->stubPath().'/migration.stub';
+            $stub = $this->files->exists($customPath = $this->customStubPath . '/migration.stub')
+                ? $customPath
+                : $this->stubPath() . '/migration.stub';
         } elseif ($create) {
-            $stub = $this->files->exists($customPath = $this->customStubPath.'/migration.create.stub')
-                            ? $customPath
-                            : $this->stubPath().'/migration.create.stub';
+            $stub = $this->files->exists($customPath = $this->customStubPath . '/migration.create.stub')
+                ? $customPath
+                : $this->stubPath() . '/migration.create.stub';
         } else {
-            $stub = $this->files->exists($customPath = $this->customStubPath.'/migration.update.stub')
-                            ? $customPath
-                            : $this->stubPath().'/migration.update.stub';
+            $stub = $this->files->exists($customPath = $this->customStubPath . '/migration.update.stub')
+                ? $customPath
+                : $this->stubPath() . '/migration.update.stub';
         }
 
         return $this->files->get($stub);
@@ -141,10 +142,11 @@ class MigrationCreator
         // Here we will replace the table place-holders with the table specified by
         // the developer, which is useful for quickly creating a tables creation
         // or update migration from the console instead of typing it manually.
-        if (! is_null($table)) {
+        if (!is_null($table)) {
             $stub = str_replace(
                 ['DummyTable', '{{ table }}', '{{table}}'],
-                $table, $stub
+                $table,
+                $stub
             );
         }
 
@@ -171,7 +173,7 @@ class MigrationCreator
      */
     protected function getPath($name, $path)
     {
-        return $path.'/'.$this->getDatePrefix().'_'.$name.'.php';
+        return $path . '/' . $this->getDatePrefix() . '_' . $name . '.php';
     }
 
     /**
@@ -216,13 +218,13 @@ class MigrationCreator
      */
     public function stubPath()
     {
-        return __DIR__.'/stubs';
+        return __DIR__ . '/stubs';
     }
 
     /**
      * Get the filesystem instance.
      *
-     * @return \Illuminate\Filesystem\Filesystem
+     * @return \AwesomeCoder\Filesystem\Filesystem
      */
     public function getFilesystem()
     {

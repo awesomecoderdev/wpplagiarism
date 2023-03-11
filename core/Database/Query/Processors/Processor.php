@@ -1,15 +1,15 @@
 <?php
 
-namespace Illuminate\Database\Query\Processors;
+namespace AwesomeCoder\Database\Query\Processors;
 
-use Illuminate\Database\Query\Builder;
+use AwesomeCoder\Database\Query\Builder;
 
 class Processor
 {
     /**
      * Process the results of a "select" query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $results
      * @return array
      */
@@ -21,7 +21,7 @@ class Processor
     /**
      * Process an  "insert get ID" query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $sql
      * @param  array  $values
      * @param  string|null  $sequence

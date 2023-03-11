@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use Closure;
 use InvalidArgumentException;
@@ -11,7 +11,7 @@ abstract class MultipleInstanceManager
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var \AwesomeCoder\Contracts\Foundation\Application
      */
     protected $app;
 
@@ -32,7 +32,7 @@ abstract class MultipleInstanceManager
     /**
      * Create a new manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \AwesomeCoder\Contracts\Foundation\Application  $app
      * @return void
      */
     public function __construct($app)
@@ -103,14 +103,14 @@ abstract class MultipleInstanceManager
             throw new InvalidArgumentException("Instance [{$name}] is not defined.");
         }
 
-        if (! array_key_exists('driver', $config)) {
+        if (!array_key_exists('driver', $config)) {
             throw new RuntimeException("Instance [{$name}] does not specify a driver.");
         }
 
         if (isset($this->customCreators[$config['driver']])) {
             return $this->callCustomCreator($config);
         } else {
-            $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
+            $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
 
             if (method_exists($this, $driverMethod)) {
                 return $this->{$driverMethod}($config);

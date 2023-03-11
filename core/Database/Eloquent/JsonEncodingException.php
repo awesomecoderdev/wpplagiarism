@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 use RuntimeException;
 
@@ -15,13 +15,13 @@ class JsonEncodingException extends RuntimeException
      */
     public static function forModel($model, $message)
     {
-        return new static('Error encoding model ['.get_class($model).'] with ID ['.$model->getKey().'] to JSON: '.$message);
+        return new static('Error encoding model [' . get_class($model) . '] with ID [' . $model->getKey() . '] to JSON: ' . $message);
     }
 
     /**
      * Create a new JSON encoding exception for the resource.
      *
-     * @param  \Illuminate\Http\Resources\Json\JsonResource  $resource
+     * @param  \AwesomeCoder\Http\Resources\Json\JsonResource  $resource
      * @param  string  $message
      * @return static
      */
@@ -29,7 +29,7 @@ class JsonEncodingException extends RuntimeException
     {
         $model = $resource->resource;
 
-        return new static('Error encoding resource ['.get_class($resource).'] with model ['.get_class($model).'] with ID ['.$model->getKey().'] to JSON: '.$message);
+        return new static('Error encoding resource [' . get_class($resource) . '] with model [' . get_class($model) . '] with ID [' . $model->getKey() . '] to JSON: ' . $message);
     }
 
     /**

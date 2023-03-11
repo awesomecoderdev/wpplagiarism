@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Database\Query\Expression;
+use AwesomeCoder\Support\Traits\Macroable;
 use RuntimeException;
 
 abstract class Grammar
@@ -31,13 +31,13 @@ abstract class Grammar
     /**
      * Wrap a table in keyword identifiers.
      *
-     * @param  \Illuminate\Database\Query\Expression|string  $table
+     * @param  \AwesomeCoder\Database\Query\Expression|string  $table
      * @return string
      */
     public function wrapTable($table)
     {
-        if (! $this->isExpression($table)) {
-            return $this->wrap($this->tablePrefix.$table, true);
+        if (!$this->isExpression($table)) {
+            return $this->wrap($this->tablePrefix . $table, true);
         }
 
         return $this->getValue($table);
@@ -46,7 +46,7 @@ abstract class Grammar
     /**
      * Wrap a value in keyword identifiers.
      *
-     * @param  \Illuminate\Database\Query\Expression|string  $value
+     * @param  \AwesomeCoder\Database\Query\Expression|string  $value
      * @param  bool  $prefixAlias
      * @return string
      */
@@ -88,10 +88,10 @@ abstract class Grammar
         // as well in order to generate proper syntax. If this is a column of course
         // no prefix is necessary. The condition will be true when from wrapTable.
         if ($prefixAlias) {
-            $segments[1] = $this->tablePrefix.$segments[1];
+            $segments[1] = $this->tablePrefix . $segments[1];
         }
 
-        return $this->wrap($segments[0]).' as '.$this->wrapValue($segments[1]);
+        return $this->wrap($segments[0]) . ' as ' . $this->wrapValue($segments[1]);
     }
 
     /**
@@ -104,8 +104,8 @@ abstract class Grammar
     {
         return collect($segments)->map(function ($segment, $key) use ($segments) {
             return $key == 0 && count($segments) > 1
-                            ? $this->wrapTable($segment)
-                            : $this->wrapValue($segment);
+                ? $this->wrapTable($segment)
+                : $this->wrapValue($segment);
         })->implode('.');
     }
 
@@ -118,7 +118,7 @@ abstract class Grammar
     protected function wrapValue($value)
     {
         if ($value !== '*') {
-            return '"'.str_replace('"', '""', $value).'"';
+            return '"' . str_replace('"', '""', $value) . '"';
         }
 
         return $value;
@@ -210,7 +210,7 @@ abstract class Grammar
     /**
      * Get the value of a raw expression.
      *
-     * @param  \Illuminate\Database\Query\Expression  $expression
+     * @param  \AwesomeCoder\Database\Query\Expression  $expression
      * @return mixed
      */
     public function getValue($expression)

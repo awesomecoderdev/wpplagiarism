@@ -1,20 +1,20 @@
 <?php
 
-namespace Illuminate\Database\Concerns;
+namespace AwesomeCoder\Database\Concerns;
 
-use Illuminate\Container\Container;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\MultipleRecordsFoundException;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Database\RecordsNotFoundException;
-use Illuminate\Pagination\Cursor;
-use Illuminate\Pagination\CursorPaginator;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\LazyCollection;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Conditionable;
+use AwesomeCoder\Container\Container;
+use AwesomeCoder\Database\Eloquent\Builder;
+use AwesomeCoder\Database\MultipleRecordsFoundException;
+use AwesomeCoder\Database\Query\Expression;
+use AwesomeCoder\Database\RecordsNotFoundException;
+use AwesomeCoder\Pagination\Cursor;
+use AwesomeCoder\Pagination\CursorPaginator;
+use AwesomeCoder\Pagination\LengthAwarePaginator;
+use AwesomeCoder\Pagination\Paginator;
+use AwesomeCoder\Support\Collection;
+use AwesomeCoder\Support\LazyCollection;
+use AwesomeCoder\Support\Str;
+use AwesomeCoder\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -67,7 +67,7 @@ trait BuildsQueries
      *
      * @param  callable  $callback
      * @param  int  $count
-     * @return \Illuminate\Support\Collection
+     * @return \AwesomeCoder\Support\Collection
      */
     public function chunkMap(callable $callback, $count = 1000)
     {
@@ -180,7 +180,7 @@ trait BuildsQueries
      * Query lazily, by chunks of the given size.
      *
      * @param  int  $chunkSize
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      *
      * @throws \InvalidArgumentException
      */
@@ -215,7 +215,7 @@ trait BuildsQueries
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      *
      * @throws \InvalidArgumentException
      */
@@ -230,7 +230,7 @@ trait BuildsQueries
      * @param  int  $chunkSize
      * @param  string|null  $column
      * @param  string|null  $alias
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      *
      * @throws \InvalidArgumentException
      */
@@ -246,7 +246,7 @@ trait BuildsQueries
      * @param  string|null  $column
      * @param  string|null  $alias
      * @param  bool  $descending
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      *
      * @throws \InvalidArgumentException
      */
@@ -289,7 +289,7 @@ trait BuildsQueries
      * Execute the query and get the first result.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     * @return \AwesomeCoder\Database\Eloquent\Model|object|static|null
      */
     public function first($columns = ['*'])
     {
@@ -300,10 +300,10 @@ trait BuildsQueries
      * Execute the query and get the first result if it's the sole matching record.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     * @return \AwesomeCoder\Database\Eloquent\Model|object|static|null
      *
-     * @throws \Illuminate\Database\RecordsNotFoundException
-     * @throws \Illuminate\Database\MultipleRecordsFoundException
+     * @throws \AwesomeCoder\Database\RecordsNotFoundException
+     * @throws \AwesomeCoder\Database\MultipleRecordsFoundException
      */
     public function sole($columns = ['*'])
     {
@@ -328,24 +328,24 @@ trait BuildsQueries
      * @param  int  $perPage
      * @param  array|string  $columns
      * @param  string  $cursorName
-     * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     * @param  \AwesomeCoder\Pagination\Cursor|string|null  $cursor
+     * @return \AwesomeCoder\Contracts\Pagination\CursorPaginator
      */
     protected function paginateUsingCursor($perPage, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
-        if (! $cursor instanceof Cursor) {
+        if (!$cursor instanceof Cursor) {
             $cursor = is_string($cursor)
                 ? Cursor::fromEncoded($cursor)
                 : CursorPaginator::resolveCurrentCursor($cursorName, $cursor);
         }
 
-        $orders = $this->ensureOrderForCursorPagination(! is_null($cursor) && $cursor->pointsToPreviousItems());
+        $orders = $this->ensureOrderForCursorPagination(!is_null($cursor) && $cursor->pointsToPreviousItems());
 
-        if (! is_null($cursor)) {
+        if (!is_null($cursor)) {
             $addCursorConditions = function (self $builder, $previousColumn, $i) use (&$addCursorConditions, $cursor, $orders) {
                 $unionBuilders = isset($builder->unions) ? collect($builder->unions)->pluck('query') : collect();
 
-                if (! is_null($previousColumn)) {
+                if (!is_null($previousColumn)) {
                     $originalColumn = $this->getOriginalColumnNameForCursorPagination($this, $previousColumn);
 
                     $builder->where(
@@ -417,7 +417,7 @@ trait BuildsQueries
     /**
      * Get the original column name of the given column, without any aliasing.
      *
-     * @param  \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \AwesomeCoder\Database\Query\Builder|\AwesomeCoder\Database\Eloquent\Builder  $builder
      * @param  string  $parameter
      * @return string
      */
@@ -425,7 +425,7 @@ trait BuildsQueries
     {
         $columns = $builder instanceof Builder ? $builder->getQuery()->columns : $builder->columns;
 
-        if (! is_null($columns)) {
+        if (!is_null($columns)) {
             foreach ($columns as $column) {
                 if (($position = strripos($column, ' as ')) !== false) {
                     $original = substr($column, 0, $position);
@@ -445,49 +445,59 @@ trait BuildsQueries
     /**
      * Create a new length-aware paginator instance.
      *
-     * @param  \Illuminate\Support\Collection  $items
+     * @param  \AwesomeCoder\Support\Collection  $items
      * @param  int  $total
      * @param  int  $perPage
      * @param  int  $currentPage
      * @param  array  $options
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return \AwesomeCoder\Pagination\LengthAwarePaginator
      */
     protected function paginator($items, $total, $perPage, $currentPage, $options)
     {
         return Container::getInstance()->makeWith(LengthAwarePaginator::class, compact(
-            'items', 'total', 'perPage', 'currentPage', 'options'
+            'items',
+            'total',
+            'perPage',
+            'currentPage',
+            'options'
         ));
     }
 
     /**
      * Create a new simple paginator instance.
      *
-     * @param  \Illuminate\Support\Collection  $items
+     * @param  \AwesomeCoder\Support\Collection  $items
      * @param  int  $perPage
      * @param  int  $currentPage
      * @param  array  $options
-     * @return \Illuminate\Pagination\Paginator
+     * @return \AwesomeCoder\Pagination\Paginator
      */
     protected function simplePaginator($items, $perPage, $currentPage, $options)
     {
         return Container::getInstance()->makeWith(Paginator::class, compact(
-            'items', 'perPage', 'currentPage', 'options'
+            'items',
+            'perPage',
+            'currentPage',
+            'options'
         ));
     }
 
     /**
      * Create a new cursor paginator instance.
      *
-     * @param  \Illuminate\Support\Collection  $items
+     * @param  \AwesomeCoder\Support\Collection  $items
      * @param  int  $perPage
-     * @param  \Illuminate\Pagination\Cursor  $cursor
+     * @param  \AwesomeCoder\Pagination\Cursor  $cursor
      * @param  array  $options
-     * @return \Illuminate\Pagination\CursorPaginator
+     * @return \AwesomeCoder\Pagination\CursorPaginator
      */
     protected function cursorPaginator($items, $perPage, $cursor, $options)
     {
         return Container::getInstance()->makeWith(CursorPaginator::class, compact(
-            'items', 'perPage', 'cursor', 'options'
+            'items',
+            'perPage',
+            'cursor',
+            'options'
         ));
     }
 

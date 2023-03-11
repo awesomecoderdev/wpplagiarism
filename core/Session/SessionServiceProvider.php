@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Session;
+namespace AwesomeCoder\Session;
 
-use Illuminate\Contracts\Cache\Factory as CacheFactory;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\ServiceProvider;
+use AwesomeCoder\Contracts\Cache\Factory as CacheFactory;
+use AwesomeCoder\Session\Middleware\StartSession;
+use AwesomeCoder\Support\ServiceProvider;
 
 class SessionServiceProvider extends ServiceProvider
 {

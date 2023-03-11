@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
 trait GuardsAttributes
 {
@@ -76,8 +76,8 @@ trait GuardsAttributes
     public function getGuarded()
     {
         return $this->guarded === false
-                    ? []
-                    : $this->guarded;
+            ? []
+            : $this->guarded;
     }
 
     /**
@@ -185,8 +185,8 @@ trait GuardsAttributes
         }
 
         return empty($this->getFillable()) &&
-            ! str_contains($key, '.') &&
-            ! str_starts_with($key, '_');
+            !str_contains($key, '.') &&
+            !str_starts_with($key, '_');
     }
 
     /**
@@ -202,8 +202,8 @@ trait GuardsAttributes
         }
 
         return $this->getGuarded() == ['*'] ||
-               ! empty(preg_grep('/^'.preg_quote($key, '/').'$/i', $this->getGuarded())) ||
-               ! $this->isGuardableColumn($key);
+            !empty(preg_grep('/^' . preg_quote($key, '/') . '$/i', $this->getGuarded())) ||
+            !$this->isGuardableColumn($key);
     }
 
     /**
@@ -214,10 +214,10 @@ trait GuardsAttributes
      */
     protected function isGuardableColumn($key)
     {
-        if (! isset(static::$guardableColumns[get_class($this)])) {
+        if (!isset(static::$guardableColumns[get_class($this)])) {
             $columns = $this->getConnection()
-                        ->getSchemaBuilder()
-                        ->getColumnListing($this->getTable());
+                ->getSchemaBuilder()
+                ->getColumnListing($this->getTable());
 
             if (empty($columns)) {
                 return true;
@@ -246,7 +246,7 @@ trait GuardsAttributes
      */
     protected function fillableFromArray(array $attributes)
     {
-        if (count($this->getFillable()) > 0 && ! static::$unguarded) {
+        if (count($this->getFillable()) > 0 && !static::$unguarded) {
             return array_intersect_key($attributes, array_flip($this->getFillable()));
         }
 

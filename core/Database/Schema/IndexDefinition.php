@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Support\Fluent;
+use AwesomeCoder\Support\Fluent;
 
 /**
  * @method $this algorithm(string $algorithm) Specify an algorithm for the index (MySQL/PostgreSQL)

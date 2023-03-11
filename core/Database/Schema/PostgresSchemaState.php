@@ -1,23 +1,23 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Database\Connection;
+use AwesomeCoder\Database\Connection;
 
 class PostgresSchemaState extends SchemaState
 {
     /**
      * Dump the database's schema into a file.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @param  string  $path
      * @return void
      */
     public function dump(Connection $connection, $path)
     {
         $commands = collect([
-            $this->baseDumpCommand().' --schema-only > '.$path,
-            $this->baseDumpCommand().' -t '.$this->migrationTable.' --data-only >> '.$path,
+            $this->baseDumpCommand() . ' --schema-only > ' . $path,
+            $this->baseDumpCommand() . ' -t ' . $this->migrationTable . ' --data-only >> ' . $path,
         ]);
 
         $commands->map(function ($command, $path) {

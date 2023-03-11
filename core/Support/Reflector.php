@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use ReflectionClass;
 use ReflectionEnum;
@@ -19,17 +19,19 @@ class Reflector
      */
     public static function isCallable($var, $syntaxOnly = false)
     {
-        if (! is_array($var)) {
+        if (!is_array($var)) {
             return is_callable($var, $syntaxOnly);
         }
 
-        if (! isset($var[0], $var[1]) || ! is_string($var[1] ?? null)) {
+        if (!isset($var[0], $var[1]) || !is_string($var[1] ?? null)) {
             return false;
         }
 
-        if ($syntaxOnly &&
+        if (
+            $syntaxOnly &&
             (is_string($var[0]) || is_object($var[0])) &&
-            is_string($var[1])) {
+            is_string($var[1])
+        ) {
             return true;
         }
 
@@ -37,7 +39,7 @@ class Reflector
 
         $method = $var[1];
 
-        if (! class_exists($class)) {
+        if (!class_exists($class)) {
             return false;
         }
 
@@ -49,7 +51,7 @@ class Reflector
             return (new ReflectionMethod($class, '__call'))->isPublic();
         }
 
-        if (! is_object($var[0]) && method_exists($class, '__callStatic')) {
+        if (!is_object($var[0]) && method_exists($class, '__callStatic')) {
             return (new ReflectionMethod($class, '__callStatic'))->isPublic();
         }
 
@@ -66,7 +68,7 @@ class Reflector
     {
         $type = $parameter->getType();
 
-        if (! $type instanceof ReflectionNamedType || $type->isBuiltin()) {
+        if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
             return;
         }
 
@@ -83,14 +85,14 @@ class Reflector
     {
         $type = $parameter->getType();
 
-        if (! $type instanceof ReflectionUnionType) {
+        if (!$type instanceof ReflectionUnionType) {
             return array_filter([static::getParameterClassName($parameter)]);
         }
 
         $unionTypes = [];
 
         foreach ($type->getTypes() as $listedType) {
-            if (! $listedType instanceof ReflectionNamedType || $listedType->isBuiltin()) {
+            if (!$listedType instanceof ReflectionNamedType || $listedType->isBuiltin()) {
                 continue;
             }
 
@@ -111,7 +113,7 @@ class Reflector
     {
         $name = $type->getName();
 
-        if (! is_null($class = $parameter->getDeclaringClass())) {
+        if (!is_null($class = $parameter->getDeclaringClass())) {
             if ($name === 'self') {
                 return $class->getName();
             }

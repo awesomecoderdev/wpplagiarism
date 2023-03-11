@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use BackedEnum;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Contracts\Support\Jsonable;
+use AwesomeCoder\Contracts\Support\Arrayable;
+use AwesomeCoder\Contracts\Support\Htmlable;
+use AwesomeCoder\Contracts\Support\Jsonable;
 use JsonSerializable;
 
 class Js implements Htmlable
@@ -77,7 +77,7 @@ class Js implements Htmlable
         $json = $this->jsonEncode($data, $flags, $depth);
 
         if (is_string($data)) {
-            return "'".substr($json, 1, -1)."'";
+            return "'" . substr($json, 1, -1) . "'";
         }
 
         return $this->convertJsonToJavaScriptExpression($json, $flags);
@@ -99,7 +99,7 @@ class Js implements Htmlable
             return $data->toJson($flags | static::REQUIRED_FLAGS);
         }
 
-        if ($data instanceof Arrayable && ! ($data instanceof JsonSerializable)) {
+        if ($data instanceof Arrayable && !($data instanceof JsonSerializable)) {
             $data = $data->toArray();
         }
 
@@ -122,7 +122,7 @@ class Js implements Htmlable
         }
 
         if (Str::startsWith($json, ['"', '{', '['])) {
-            return "JSON.parse('".substr(json_encode($json, $flags | static::REQUIRED_FLAGS), 1, -1)."')";
+            return "JSON.parse('" . substr(json_encode($json, $flags | static::REQUIRED_FLAGS), 1, -1) . "')";
         }
 
         return $json;

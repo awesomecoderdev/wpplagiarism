@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Support;
+namespace AwesomeCoder\Contracts\Support;
 
 interface DeferrableProvider
 {

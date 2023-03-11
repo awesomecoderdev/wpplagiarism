@@ -1,32 +1,32 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Database\Connection;
+use AwesomeCoder\Database\Connection;
 
 class SqliteSchemaState extends SchemaState
 {
     /**
      * Dump the database's schema into a file.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @param  string  $path
      * @return void
      */
     public function dump(Connection $connection, $path)
     {
         with($process = $this->makeProcess(
-            $this->baseCommand().' .schema'
+            $this->baseCommand() . ' .schema'
         ))->setTimeout(null)->mustRun(null, array_merge($this->baseVariables($this->connection->getConfig()), [
             //
         ]));
 
         $migrations = collect(preg_split("/\r\n|\n|\r/", $process->getOutput()))->filter(function ($line) {
             return stripos($line, 'sqlite_sequence') === false &&
-                   strlen($line) > 0;
+                strlen($line) > 0;
         })->all();
 
-        $this->files->put($path, implode(PHP_EOL, $migrations).PHP_EOL);
+        $this->files->put($path, implode(PHP_EOL, $migrations) . PHP_EOL);
 
         $this->appendMigrationData($path);
     }
@@ -40,17 +40,17 @@ class SqliteSchemaState extends SchemaState
     protected function appendMigrationData(string $path)
     {
         with($process = $this->makeProcess(
-            $this->baseCommand().' ".dump \''.$this->migrationTable.'\'"'
+            $this->baseCommand() . ' ".dump \'' . $this->migrationTable . '\'"'
         ))->mustRun(null, array_merge($this->baseVariables($this->connection->getConfig()), [
             //
         ]));
 
         $migrations = collect(preg_split("/\r\n|\n|\r/", $process->getOutput()))->filter(function ($line) {
             return preg_match('/^\s*(--|INSERT\s)/iu', $line) === 1 &&
-                   strlen($line) > 0;
+                strlen($line) > 0;
         })->all();
 
-        $this->files->append($path, implode(PHP_EOL, $migrations).PHP_EOL);
+        $this->files->append($path, implode(PHP_EOL, $migrations) . PHP_EOL);
     }
 
     /**
@@ -67,7 +67,7 @@ class SqliteSchemaState extends SchemaState
             return;
         }
 
-        $process = $this->makeProcess($this->baseCommand().' < "${:LARAVEL_LOAD_PATH}"');
+        $process = $this->makeProcess($this->baseCommand() . ' < "${:LARAVEL_LOAD_PATH}"');
 
         $process->mustRun(null, array_merge($this->baseVariables($this->connection->getConfig()), [
             'LARAVEL_LOAD_PATH' => $path,

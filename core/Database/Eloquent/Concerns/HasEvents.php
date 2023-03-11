@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace AwesomeCoder\Database\Eloquent\Concerns;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Events\NullDispatcher;
-use Illuminate\Support\Arr;
+use AwesomeCoder\Contracts\Events\Dispatcher;
+use AwesomeCoder\Events\NullDispatcher;
+use AwesomeCoder\Support\Arr;
 use InvalidArgumentException;
 
 trait HasEvents
@@ -61,7 +61,7 @@ trait HasEvents
         // it into the model's event system, making it convenient to watch these.
         foreach ($this->getObservableEvents() as $event) {
             if (method_exists($class, $event)) {
-                static::registerModelEvent($event, $className.'@'.$event);
+                static::registerModelEvent($event, $className . '@' . $event);
             }
         }
     }
@@ -84,7 +84,7 @@ trait HasEvents
             return $class;
         }
 
-        throw new InvalidArgumentException('Unable to find observer: '.$class);
+        throw new InvalidArgumentException('Unable to find observer: ' . $class);
     }
 
     /**
@@ -126,7 +126,8 @@ trait HasEvents
     public function addObservableEvents($observables)
     {
         $this->observables = array_unique(array_merge(
-            $this->observables, is_array($observables) ? $observables : func_get_args()
+            $this->observables,
+            is_array($observables) ? $observables : func_get_args()
         ));
     }
 
@@ -139,7 +140,8 @@ trait HasEvents
     public function removeObservableEvents($observables)
     {
         $this->observables = array_diff(
-            $this->observables, is_array($observables) ? $observables : func_get_args()
+            $this->observables,
+            is_array($observables) ? $observables : func_get_args()
         );
     }
 
@@ -147,7 +149,7 @@ trait HasEvents
      * Register a model event with the dispatcher.
      *
      * @param  string  $event
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     protected static function registerModelEvent($event, $callback)
@@ -168,7 +170,7 @@ trait HasEvents
      */
     protected function fireModelEvent($event, $halt = true)
     {
-        if (! isset(static::$dispatcher)) {
+        if (!isset(static::$dispatcher)) {
             return true;
         }
 
@@ -185,8 +187,9 @@ trait HasEvents
             return false;
         }
 
-        return ! empty($result) ? $result : static::$dispatcher->{$method}(
-            "eloquent.{$event}: ".static::class, $this
+        return !empty($result) ? $result : static::$dispatcher->{$method}(
+            "eloquent.{$event}: " . static::class,
+            $this
         );
     }
 
@@ -199,13 +202,13 @@ trait HasEvents
      */
     protected function fireCustomModelEvent($event, $method)
     {
-        if (! isset($this->dispatchesEvents[$event])) {
+        if (!isset($this->dispatchesEvents[$event])) {
             return;
         }
 
         $result = static::$dispatcher->$method(new $this->dispatchesEvents[$event]($this));
 
-        if (! is_null($result)) {
+        if (!is_null($result)) {
             return $result;
         }
     }
@@ -220,7 +223,7 @@ trait HasEvents
     {
         if (is_array($result)) {
             $result = array_filter($result, function ($response) {
-                return ! is_null($response);
+                return !is_null($response);
             });
         }
 
@@ -230,7 +233,7 @@ trait HasEvents
     /**
      * Register a retrieved model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function retrieved($callback)
@@ -241,7 +244,7 @@ trait HasEvents
     /**
      * Register a saving model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function saving($callback)
@@ -252,7 +255,7 @@ trait HasEvents
     /**
      * Register a saved model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function saved($callback)
@@ -263,7 +266,7 @@ trait HasEvents
     /**
      * Register an updating model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function updating($callback)
@@ -274,7 +277,7 @@ trait HasEvents
     /**
      * Register an updated model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function updated($callback)
@@ -285,7 +288,7 @@ trait HasEvents
     /**
      * Register a creating model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function creating($callback)
@@ -296,7 +299,7 @@ trait HasEvents
     /**
      * Register a created model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function created($callback)
@@ -307,7 +310,7 @@ trait HasEvents
     /**
      * Register a replicating model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function replicating($callback)
@@ -318,7 +321,7 @@ trait HasEvents
     /**
      * Register a deleting model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function deleting($callback)
@@ -329,7 +332,7 @@ trait HasEvents
     /**
      * Register a deleted model event with the dispatcher.
      *
-     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @param  \AwesomeCoder\Events\QueuedClosure|\Closure|string|array  $callback
      * @return void
      */
     public static function deleted($callback)
@@ -344,14 +347,14 @@ trait HasEvents
      */
     public static function flushEventListeners()
     {
-        if (! isset(static::$dispatcher)) {
+        if (!isset(static::$dispatcher)) {
             return;
         }
 
         $instance = new static;
 
         foreach ($instance->getObservableEvents() as $event) {
-            static::$dispatcher->forget("eloquent.{$event}: ".static::class);
+            static::$dispatcher->forget("eloquent.{$event}: " . static::class);
         }
 
         foreach (array_values($instance->dispatchesEvents) as $event) {
@@ -362,7 +365,7 @@ trait HasEvents
     /**
      * Get the event dispatcher instance.
      *
-     * @return \Illuminate\Contracts\Events\Dispatcher
+     * @return \AwesomeCoder\Contracts\Events\Dispatcher
      */
     public static function getEventDispatcher()
     {
@@ -372,7 +375,7 @@ trait HasEvents
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $dispatcher
+     * @param  \AwesomeCoder\Contracts\Events\Dispatcher  $dispatcher
      * @return void
      */
     public static function setEventDispatcher(Dispatcher $dispatcher)

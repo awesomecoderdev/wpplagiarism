@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Filesystem;
+namespace AwesomeCoder\Filesystem;
 
 class FileAttributes implements StorageAttributes
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
 use Closure;
-use Illuminate\Container\Container;
-use Illuminate\Database\Connection;
+use AwesomeCoder\Container\Container;
+use AwesomeCoder\Database\Connection;
 use InvalidArgumentException;
 use LogicException;
 
@@ -13,14 +13,14 @@ class Builder
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var \AwesomeCoder\Database\Connection
      */
     protected $connection;
 
     /**
      * The schema grammar instance.
      *
-     * @var \Illuminate\Database\Schema\Grammars\Grammar
+     * @var \AwesomeCoder\Database\Schema\Grammars\Grammar
      */
     protected $grammar;
 
@@ -55,7 +55,7 @@ class Builder
     /**
      * Create a new database Schema manager.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @return void
      */
     public function __construct(Connection $connection)
@@ -85,7 +85,7 @@ class Builder
      */
     public static function defaultMorphKeyType(string $type)
     {
-        if (! in_array($type, ['int', 'uuid', 'ulid'])) {
+        if (!in_array($type, ['int', 'uuid', 'ulid'])) {
             throw new InvalidArgumentException("Morph key type must be 'int', 'uuid', or 'ulid'.");
         }
 
@@ -157,10 +157,11 @@ class Builder
      */
     public function hasTable($table)
     {
-        $table = $this->connection->getTablePrefix().$table;
+        $table = $this->connection->getTablePrefix() . $table;
 
         return count($this->connection->selectFromWriteConnection(
-            $this->grammar->compileTableExists(), [$table]
+            $this->grammar->compileTableExists(),
+            [$table]
         )) > 0;
     }
 
@@ -174,7 +175,8 @@ class Builder
     public function hasColumn($table, $column)
     {
         return in_array(
-            strtolower($column), array_map('strtolower', $this->getColumnListing($table))
+            strtolower($column),
+            array_map('strtolower', $this->getColumnListing($table))
         );
     }
 
@@ -190,7 +192,7 @@ class Builder
         $tableColumns = array_map('strtolower', $this->getColumnListing($table));
 
         foreach ($columns as $column) {
-            if (! in_array(strtolower($column), $tableColumns)) {
+            if (!in_array(strtolower($column), $tableColumns)) {
                 return false;
             }
         }
@@ -223,7 +225,7 @@ class Builder
      */
     public function whenTableDoesntHaveColumn(string $table, string $column, Closure $callback)
     {
-        if (! $this->hasColumn($table, $column)) {
+        if (!$this->hasColumn($table, $column)) {
             $this->table($table, fn (Blueprint $table) => $callback($table));
         }
     }
@@ -237,7 +239,7 @@ class Builder
      */
     public function getColumnType($table, $column)
     {
-        $table = $this->connection->getTablePrefix().$table;
+        $table = $this->connection->getTablePrefix() . $table;
 
         return $this->connection->getDoctrineColumn($table, $column)->getType()->getName();
     }
@@ -251,7 +253,7 @@ class Builder
     public function getColumnListing($table)
     {
         $results = $this->connection->selectFromWriteConnection($this->grammar->compileColumnListing(
-            $this->connection->getTablePrefix().$table
+            $this->connection->getTablePrefix() . $table
         ));
 
         return $this->connection->getPostProcessor()->processColumnListing($results);
@@ -431,7 +433,7 @@ class Builder
     /**
      * Execute the blueprint to build / modify the table.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \AwesomeCoder\Database\Schema\Blueprint  $blueprint
      * @return void
      */
     protected function build(Blueprint $blueprint)
@@ -444,13 +446,13 @@ class Builder
      *
      * @param  string  $table
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Schema\Blueprint
+     * @return \AwesomeCoder\Database\Schema\Blueprint
      */
     protected function createBlueprint($table, Closure $callback = null)
     {
         $prefix = $this->connection->getConfig('prefix_indexes')
-                    ? $this->connection->getConfig('prefix')
-                    : '';
+            ? $this->connection->getConfig('prefix')
+            : '';
 
         if (isset($this->resolver)) {
             return call_user_func($this->resolver, $table, $callback, $prefix);
@@ -462,7 +464,7 @@ class Builder
     /**
      * Get the database connection instance.
      *
-     * @return \Illuminate\Database\Connection
+     * @return \AwesomeCoder\Database\Connection
      */
     public function getConnection()
     {
@@ -472,7 +474,7 @@ class Builder
     /**
      * Set the database connection instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @return $this
      */
     public function setConnection(Connection $connection)

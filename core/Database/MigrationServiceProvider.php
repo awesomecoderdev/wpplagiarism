@@ -1,21 +1,21 @@
 <?php
 
-namespace Illuminate\Database;
+namespace AwesomeCoder\Database;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Database\Console\Migrations\FreshCommand;
-use Illuminate\Database\Console\Migrations\InstallCommand;
-use Illuminate\Database\Console\Migrations\MigrateCommand;
-use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
-use Illuminate\Database\Console\Migrations\RefreshCommand;
-use Illuminate\Database\Console\Migrations\ResetCommand;
-use Illuminate\Database\Console\Migrations\RollbackCommand;
-use Illuminate\Database\Console\Migrations\StatusCommand;
-use Illuminate\Database\Migrations\DatabaseMigrationRepository;
-use Illuminate\Database\Migrations\MigrationCreator;
-use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Support\ServiceProvider;
+use AwesomeCoder\Contracts\Events\Dispatcher;
+use AwesomeCoder\Contracts\Support\DeferrableProvider;
+use AwesomeCoder\Database\Console\Migrations\FreshCommand;
+use AwesomeCoder\Database\Console\Migrations\InstallCommand;
+use AwesomeCoder\Database\Console\Migrations\MigrateCommand;
+use AwesomeCoder\Database\Console\Migrations\MigrateMakeCommand;
+use AwesomeCoder\Database\Console\Migrations\RefreshCommand;
+use AwesomeCoder\Database\Console\Migrations\ResetCommand;
+use AwesomeCoder\Database\Console\Migrations\RollbackCommand;
+use AwesomeCoder\Database\Console\Migrations\StatusCommand;
+use AwesomeCoder\Database\Migrations\DatabaseMigrationRepository;
+use AwesomeCoder\Database\Migrations\MigrationCreator;
+use AwesomeCoder\Database\Migrations\Migrator;
+use AwesomeCoder\Support\ServiceProvider;
 
 class MigrationServiceProvider extends ServiceProvider implements DeferrableProvider
 {

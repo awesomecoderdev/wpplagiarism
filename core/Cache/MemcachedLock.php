@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
 class MemcachedLock extends Lock
 {
@@ -35,7 +35,9 @@ class MemcachedLock extends Lock
     public function acquire()
     {
         return $this->memcached->add(
-            $this->name, $this->owner, $this->seconds
+            $this->name,
+            $this->owner,
+            $this->seconds
         );
     }
 

@@ -1,32 +1,32 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 use BadMethodCallException;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
+use AwesomeCoder\Database\Eloquent\Relations\HasMany;
+use AwesomeCoder\Support\Str;
 
 class PendingHasThroughRelationship
 {
     /**
      * The root model that the relationship exists on.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \AwesomeCoder\Database\Eloquent\Model
      */
     protected $rootModel;
 
     /**
      * The local relationship.
      *
-     * @var \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne
+     * @var \AwesomeCoder\Database\Eloquent\Relations\HasMany|\AwesomeCoder\Database\Eloquent\Relations\HasOne
      */
     protected $localRelationship;
 
     /**
      * Create a pending has-many-through or has-one-through relationship.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $rootModel
-     * @param  \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne  $localRelationship
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $rootModel
+     * @param  \AwesomeCoder\Database\Eloquent\Relations\HasMany|\AwesomeCoder\Database\Eloquent\Relations\HasOne  $localRelationship
      */
     public function __construct($rootModel, $localRelationship)
     {
@@ -38,8 +38,8 @@ class PendingHasThroughRelationship
     /**
      * Define the distant relationship that this model has.
      *
-     * @param  string|(callable(\Illuminate\Database\Eloquent\Model): (\Illuminate\Database\Eloquent\Relations\HasOne|\Illuminate\Database\Eloquent\Relations\HasMany))  $callback
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough|\Illuminate\Database\Eloquent\Relations\HasOneThrough
+     * @param  string|(callable(\AwesomeCoder\Database\Eloquent\Model): (\AwesomeCoder\Database\Eloquent\Relations\HasOne|\AwesomeCoder\Database\Eloquent\Relations\HasMany))  $callback
+     * @return \AwesomeCoder\Database\Eloquent\Relations\HasManyThrough|\AwesomeCoder\Database\Eloquent\Relations\HasOneThrough
      */
     public function has($callback)
     {
@@ -84,7 +84,9 @@ class PendingHasThroughRelationship
         }
 
         throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()', static::class, $method
+            'Call to undefined method %s::%s()',
+            static::class,
+            $method
         ));
     }
 }

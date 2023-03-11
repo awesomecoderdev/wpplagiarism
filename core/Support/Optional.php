@@ -1,10 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use ArrayAccess;
 use ArrayObject;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Support\Traits\Macroable;
 
 class Optional implements ArrayAccess
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Config;
+namespace AwesomeCoder\Config;
 
 use ArrayAccess;
-use Illuminate\Contracts\Config\Repository as ConfigContract;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Contracts\Config\Repository as ConfigContract;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Traits\Macroable;
 
 class Repository implements ArrayAccess, ConfigContract
 {

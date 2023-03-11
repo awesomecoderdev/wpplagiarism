@@ -1,17 +1,17 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Collection;
 
-if (! function_exists('collect')) {
+if (!function_exists('collect')) {
     /**
      * Create a collection from the given value.
      *
      * @template TKey of array-key
      * @template TValue
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $value
-     * @return \Illuminate\Support\Collection<TKey, TValue>
+     * @param  \AwesomeCoder\Contracts\Support\Arrayable<TKey, TValue>|iterable<TKey, TValue>|null  $value
+     * @return \AwesomeCoder\Support\Collection<TKey, TValue>
      */
     function collect($value = [])
     {
@@ -19,7 +19,7 @@ if (! function_exists('collect')) {
     }
 }
 
-if (! function_exists('data_fill')) {
+if (!function_exists('data_fill')) {
     /**
      * Fill in data where it's missing.
      *
@@ -34,7 +34,7 @@ if (! function_exists('data_fill')) {
     }
 }
 
-if (! function_exists('data_get')) {
+if (!function_exists('data_get')) {
     /**
      * Get an item from an array or object using "dot" notation.
      *
@@ -61,7 +61,7 @@ if (! function_exists('data_get')) {
             if ($segment === '*') {
                 if ($target instanceof Collection) {
                     $target = $target->all();
-                } elseif (! is_iterable($target)) {
+                } elseif (!is_iterable($target)) {
                     return value($default);
                 }
 
@@ -87,7 +87,7 @@ if (! function_exists('data_get')) {
     }
 }
 
-if (! function_exists('data_set')) {
+if (!function_exists('data_set')) {
     /**
      * Set an item on an array or object using dot notation.
      *
@@ -102,7 +102,7 @@ if (! function_exists('data_set')) {
         $segments = is_array($key) ? $key : explode('.', $key);
 
         if (($segment = array_shift($segments)) === '*') {
-            if (! Arr::accessible($target)) {
+            if (!Arr::accessible($target)) {
                 $target = [];
             }
 
@@ -117,22 +117,22 @@ if (! function_exists('data_set')) {
             }
         } elseif (Arr::accessible($target)) {
             if ($segments) {
-                if (! Arr::exists($target, $segment)) {
+                if (!Arr::exists($target, $segment)) {
                     $target[$segment] = [];
                 }
 
                 data_set($target[$segment], $segments, $value, $overwrite);
-            } elseif ($overwrite || ! Arr::exists($target, $segment)) {
+            } elseif ($overwrite || !Arr::exists($target, $segment)) {
                 $target[$segment] = $value;
             }
         } elseif (is_object($target)) {
             if ($segments) {
-                if (! isset($target->{$segment})) {
+                if (!isset($target->{$segment})) {
                     $target->{$segment} = [];
                 }
 
                 data_set($target->{$segment}, $segments, $value, $overwrite);
-            } elseif ($overwrite || ! isset($target->{$segment})) {
+            } elseif ($overwrite || !isset($target->{$segment})) {
                 $target->{$segment} = $value;
             }
         } else {
@@ -149,7 +149,7 @@ if (! function_exists('data_set')) {
     }
 }
 
-if (! function_exists('head')) {
+if (!function_exists('head')) {
     /**
      * Get the first element of an array. Useful for method chaining.
      *
@@ -162,7 +162,7 @@ if (! function_exists('head')) {
     }
 }
 
-if (! function_exists('last')) {
+if (!function_exists('last')) {
     /**
      * Get the last element from an array.
      *
@@ -175,7 +175,7 @@ if (! function_exists('last')) {
     }
 }
 
-if (! function_exists('value')) {
+if (!function_exists('value')) {
     /**
      * Return the default value of the given value.
      *

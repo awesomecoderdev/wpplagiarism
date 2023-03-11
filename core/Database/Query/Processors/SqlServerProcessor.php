@@ -1,17 +1,17 @@
 <?php
 
-namespace Illuminate\Database\Query\Processors;
+namespace AwesomeCoder\Database\Query\Processors;
 
 use Exception;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Query\Builder;
+use AwesomeCoder\Database\Connection;
+use AwesomeCoder\Database\Query\Builder;
 
 class SqlServerProcessor extends Processor
 {
     /**
      * Process an "insert get ID" query.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  string  $sql
      * @param  array  $values
      * @param  string|null  $sequence
@@ -35,7 +35,7 @@ class SqlServerProcessor extends Processor
     /**
      * Process an "insert get ID" query for ODBC.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @return int
      *
      * @throws \Exception
@@ -46,7 +46,7 @@ class SqlServerProcessor extends Processor
             'SELECT CAST(COALESCE(SCOPE_IDENTITY(), @@IDENTITY) AS int) AS insertid'
         );
 
-        if (! $result) {
+        if (!$result) {
             throw new Exception('Unable to retrieve lastInsertID for ODBC.');
         }
 

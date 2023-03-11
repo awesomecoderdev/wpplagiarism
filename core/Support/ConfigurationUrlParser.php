@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace AwesomeCoder\Support;
 
 use InvalidArgumentException;
 
@@ -35,7 +35,7 @@ class ConfigurationUrlParser
 
         $url = Arr::pull($config, 'url');
 
-        if (! $url) {
+        if (!$url) {
             return $config;
         }
 
@@ -67,7 +67,7 @@ class ConfigurationUrlParser
             'port' => $url['port'] ?? null,
             'username' => $url['user'] ?? null,
             'password' => $url['pass'] ?? null,
-        ], fn ($value) => ! is_null($value));
+        ], fn ($value) => !is_null($value));
     }
 
     /**
@@ -80,7 +80,7 @@ class ConfigurationUrlParser
     {
         $alias = $url['scheme'] ?? null;
 
-        if (! $alias) {
+        if (!$alias) {
             return;
         }
 
@@ -110,7 +110,7 @@ class ConfigurationUrlParser
     {
         $queryString = $url['query'] ?? null;
 
-        if (! $queryString) {
+        if (!$queryString) {
             return [];
         }
 
@@ -154,7 +154,7 @@ class ConfigurationUrlParser
             return array_map([$this, 'parseStringsToNativeTypes'], $value);
         }
 
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return $value;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Flysystem;
+namespace AwesomeCoder\Flysystem;
 
 interface FilesystemWriter
 {

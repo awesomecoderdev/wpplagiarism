@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
 class MySqlBuilder extends Builder
 {
@@ -38,10 +38,11 @@ class MySqlBuilder extends Builder
      */
     public function hasTable($table)
     {
-        $table = $this->connection->getTablePrefix().$table;
+        $table = $this->connection->getTablePrefix() . $table;
 
         return count($this->connection->selectFromWriteConnection(
-            $this->grammar->compileTableExists(), [$this->connection->getDatabaseName(), $table]
+            $this->grammar->compileTableExists(),
+            [$this->connection->getDatabaseName(), $table]
         )) > 0;
     }
 
@@ -53,10 +54,11 @@ class MySqlBuilder extends Builder
      */
     public function getColumnListing($table)
     {
-        $table = $this->connection->getTablePrefix().$table;
+        $table = $this->connection->getTablePrefix() . $table;
 
         $results = $this->connection->selectFromWriteConnection(
-            $this->grammar->compileColumnListing(), [$this->connection->getDatabaseName(), $table]
+            $this->grammar->compileColumnListing(),
+            [$this->connection->getDatabaseName(), $table]
         );
 
         return $this->connection->getPostProcessor()->processColumnListing($results);

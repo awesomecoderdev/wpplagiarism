@@ -1,11 +1,11 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace AwesomeCoder\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
-use Illuminate\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
+use AwesomeCoder\Database\Eloquent\Collection;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\InteractsWithDictionary;
+use AwesomeCoder\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
 
 class HasOneThrough extends HasManyThrough
 {
@@ -41,7 +41,7 @@ class HasOneThrough extends HasManyThrough
      * Match the eagerly loaded results to their parents.
      *
      * @param  array  $models
-     * @param  \Illuminate\Database\Eloquent\Collection  $results
+     * @param  \AwesomeCoder\Database\Eloquent\Collection  $results
      * @param  string  $relation
      * @return array
      */
@@ -56,7 +56,8 @@ class HasOneThrough extends HasManyThrough
             if (isset($dictionary[$key = $this->getDictionaryKey($model->getAttribute($this->localKey))])) {
                 $value = $dictionary[$key];
                 $model->setRelation(
-                    $relation, reset($value)
+                    $relation,
+                    reset($value)
                 );
             }
         }
@@ -67,8 +68,8 @@ class HasOneThrough extends HasManyThrough
     /**
      * Make a new related instance for the given model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @return \Illuminate\Database\Eloquent\Model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
+     * @return \AwesomeCoder\Database\Eloquent\Model
      */
     public function newRelatedInstanceFor(Model $parent)
     {

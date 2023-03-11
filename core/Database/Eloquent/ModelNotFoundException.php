@@ -1,12 +1,12 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
-use Illuminate\Database\RecordsNotFoundException;
-use Illuminate\Support\Arr;
+use AwesomeCoder\Database\RecordsNotFoundException;
+use AwesomeCoder\Support\Arr;
 
 /**
- * @template TModel of \Illuminate\Database\Eloquent\Model
+ * @template TModel of \AwesomeCoder\Database\Eloquent\Model
  */
 class ModelNotFoundException extends RecordsNotFoundException
 {
@@ -39,7 +39,7 @@ class ModelNotFoundException extends RecordsNotFoundException
         $this->message = "No query results for model [{$model}]";
 
         if (count($this->ids) > 0) {
-            $this->message .= ' '.implode(', ', $this->ids);
+            $this->message .= ' ' . implode(', ', $this->ids);
         } else {
             $this->message .= '.';
         }

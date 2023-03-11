@@ -1,8 +1,8 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace AwesomeCoder\Support\Traits;
 
-use Illuminate\Container\Container;
+use AwesomeCoder\Container\Container;
 
 trait Localizable
 {
@@ -15,7 +15,7 @@ trait Localizable
      */
     public function withLocale($locale, $callback)
     {
-        if (! $locale) {
+        if (!$locale) {
             return $callback();
         }
 

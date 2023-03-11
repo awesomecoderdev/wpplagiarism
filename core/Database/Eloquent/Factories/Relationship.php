@@ -1,18 +1,18 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Factories;
+namespace AwesomeCoder\Database\Eloquent\Factories;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
-use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Database\Eloquent\Relations\BelongsToMany;
+use AwesomeCoder\Database\Eloquent\Relations\HasOneOrMany;
+use AwesomeCoder\Database\Eloquent\Relations\MorphOneOrMany;
 
 class Relationship
 {
     /**
      * The related factory instance.
      *
-     * @var \Illuminate\Database\Eloquent\Factories\Factory
+     * @var \AwesomeCoder\Database\Eloquent\Factories\Factory
      */
     protected $factory;
 
@@ -26,7 +26,7 @@ class Relationship
     /**
      * Create a new child relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Factories\Factory  $factory
+     * @param  \AwesomeCoder\Database\Eloquent\Factories\Factory  $factory
      * @param  string  $relationship
      * @return void
      */
@@ -39,7 +39,7 @@ class Relationship
     /**
      * Create the child relationship for the given parent model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $parent
      * @return void
      */
     public function createFor(Model $parent)
@@ -63,7 +63,7 @@ class Relationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  \Illuminate\Support\Collection  $recycle
+     * @param  \AwesomeCoder\Support\Collection  $recycle
      * @return $this
      */
     public function recycle($recycle)

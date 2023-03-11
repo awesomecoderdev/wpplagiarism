@@ -1,16 +1,16 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Factories;
+namespace AwesomeCoder\Database\Eloquent\Factories;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use AwesomeCoder\Database\Eloquent\Model;
+use AwesomeCoder\Support\Collection;
 
 class BelongsToManyRelationship
 {
     /**
      * The related factory instance.
      *
-     * @var \Illuminate\Database\Eloquent\Factories\Factory|\Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|array
+     * @var \AwesomeCoder\Database\Eloquent\Factories\Factory|\AwesomeCoder\Support\Collection|\AwesomeCoder\Database\Eloquent\Model|array
      */
     protected $factory;
 
@@ -31,7 +31,7 @@ class BelongsToManyRelationship
     /**
      * Create a new attached relationship definition.
      *
-     * @param  \Illuminate\Database\Eloquent\Factories\Factory|\Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Model|array  $factory
+     * @param  \AwesomeCoder\Database\Eloquent\Factories\Factory|\AwesomeCoder\Support\Collection|\AwesomeCoder\Database\Eloquent\Model|array  $factory
      * @param  callable|array  $pivot
      * @param  string  $relationship
      * @return void
@@ -46,7 +46,7 @@ class BelongsToManyRelationship
     /**
      * Create the attached relationship for the given model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @return void
      */
     public function createFor(Model $model)
@@ -62,7 +62,7 @@ class BelongsToManyRelationship
     /**
      * Specify the model instances to always use when creating relationships.
      *
-     * @param  \Illuminate\Support\Collection  $recycle
+     * @param  \AwesomeCoder\Support\Collection  $recycle
      * @return $this
      */
     public function recycle($recycle)

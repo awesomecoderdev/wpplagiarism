@@ -1,22 +1,22 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace AwesomeCoder\Database\Eloquent;
 
 use BadMethodCallException;
 use Closure;
 use Exception;
-use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Concerns\BuildsQueries;
-use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\RecordsNotFoundException;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\ForwardsCalls;
+use AwesomeCoder\Contracts\Database\Eloquent\Builder as BuilderContract;
+use AwesomeCoder\Contracts\Support\Arrayable;
+use AwesomeCoder\Database\Concerns\BuildsQueries;
+use AwesomeCoder\Database\Eloquent\Concerns\QueriesRelationships;
+use AwesomeCoder\Database\Eloquent\Relations\BelongsToMany;
+use AwesomeCoder\Database\Eloquent\Relations\Relation;
+use AwesomeCoder\Database\Query\Builder as QueryBuilder;
+use AwesomeCoder\Database\RecordsNotFoundException;
+use AwesomeCoder\Pagination\Paginator;
+use AwesomeCoder\Support\Arr;
+use AwesomeCoder\Support\Str;
+use AwesomeCoder\Support\Traits\ForwardsCalls;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -25,7 +25,7 @@ use ReflectionMethod;
  * @property-read HigherOrderBuilderProxy $whereNot
  * @property-read HigherOrderBuilderProxy $orWhereNot
  *
- * @mixin \Illuminate\Database\Query\Builder
+ * @mixin \AwesomeCoder\Database\Query\Builder
  */
 class Builder implements BuilderContract
 {
@@ -36,14 +36,14 @@ class Builder implements BuilderContract
     /**
      * The base query builder instance.
      *
-     * @var \Illuminate\Database\Query\Builder
+     * @var \AwesomeCoder\Database\Query\Builder
      */
     protected $query;
 
     /**
      * The model being queried.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \AwesomeCoder\Database\Eloquent\Model
      */
     protected $model;
 
@@ -134,7 +134,7 @@ class Builder implements BuilderContract
     /**
      * Create a new Eloquent query builder instance.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return void
      */
     public function __construct(QueryBuilder $query)
@@ -146,7 +146,7 @@ class Builder implements BuilderContract
      * Create and return an un-saved model instance.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function make(array $attributes = [])
     {
@@ -157,7 +157,7 @@ class Builder implements BuilderContract
      * Register a new global scope.
      *
      * @param  string  $identifier
-     * @param  \Illuminate\Database\Eloquent\Scope|\Closure  $scope
+     * @param  \AwesomeCoder\Database\Eloquent\Scope|\Closure  $scope
      * @return $this
      */
     public function withGlobalScope($identifier, $scope)
@@ -174,12 +174,12 @@ class Builder implements BuilderContract
     /**
      * Remove a registered global scope.
      *
-     * @param  \Illuminate\Database\Eloquent\Scope|string  $scope
+     * @param  \AwesomeCoder\Database\Eloquent\Scope|string  $scope
      * @return $this
      */
     public function withoutGlobalScope($scope)
     {
-        if (! is_string($scope)) {
+        if (!is_string($scope)) {
             $scope = get_class($scope);
         }
 
@@ -198,7 +198,7 @@ class Builder implements BuilderContract
      */
     public function withoutGlobalScopes(array $scopes = null)
     {
-        if (! is_array($scopes)) {
+        if (!is_array($scopes)) {
             $scopes = array_keys($this->scopes);
         }
 
@@ -280,7 +280,7 @@ class Builder implements BuilderContract
     /**
      * Add a basic where clause to the query.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
@@ -302,11 +302,11 @@ class Builder implements BuilderContract
     /**
      * Add a basic where clause to the query, and return the first result.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Model|static|null
+     * @return \AwesomeCoder\Database\Eloquent\Model|static|null
      */
     public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
     {
@@ -316,7 +316,7 @@ class Builder implements BuilderContract
     /**
      * Add an "or where" clause to the query.
      *
-     * @param  \Closure|array|string|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|array|string|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @return $this
@@ -324,7 +324,9 @@ class Builder implements BuilderContract
     public function orWhere($column, $operator = null, $value = null)
     {
         [$value, $operator] = $this->query->prepareValueAndOperator(
-            $value, $operator, func_num_args() === 2
+            $value,
+            $operator,
+            func_num_args() === 2
         );
 
         return $this->where($column, $operator, $value, 'or');
@@ -333,7 +335,7 @@ class Builder implements BuilderContract
     /**
      * Add a basic "where not" clause to the query.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|string|array|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @param  string  $boolean
@@ -341,13 +343,13 @@ class Builder implements BuilderContract
      */
     public function whereNot($column, $operator = null, $value = null, $boolean = 'and')
     {
-        return $this->where($column, $operator, $value, $boolean.' not');
+        return $this->where($column, $operator, $value, $boolean . ' not');
     }
 
     /**
      * Add an "or where not" clause to the query.
      *
-     * @param  \Closure|array|string|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|array|string|\AwesomeCoder\Database\Query\Expression  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @return $this
@@ -360,7 +362,7 @@ class Builder implements BuilderContract
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @return $this
      */
     public function latest($column = null)
@@ -377,7 +379,7 @@ class Builder implements BuilderContract
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @return $this
      */
     public function oldest($column = null)
@@ -395,7 +397,7 @@ class Builder implements BuilderContract
      * Create a collection of models from plain arrays.
      *
      * @param  array  $items
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function hydrate(array $items)
     {
@@ -417,7 +419,7 @@ class Builder implements BuilderContract
      *
      * @param  string  $query
      * @param  array  $bindings
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function fromQuery($query, $bindings = [])
     {
@@ -431,7 +433,7 @@ class Builder implements BuilderContract
      *
      * @param  mixed  $id
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|null
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|static[]|static|null
      */
     public function find($id, $columns = ['*'])
     {
@@ -445,9 +447,9 @@ class Builder implements BuilderContract
     /**
      * Find multiple models by their primary keys.
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $ids
+     * @param  \AwesomeCoder\Contracts\Support\Arrayable|array  $ids
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \AwesomeCoder\Database\Eloquent\Collection
      */
     public function findMany($ids, $columns = ['*'])
     {
@@ -465,9 +467,9 @@ class Builder implements BuilderContract
      *
      * @param  mixed  $id
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static|static[]
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|static|static[]
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function findOrFail($id, $columns = ['*'])
     {
@@ -478,7 +480,8 @@ class Builder implements BuilderContract
         if (is_array($id)) {
             if (count($result) !== count(array_unique($id))) {
                 throw (new ModelNotFoundException)->setModel(
-                    get_class($this->model), array_diff($id, $result->modelKeys())
+                    get_class($this->model),
+                    array_diff($id, $result->modelKeys())
                 );
             }
 
@@ -487,7 +490,8 @@ class Builder implements BuilderContract
 
         if (is_null($result)) {
             throw (new ModelNotFoundException)->setModel(
-                get_class($this->model), $id
+                get_class($this->model),
+                $id
             );
         }
 
@@ -499,11 +503,11 @@ class Builder implements BuilderContract
      *
      * @param  mixed  $id
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function findOrNew($id, $columns = ['*'])
     {
-        if (! is_null($model = $this->find($id, $columns))) {
+        if (!is_null($model = $this->find($id, $columns))) {
             return $model;
         }
 
@@ -516,7 +520,7 @@ class Builder implements BuilderContract
      * @param  mixed  $id
      * @param  \Closure|array|string  $columns
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|static[]|static|mixed
+     * @return \AwesomeCoder\Database\Eloquent\Model|\AwesomeCoder\Database\Eloquent\Collection|static[]|static|mixed
      */
     public function findOr($id, $columns = ['*'], Closure $callback = null)
     {
@@ -526,7 +530,7 @@ class Builder implements BuilderContract
             $columns = ['*'];
         }
 
-        if (! is_null($model = $this->find($id, $columns))) {
+        if (!is_null($model = $this->find($id, $columns))) {
             return $model;
         }
 
@@ -538,11 +542,11 @@ class Builder implements BuilderContract
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function firstOrNew(array $attributes = [], array $values = [])
     {
-        if (! is_null($instance = $this->where($attributes)->first())) {
+        if (!is_null($instance = $this->where($attributes)->first())) {
             return $instance;
         }
 
@@ -554,11 +558,11 @@ class Builder implements BuilderContract
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function firstOrCreate(array $attributes = [], array $values = [])
     {
-        if (! is_null($instance = $this->where($attributes)->first())) {
+        if (!is_null($instance = $this->where($attributes)->first())) {
             return $instance;
         }
 
@@ -572,7 +576,7 @@ class Builder implements BuilderContract
      *
      * @param  array  $attributes
      * @param  array  $values
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function updateOrCreate(array $attributes, array $values = [])
     {
@@ -585,13 +589,13 @@ class Builder implements BuilderContract
      * Execute the query and get the first result or throw an exception.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function firstOrFail($columns = ['*'])
     {
-        if (! is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -603,7 +607,7 @@ class Builder implements BuilderContract
      *
      * @param  \Closure|array|string  $columns
      * @param  \Closure|null  $callback
-     * @return \Illuminate\Database\Eloquent\Model|static|mixed
+     * @return \AwesomeCoder\Database\Eloquent\Model|static|mixed
      */
     public function firstOr($columns = ['*'], Closure $callback = null)
     {
@@ -613,7 +617,7 @@ class Builder implements BuilderContract
             $columns = ['*'];
         }
 
-        if (! is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -624,10 +628,10 @@ class Builder implements BuilderContract
      * Execute the query and get the first result if it's the sole matching record.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \AwesomeCoder\Database\Eloquent\Model
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
-     * @throws \Illuminate\Database\MultipleRecordsFoundException
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\MultipleRecordsFoundException
      */
     public function sole($columns = ['*'])
     {
@@ -641,7 +645,7 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of a query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @return mixed
      */
     public function value($column)
@@ -654,11 +658,11 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of a query if it's the sole matching record.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @return mixed
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
-     * @throws \Illuminate\Database\MultipleRecordsFoundException
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\MultipleRecordsFoundException
      */
     public function soleValue($column)
     {
@@ -668,10 +672,10 @@ class Builder implements BuilderContract
     /**
      * Get a single column's value from the first result of the query or throw an exception.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @return mixed
      *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<\Illuminate\Database\Eloquent\Model>
+     * @throws \AwesomeCoder\Database\Eloquent\ModelNotFoundException<\AwesomeCoder\Database\Eloquent\Model>
      */
     public function valueOrFail($column)
     {
@@ -682,7 +686,7 @@ class Builder implements BuilderContract
      * Execute the query as a "select" statement.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return \AwesomeCoder\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
     {
@@ -702,7 +706,7 @@ class Builder implements BuilderContract
      * Get the hydrated models without eager loading.
      *
      * @param  array|string  $columns
-     * @return \Illuminate\Database\Eloquent\Model[]|static[]
+     * @return \AwesomeCoder\Database\Eloquent\Model[]|static[]
      */
     public function getModels($columns = ['*'])
     {
@@ -723,7 +727,7 @@ class Builder implements BuilderContract
             // For nested eager loads we'll skip loading them here and they will be set as an
             // eager load on the query to retrieve the relation so that they will be eager
             // loaded on that query, because that is where they get hydrated as models.
-            if (! str_contains($name, '.')) {
+            if (!str_contains($name, '.')) {
                 $models = $this->eagerLoadRelation($models, $name, $constraints);
             }
         }
@@ -755,7 +759,8 @@ class Builder implements BuilderContract
         // of models which have been eagerly hydrated and are readied for return.
         return $relation->match(
             $relation->initRelation($models, $name),
-            $relation->getEager(), $name
+            $relation->getEager(),
+            $name
         );
     }
 
@@ -763,7 +768,7 @@ class Builder implements BuilderContract
      * Get the relation instance for the given relation name.
      *
      * @param  string  $name
-     * @return \Illuminate\Database\Eloquent\Relations\Relation
+     * @return \AwesomeCoder\Database\Eloquent\Relations\Relation
      */
     public function getRelation($name)
     {
@@ -805,7 +810,7 @@ class Builder implements BuilderContract
         // that start with the given top relations and adds them to our arrays.
         foreach ($this->eagerLoad as $name => $constraints) {
             if ($this->isNestedUnder($relation, $name)) {
-                $nested[substr($name, strlen($relation.'.'))] = $constraints;
+                $nested[substr($name, strlen($relation . '.'))] = $constraints;
             }
         }
 
@@ -821,13 +826,13 @@ class Builder implements BuilderContract
      */
     protected function isNestedUnder($relation, $name)
     {
-        return str_contains($name, '.') && str_starts_with($name, $relation.'.');
+        return str_contains($name, '.') && str_starts_with($name, $relation . '.');
     }
 
     /**
      * Get a lazy collection for the given query.
      *
-     * @return \Illuminate\Support\LazyCollection
+     * @return \AwesomeCoder\Support\LazyCollection
      */
     public function cursor()
     {
@@ -851,9 +856,9 @@ class Builder implements BuilderContract
     /**
      * Get a collection with the values of a given column.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @param  string|null  $key
-     * @return \Illuminate\Support\Collection
+     * @return \AwesomeCoder\Support\Collection
      */
     public function pluck($column, $key = null)
     {
@@ -862,9 +867,11 @@ class Builder implements BuilderContract
         // If the model has a mutator for the requested column, we will spin through
         // the results and mutate the values so that the mutated version of these
         // columns are returned as you would expect from these Eloquent models.
-        if (! $this->model->hasGetMutator($column) &&
-            ! $this->model->hasCast($column) &&
-            ! in_array($column, $this->model->getDates())) {
+        if (
+            !$this->model->hasGetMutator($column) &&
+            !$this->model->hasCast($column) &&
+            !in_array($column, $this->model->getDates())
+        ) {
             return $results;
         }
 
@@ -880,7 +887,7 @@ class Builder implements BuilderContract
      * @param  array|string  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \AwesomeCoder\Contracts\Pagination\LengthAwarePaginator
      *
      * @throws \InvalidArgumentException
      */
@@ -912,7 +919,7 @@ class Builder implements BuilderContract
      * @param  array|string  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return \AwesomeCoder\Contracts\Pagination\Paginator
      */
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
@@ -937,8 +944,8 @@ class Builder implements BuilderContract
      * @param  int|null  $perPage
      * @param  array|string  $columns
      * @param  string  $cursorName
-     * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     * @param  \AwesomeCoder\Pagination\Cursor|string|null  $cursor
+     * @return \AwesomeCoder\Contracts\Pagination\CursorPaginator
      */
     public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
@@ -951,7 +958,7 @@ class Builder implements BuilderContract
      * Ensure the proper order by required for cursor pagination.
      *
      * @param  bool  $shouldReverse
-     * @return \Illuminate\Support\Collection
+     * @return \AwesomeCoder\Support\Collection
      */
     protected function ensureOrderForCursorPagination($shouldReverse = false)
     {
@@ -978,7 +985,7 @@ class Builder implements BuilderContract
      * Save a new model and return the instance.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model|$this
+     * @return \AwesomeCoder\Database\Eloquent\Model|$this
      */
     public function create(array $attributes = [])
     {
@@ -991,7 +998,7 @@ class Builder implements BuilderContract
      * Save a new model and return the instance. Allow mass-assignment.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model|$this
+     * @return \AwesomeCoder\Database\Eloquent\Model|$this
      */
     public function forceCreate(array $attributes)
     {
@@ -1025,7 +1032,7 @@ class Builder implements BuilderContract
             return 0;
         }
 
-        if (! is_array(reset($values))) {
+        if (!is_array(reset($values))) {
             $values = [$values];
         }
 
@@ -1056,7 +1063,7 @@ class Builder implements BuilderContract
 
         $column = $this->model->getUpdatedAtColumn();
 
-        if (! $this->model->usesTimestamps() || is_null($column)) {
+        if (!$this->model->usesTimestamps() || is_null($column)) {
             return false;
         }
 
@@ -1066,7 +1073,7 @@ class Builder implements BuilderContract
     /**
      * Increment a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -1074,14 +1081,16 @@ class Builder implements BuilderContract
     public function increment($column, $amount = 1, array $extra = [])
     {
         return $this->toBase()->increment(
-            $column, $amount, $this->addUpdatedAtColumn($extra)
+            $column,
+            $amount,
+            $this->addUpdatedAtColumn($extra)
         );
     }
 
     /**
      * Decrement a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -1089,7 +1098,9 @@ class Builder implements BuilderContract
     public function decrement($column, $amount = 1, array $extra = [])
     {
         return $this->toBase()->decrement(
-            $column, $amount, $this->addUpdatedAtColumn($extra)
+            $column,
+            $amount,
+            $this->addUpdatedAtColumn($extra)
         );
     }
 
@@ -1101,8 +1112,10 @@ class Builder implements BuilderContract
      */
     protected function addUpdatedAtColumn(array $values)
     {
-        if (! $this->model->usesTimestamps() ||
-            is_null($this->model->getUpdatedAtColumn())) {
+        if (
+            !$this->model->usesTimestamps() ||
+            is_null($this->model->getUpdatedAtColumn())
+        ) {
             return $values;
         }
 
@@ -1115,7 +1128,7 @@ class Builder implements BuilderContract
 
         $segments = preg_split('/\s+as\s+/i', $this->query->from);
 
-        $qualifiedColumn = end($segments).'.'.$column;
+        $qualifiedColumn = end($segments) . '.' . $column;
 
         $values[$qualifiedColumn] = Arr::get($values, $qualifiedColumn, $values[$column]);
 
@@ -1132,7 +1145,7 @@ class Builder implements BuilderContract
      */
     protected function addTimestampsToUpsertValues(array $values)
     {
-        if (! $this->model->usesTimestamps()) {
+        if (!$this->model->usesTimestamps()) {
             return $values;
         }
 
@@ -1160,15 +1173,17 @@ class Builder implements BuilderContract
      */
     protected function addUpdatedAtToUpsertColumns(array $update)
     {
-        if (! $this->model->usesTimestamps()) {
+        if (!$this->model->usesTimestamps()) {
             return $update;
         }
 
         $column = $this->model->getUpdatedAtColumn();
 
-        if (! is_null($column) &&
-            ! array_key_exists($column, $update) &&
-            ! in_array($column, $update)) {
+        if (
+            !is_null($column) &&
+            !array_key_exists($column, $update) &&
+            !in_array($column, $update)
+        ) {
             $update[] = $column;
         }
 
@@ -1245,7 +1260,8 @@ class Builder implements BuilderContract
             // care of grouping the "wheres" properly so the logical order doesn't get
             // messed up when adding scopes. Then we'll return back out the builder.
             $builder = $builder->callNamedScope(
-                $scope, Arr::wrap($parameters)
+                $scope,
+                Arr::wrap($parameters)
             );
         }
 
@@ -1259,14 +1275,14 @@ class Builder implements BuilderContract
      */
     public function applyScopes()
     {
-        if (! $this->scopes) {
+        if (!$this->scopes) {
             return $this;
         }
 
         $builder = clone $this;
 
         foreach ($this->scopes as $identifier => $scope) {
-            if (! isset($builder->scopes[$identifier])) {
+            if (!isset($builder->scopes[$identifier])) {
                 continue;
             }
 
@@ -1307,7 +1323,7 @@ class Builder implements BuilderContract
         // scope so that we can properly group the added scope constraints in the
         // query as their own isolated nested where statement and avoid issues.
         $originalWhereCount = is_null($query->wheres)
-                    ? 0 : count($query->wheres);
+            ? 0 : count($query->wheres);
 
         $result = $scope(...$parameters) ?? $this;
 
@@ -1335,7 +1351,7 @@ class Builder implements BuilderContract
     /**
      * Nest where conditions by slicing them at the given where count.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  int  $originalWhereCount
      * @return void
      */
@@ -1349,18 +1365,20 @@ class Builder implements BuilderContract
         $query->wheres = [];
 
         $this->groupWhereSliceForScope(
-            $query, array_slice($allWheres, 0, $originalWhereCount)
+            $query,
+            array_slice($allWheres, 0, $originalWhereCount)
         );
 
         $this->groupWhereSliceForScope(
-            $query, array_slice($allWheres, $originalWhereCount)
+            $query,
+            array_slice($allWheres, $originalWhereCount)
         );
     }
 
     /**
      * Slice where conditions at the given offset and add them to the query as a nested condition.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @param  array  $whereSlice
      * @return void
      */
@@ -1373,7 +1391,8 @@ class Builder implements BuilderContract
         // we don't add any unnecessary nesting thus keeping the query clean.
         if ($whereBooleans->contains('or')) {
             $query->wheres[] = $this->createNestedWhere(
-                $whereSlice, $whereBooleans->first()
+                $whereSlice,
+                $whereBooleans->first()
             );
         } else {
             $query->wheres = array_merge($query->wheres, $whereSlice);
@@ -1448,7 +1467,7 @@ class Builder implements BuilderContract
      * Create a new instance of the model being queried.
      *
      * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function newModelInstance($attributes = [])
     {
@@ -1502,7 +1521,7 @@ class Builder implements BuilderContract
         // syntax, we shall loop over the nested relations and prepend each key of
         // this array while flattening into the traditional dot notation format.
         foreach ($relations as $key => $value) {
-            if (! is_string($key) || ! is_array($value)) {
+            if (!is_string($key) || !is_array($value)) {
                 continue;
             }
 
@@ -1525,9 +1544,9 @@ class Builder implements BuilderContract
                 [$key, $value] = $this->parseNameAndAttributeSelectionConstraint($value);
             }
 
-            $preparedRelationships[$prefix.$key] = $this->combineConstraints([
+            $preparedRelationships[$prefix . $key] = $this->combineConstraints([
                 $value,
-                $preparedRelationships[$prefix.$key] ?? static function () {
+                $preparedRelationships[$prefix . $key] ?? static function () {
                     //
                 },
             ]);
@@ -1583,8 +1602,8 @@ class Builder implements BuilderContract
                 }
 
                 return $query instanceof BelongsToMany
-                        ? $query->getRelated()->getTable().'.'.$column
-                        : $column;
+                    ? $query->getRelated()->getTable() . '.' . $column
+                    : $column;
             }, explode(',', explode(':', $name)[1])));
         }];
     }
@@ -1606,7 +1625,7 @@ class Builder implements BuilderContract
         foreach (explode('.', $name) as $segment) {
             $progress[] = $segment;
 
-            if (! isset($results[$last = implode('.', $progress)])) {
+            if (!isset($results[$last = implode('.', $progress)])) {
                 $results[$last] = static function () {
                     //
                 };
@@ -1632,7 +1651,7 @@ class Builder implements BuilderContract
     /**
      * Get the underlying query builder instance.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     public function getQuery()
     {
@@ -1642,7 +1661,7 @@ class Builder implements BuilderContract
     /**
      * Set the underlying query builder instance.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \AwesomeCoder\Database\Query\Builder  $query
      * @return $this
      */
     public function setQuery($query)
@@ -1655,7 +1674,7 @@ class Builder implements BuilderContract
     /**
      * Get a base query builder instance.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     public function toBase()
     {
@@ -1721,7 +1740,7 @@ class Builder implements BuilderContract
     /**
      * Get the model instance being queried.
      *
-     * @return \Illuminate\Database\Eloquent\Model|static
+     * @return \AwesomeCoder\Database\Eloquent\Model|static
      */
     public function getModel()
     {
@@ -1731,7 +1750,7 @@ class Builder implements BuilderContract
     /**
      * Set a model instance for the model being queried.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \AwesomeCoder\Database\Eloquent\Model  $model
      * @return $this
      */
     public function setModel(Model $model)
@@ -1746,7 +1765,7 @@ class Builder implements BuilderContract
     /**
      * Qualify the given column name by the model's table.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string|\AwesomeCoder\Database\Query\Expression  $column
      * @return string
      */
     public function qualifyColumn($column)
@@ -1757,7 +1776,7 @@ class Builder implements BuilderContract
     /**
      * Qualify the given columns with the model's table.
      *
-     * @param  array|\Illuminate\Database\Query\Expression  $columns
+     * @param  array|\AwesomeCoder\Database\Query\Expression  $columns
      * @return array
      */
     public function qualifyColumns($columns)
@@ -1895,7 +1914,7 @@ class Builder implements BuilderContract
             return static::registerMixin($parameters[0], $parameters[1] ?? true);
         }
 
-        if (! static::hasGlobalMacro($method)) {
+        if (!static::hasGlobalMacro($method)) {
             static::throwBadMethodCallException($method);
         }
 
@@ -1922,7 +1941,7 @@ class Builder implements BuilderContract
         );
 
         foreach ($methods as $method) {
-            if ($replace || ! static::hasGlobalMacro($method->name)) {
+            if ($replace || !static::hasGlobalMacro($method->name)) {
                 $method->setAccessible(true);
 
                 static::macro($method->name, $method->invoke($mixin));

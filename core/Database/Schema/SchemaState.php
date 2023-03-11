@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace AwesomeCoder\Database\Schema;
 
-use Illuminate\Database\Connection;
-use Illuminate\Filesystem\Filesystem;
+use AwesomeCoder\Database\Connection;
+use AwesomeCoder\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 abstract class SchemaState
@@ -11,14 +11,14 @@ abstract class SchemaState
     /**
      * The connection instance.
      *
-     * @var \Illuminate\Database\Connection
+     * @var \AwesomeCoder\Database\Connection
      */
     protected $connection;
 
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var \AwesomeCoder\Filesystem\Filesystem
      */
     protected $files;
 
@@ -46,8 +46,8 @@ abstract class SchemaState
     /**
      * Create a new dumper instance.
      *
-     * @param  \Illuminate\Database\Connection  $connection
-     * @param  \Illuminate\Filesystem\Filesystem|null  $files
+     * @param  \AwesomeCoder\Database\Connection  $connection
+     * @param  \AwesomeCoder\Filesystem\Filesystem|null  $files
      * @param  callable|null  $processFactory
      * @return void
      */
@@ -69,7 +69,7 @@ abstract class SchemaState
     /**
      * Dump the database's schema into a file.
      *
-     * @param  \Illuminate\Database\Connection  $connection
+     * @param  \AwesomeCoder\Database\Connection  $connection
      * @param  string  $path
      * @return void
      */

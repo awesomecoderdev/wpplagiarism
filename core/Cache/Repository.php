@@ -1,24 +1,24 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
 use ArrayAccess;
 use BadMethodCallException;
 use Closure;
 use DateTimeInterface;
-use Illuminate\Cache\Events\CacheHit;
-use Illuminate\Cache\Events\CacheMissed;
-use Illuminate\Cache\Events\KeyForgotten;
-use Illuminate\Cache\Events\KeyWritten;
-use Illuminate\Contracts\Cache\Repository as CacheContract;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\InteractsWithTime;
-use Illuminate\Support\Traits\Macroable;
+use AwesomeCoder\Cache\Events\CacheHit;
+use AwesomeCoder\Cache\Events\CacheMissed;
+use AwesomeCoder\Cache\Events\KeyForgotten;
+use AwesomeCoder\Cache\Events\KeyWritten;
+use AwesomeCoder\Contracts\Cache\Repository as CacheContract;
+use AwesomeCoder\Contracts\Cache\Store;
+use AwesomeCoder\Contracts\Events\Dispatcher;
+use AwesomeCoder\Support\Carbon;
+use AwesomeCoder\Support\InteractsWithTime;
+use AwesomeCoder\Support\Traits\Macroable;
 
 /**
- * @mixin \Illuminate\Contracts\Cache\Store
+ * @mixin \AwesomeCoder\Contracts\Cache\Store
  */
 class Repository implements ArrayAccess, CacheContract
 {
@@ -30,14 +30,14 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * The cache store implementation.
      *
-     * @var \Illuminate\Contracts\Cache\Store
+     * @var \AwesomeCoder\Contracts\Cache\Store
      */
     protected $store;
 
     /**
      * The event dispatcher implementation.
      *
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var \AwesomeCoder\Contracts\Events\Dispatcher
      */
     protected $events;
 
@@ -51,7 +51,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Create a new cache repository instance.
      *
-     * @param  \Illuminate\Contracts\Cache\Store  $store
+     * @param  \AwesomeCoder\Contracts\Cache\Store  $store
      * @return void
      */
     public function __construct(Store $store)
@@ -67,7 +67,7 @@ class Repository implements ArrayAccess, CacheContract
      */
     public function has($key): bool
     {
-        return ! is_null($this->get($key));
+        return !is_null($this->get($key));
     }
 
     /**
@@ -78,7 +78,7 @@ class Repository implements ArrayAccess, CacheContract
      */
     public function missing($key)
     {
-        return ! $this->has($key);
+        return !$this->has($key);
     }
 
     /**
@@ -274,7 +274,7 @@ class Repository implements ArrayAccess, CacheContract
         $result = true;
 
         foreach ($values as $key => $value) {
-            if (! $this->forever($key, $value)) {
+            if (!$this->forever($key, $value)) {
                 $result = false;
             }
         }
@@ -316,7 +316,9 @@ class Repository implements ArrayAccess, CacheContract
             // this operation should work with a total "atomic" implementation of it.
             if (method_exists($this->store, 'add')) {
                 return $this->store->add(
-                    $this->itemKey($key), $value, $seconds
+                    $this->itemKey($key),
+                    $value,
+                    $seconds
                 );
             }
         }
@@ -390,7 +392,7 @@ class Repository implements ArrayAccess, CacheContract
         // If the item exists in the cache we will just return this immediately and if
         // not we will execute the given Closure and cache the result of that for a
         // given number of seconds so it's available for all subsequent requests.
-        if (! is_null($value)) {
+        if (!is_null($value)) {
             return $value;
         }
 
@@ -431,7 +433,7 @@ class Repository implements ArrayAccess, CacheContract
         // If the item exists in the cache we will just return this immediately
         // and if not we will execute the given Closure and cache the result
         // of that forever so it is available for all subsequent requests.
-        if (! is_null($value)) {
+        if (!is_null($value)) {
             return $value;
         }
 
@@ -475,7 +477,7 @@ class Repository implements ArrayAccess, CacheContract
         $result = true;
 
         foreach ($keys as $key) {
-            if (! $this->forget($key)) {
+            if (!$this->forget($key)) {
                 $result = false;
             }
         }
@@ -497,19 +499,19 @@ class Repository implements ArrayAccess, CacheContract
      * Begin executing a new tags operation if the store supports it.
      *
      * @param  array|mixed  $names
-     * @return \Illuminate\Cache\TaggedCache
+     * @return \AwesomeCoder\Cache\TaggedCache
      *
      * @throws \BadMethodCallException
      */
     public function tags($names)
     {
-        if (! $this->supportsTags()) {
+        if (!$this->supportsTags()) {
             throw new BadMethodCallException('This cache store does not support tagging.');
         }
 
         $cache = $this->store->tags(is_array($names) ? $names : func_get_args());
 
-        if (! is_null($this->events)) {
+        if (!is_null($this->events)) {
             $cache->setEventDispatcher($this->events);
         }
 
@@ -580,7 +582,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Get the cache store implementation.
      *
-     * @return \Illuminate\Contracts\Cache\Store
+     * @return \AwesomeCoder\Contracts\Cache\Store
      */
     public function getStore()
     {
@@ -601,7 +603,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Get the event dispatcher instance.
      *
-     * @return \Illuminate\Contracts\Events\Dispatcher
+     * @return \AwesomeCoder\Contracts\Events\Dispatcher
      */
     public function getEventDispatcher()
     {
@@ -611,7 +613,7 @@ class Repository implements ArrayAccess, CacheContract
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param  \AwesomeCoder\Contracts\Events\Dispatcher  $events
      * @return void
      */
     public function setEventDispatcher(Dispatcher $events)

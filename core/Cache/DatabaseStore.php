@@ -1,16 +1,16 @@
 <?php
 
-namespace Illuminate\Cache;
+namespace AwesomeCoder\Cache;
 
 use Closure;
 use Exception;
-use Illuminate\Contracts\Cache\LockProvider;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\PostgresConnection;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\InteractsWithTime;
-use Illuminate\Support\Str;
+use AwesomeCoder\Contracts\Cache\LockProvider;
+use AwesomeCoder\Contracts\Cache\Store;
+use AwesomeCoder\Database\ConnectionInterface;
+use AwesomeCoder\Database\PostgresConnection;
+use AwesomeCoder\Database\QueryException;
+use AwesomeCoder\Support\InteractsWithTime;
+use AwesomeCoder\Support\Str;
 
 class DatabaseStore implements LockProvider, Store
 {
@@ -19,14 +19,14 @@ class DatabaseStore implements LockProvider, Store
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var \AwesomeCoder\Database\ConnectionInterface
      */
     protected $connection;
 
     /**
      * The database connection instance that should be used to manage locks.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var \AwesomeCoder\Database\ConnectionInterface
      */
     protected $lockConnection;
 
@@ -61,19 +61,20 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Create a new database store.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @param  \AwesomeCoder\Database\ConnectionInterface  $connection
      * @param  string  $table
      * @param  string  $prefix
      * @param  string  $lockTable
      * @param  array  $lockLottery
      * @return void
      */
-    public function __construct(ConnectionInterface $connection,
-                                $table,
-                                $prefix = '',
-                                $lockTable = 'cache_locks',
-                                $lockLottery = [2, 100])
-    {
+    public function __construct(
+        ConnectionInterface $connection,
+        $table,
+        $prefix = '',
+        $lockTable = 'cache_locks',
+        $lockLottery = [2, 100]
+    ) {
         $this->table = $table;
         $this->prefix = $prefix;
         $this->connection = $connection;
@@ -89,7 +90,7 @@ class DatabaseStore implements LockProvider, Store
      */
     public function get($key)
     {
-        $prefixed = $this->prefix.$key;
+        $prefixed = $this->prefix . $key;
 
         $cache = $this->table()->where('key', '=', $prefixed)->first();
 
@@ -124,7 +125,7 @@ class DatabaseStore implements LockProvider, Store
      */
     public function put($key, $value, $seconds)
     {
-        $key = $this->prefix.$key;
+        $key = $this->prefix . $key;
         $value = $this->serialize($value);
         $expiration = $this->getTime() + $seconds;
 
@@ -147,7 +148,7 @@ class DatabaseStore implements LockProvider, Store
      */
     public function add($key, $value, $seconds)
     {
-        $key = $this->prefix.$key;
+        $key = $this->prefix . $key;
         $value = $this->serialize($value);
         $expiration = $this->getTime() + $seconds;
 
@@ -203,10 +204,10 @@ class DatabaseStore implements LockProvider, Store
     protected function incrementOrDecrement($key, $value, Closure $callback)
     {
         return $this->connection->transaction(function () use ($key, $value, $callback) {
-            $prefixed = $this->prefix.$key;
+            $prefixed = $this->prefix . $key;
 
             $cache = $this->table()->where('key', $prefixed)
-                        ->lockForUpdate()->first();
+                ->lockForUpdate()->first();
 
             // If there is no value in the cache, we will return false here. Otherwise the
             // value will be decrypted and we will proceed with this function to either
@@ -224,7 +225,7 @@ class DatabaseStore implements LockProvider, Store
             // so we do not have to recreate all this logic in each of the functions.
             $new = $callback((int) $current, $value);
 
-            if (! is_numeric($current)) {
+            if (!is_numeric($current)) {
                 return false;
             }
 
@@ -267,14 +268,14 @@ class DatabaseStore implements LockProvider, Store
      * @param  string  $name
      * @param  int  $seconds
      * @param  string|null  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function lock($name, $seconds = 0, $owner = null)
     {
         return new DatabaseLock(
             $this->lockConnection ?? $this->connection,
             $this->lockTable,
-            $this->prefix.$name,
+            $this->prefix . $name,
             $seconds,
             $owner,
             $this->lockLottery
@@ -286,7 +287,7 @@ class DatabaseStore implements LockProvider, Store
      *
      * @param  string  $name
      * @param  string  $owner
-     * @return \Illuminate\Contracts\Cache\Lock
+     * @return \AwesomeCoder\Contracts\Cache\Lock
      */
     public function restoreLock($name, $owner)
     {
@@ -301,7 +302,7 @@ class DatabaseStore implements LockProvider, Store
      */
     public function forget($key)
     {
-        $this->table()->where('key', '=', $this->prefix.$key)->delete();
+        $this->table()->where('key', '=', $this->prefix . $key)->delete();
 
         return true;
     }
@@ -321,7 +322,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Get a query builder for the cache table.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \AwesomeCoder\Database\Query\Builder
      */
     protected function table()
     {
@@ -331,7 +332,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Get the underlying database connection.
      *
-     * @return \Illuminate\Database\ConnectionInterface
+     * @return \AwesomeCoder\Database\ConnectionInterface
      */
     public function getConnection()
     {
@@ -341,7 +342,7 @@ class DatabaseStore implements LockProvider, Store
     /**
      * Specify the name of the connection that should be used to manage locks.
      *
-     * @param  \Illuminate\Database\ConnectionInterface  $connection
+     * @param  \AwesomeCoder\Database\ConnectionInterface  $connection
      * @return $this
      */
     public function setLockConnection($connection)
@@ -386,7 +387,7 @@ class DatabaseStore implements LockProvider, Store
      */
     protected function unserialize($value)
     {
-        if ($this->connection instanceof PostgresConnection && ! Str::contains($value, [':', ';'])) {
+        if ($this->connection instanceof PostgresConnection && !Str::contains($value, [':', ';'])) {
             $value = base64_decode($value);
         }
 

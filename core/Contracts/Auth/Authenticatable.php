@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth;
+namespace AwesomeCoder\Contracts\Auth;
 
 interface Authenticatable
 {

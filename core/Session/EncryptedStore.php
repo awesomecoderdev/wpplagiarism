@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Session;
+namespace AwesomeCoder\Session;
 
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Contracts\Encryption\Encrypter as EncrypterContract;
+use AwesomeCoder\Contracts\Encryption\DecryptException;
+use AwesomeCoder\Contracts\Encryption\Encrypter as EncrypterContract;
 use SessionHandlerInterface;
 
 class EncryptedStore extends Store
@@ -11,7 +11,7 @@ class EncryptedStore extends Store
     /**
      * The encrypter instance.
      *
-     * @var \Illuminate\Contracts\Encryption\Encrypter
+     * @var \AwesomeCoder\Contracts\Encryption\Encrypter
      */
     protected $encrypter;
 
@@ -20,7 +20,7 @@ class EncryptedStore extends Store
      *
      * @param  string  $name
      * @param  \SessionHandlerInterface  $handler
-     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
+     * @param  \AwesomeCoder\Contracts\Encryption\Encrypter  $encrypter
      * @param  string|null  $id
      * @param  string  $serialization
      * @return void
@@ -61,7 +61,7 @@ class EncryptedStore extends Store
     /**
      * Get the encrypter instance.
      *
-     * @return \Illuminate\Contracts\Encryption\Encrypter
+     * @return \AwesomeCoder\Contracts\Encryption\Encrypter
      */
     public function getEncrypter()
     {

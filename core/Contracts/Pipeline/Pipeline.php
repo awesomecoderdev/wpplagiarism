@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Pipeline;
+namespace AwesomeCoder\Contracts\Pipeline;
 
 use Closure;
 
