@@ -1,13 +1,14 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment, useEffect } from "react";
 import Dashboard from "./components/Dashboard";
-class Plugin extends Component {
-	render() {
-		return (
-			<Fragment>
+
+const Plugin = () => {
+	return (
+		<Fragment>
+			<div className="relative -mt-8">
 				<Dashboard />
-			</Fragment>
-		);
-	}
-}
+			</div>
+		</Fragment>
+	);
+};
 
 export default Plugin;

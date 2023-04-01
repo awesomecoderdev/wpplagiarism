@@ -179,3 +179,25 @@ if (!function_exists('dd')) {
         exit(1);
     }
 }
+
+
+if (!function_exists('pl_resource')) {
+    function pl_resource(string $view = "loading", bool $echo = true, array $atts = [])
+    {
+        $path = PLAGIARISM_PATH . "resources/views/$view.php";
+        if (file_exists($path)) {
+            ob_start();
+            include_once $path;
+            $output = ob_get_contents();
+            ob_end_clean();
+        } else {
+            $output = "View not found.";
+        }
+
+        if ($echo) {
+            echo $output;
+        } else {
+            return $output;
+        }
+    }
+}

@@ -60,6 +60,10 @@ class Plugin extends Application
 		if (in_array($page, ["edit.php"])) {
 			Asset::script("backend.js");
 			Asset::style("backend.css");
+
+			add_action('admin_notices', function () {
+				pl_resource();
+			});
 		}
 	}
 

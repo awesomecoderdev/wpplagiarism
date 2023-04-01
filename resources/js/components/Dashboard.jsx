@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Switch, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
@@ -48,10 +48,17 @@ export default function Dashboard() {
 	const [privateAccount, setPrivateAccount] = useState(false);
 	const [allowCommenting, setAllowCommenting] = useState(true);
 	const [allowMentions, setAllowMentions] = useState(true);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setLoading(false);
+		}, 2500);
+	}, []);
 
 	return (
 		<>
-			<div class="fixed inset-0 z-50 hidden lg:block">
+			{/* <div class="fixed inset-0 z-50 hidden lg:block">
 				<div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100"></div>
 				<div class="fixed inset-0 overflow-hidden px-4 lg:px-8">
 					<div className="relative flex justify-center items-center h-screen">
@@ -65,7 +72,22 @@ export default function Dashboard() {
 						</h1>
 					</div>
 				</div>
-			</div>
+			</div> */}
+			{loading && (
+				<>
+					<div className="fixed inset-0 z-[999999999999] h-screen overflow-hidden duration-500 flex justify-center items-center">
+						<div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100"></div>
+						<div class="fixed inset-0 overflow-hidden px-4 lg:px-8">
+							<div className="relative flex justify-center items-center h-screen">
+								<div className="animate-spin h-10 w-10 z-[99999999999]">
+									<div className="h-full w-full border-4 border-t-purple-500 border-b-purple-700 rounded-[50%]"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</>
+			)}
+
 			<Disclosure
 				as="div"
 				className="relative overflow-hidden bg-sky-700 pb-32"
