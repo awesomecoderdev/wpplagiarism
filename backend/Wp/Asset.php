@@ -124,15 +124,22 @@ class Asset
      *
      * @since 0.1
      *
-     * @param string      $url  The URL of the asset.
+     * @param string      $file  The URL of the asset.
      * @param string|null $ver  The version of the asset, used for caching.
      * @param string[]    $deps Keys of dependency script assets.
      *
      * @return static
      */
-    public static function script(string $url, string $ver = null, array $deps = [])
+    public static function script(string $file, string $ver = null, array $deps = [], bool $in_footer = true)
     {
-        return new static(static::SCRIPT, $url, $ver, $deps);
+        // return new static(static::SCRIPT, $url, $ver, $deps);
+        $url = PLAGIARISM_URL . "assets/js/$file";
+        $path = PLAGIARISM_PATH . "assets/js/$file";
+        $handler = "wp-plagiarism-" . basename($path, ".js");
+        if (file_exists($path)) {
+            $version = is_null($ver) ? filemtime($path) : $ver;
+            wp_enqueue_script($handler, $url, $deps, $version, $in_footer);
+        }
     }
 
     /**
@@ -140,15 +147,22 @@ class Asset
      *
      * @since 0.1
      *
-     * @param string      $url  The URL of the asset.
+     * @param string      $file  The URL of the asset.
      * @param string|null $ver  The version of the asset, used for caching.
      * @param string[]    $deps Keys of dependency style assets.
      *
      * @return static
      */
-    public static function style(string $url, string $ver = null, array $deps = [])
+    public static function style(string $file, string $ver = null, array $deps = [], $media = null)
     {
-        return new static(static::STYLE, $url, $ver, $deps);
+        // return new static(static::STYLE, $url, $ver, $deps);
+        $url = PLAGIARISM_URL . "assets/css/$file";
+        $path = PLAGIARISM_PATH . "assets/css/$file";
+        $handler = "wp-plagiarism-" . basename($path, ".css");
+        if (file_exists($path)) {
+            $version = is_null($ver) ? filemtime($path) : $ver;
+            wp_enqueue_style($handler, $url, $deps, $version, $media);
+        }
     }
 
     /**

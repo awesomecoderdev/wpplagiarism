@@ -105,7 +105,6 @@ if (!function_exists('redirect')) {
     }
 }
 
-
 if (!function_exists('request')) {
     /**
      * Get an instance of the current request or an input item from the request.
@@ -127,27 +126,6 @@ if (!function_exists('request')) {
         $value = app('request')->__get($key);
 
         return is_null($value) ? value($default) : $value;
-    }
-}
-
-if (!function_exists('response')) {
-    /**
-     * Return a new response from the application.
-     *
-     * @param  \AwesomeCoder\Contracts\View\View|string|array|null  $content
-     * @param  int  $status
-     * @param  array  $headers
-     * @return \AwesomeCoder\Http\Response|\AwesomeCoder\Contracts\Routing\ResponseFactory
-     */
-    function response($content = '', $status = 200, array $headers = [])
-    {
-        $factory = app(ResponseFactory::class);
-
-        if (func_num_args() === 0) {
-            return $factory;
-        }
-
-        return $factory->make($content, $status, $headers);
     }
 }
 

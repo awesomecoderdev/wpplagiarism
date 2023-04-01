@@ -3,6 +3,7 @@
 namespace AwesomeCoder\Plugin\Plagiarism\Core;
 
 use AwesomeCoder\Foundation\Application;
+use AwesomeCoder\Plugin\Wp\Asset;
 
 /**
  * Load core of the plugin.
@@ -42,10 +43,29 @@ use AwesomeCoder\Foundation\Application;
 class Plugin extends Application
 {
 
+	public function __construct()
+	{
+		add_action('admin_enqueue_scripts', [$this, "scripts"], 999999);
+	}
+
+
 	/**
 	 *
 	 * The code that runs during plugin activation.
-	 * This action is documented in controller/class-awesomecoder-activator.php
+	 *
+	 * @since    1.0.0
+	 */
+	public function scripts($page)
+	{
+		if (in_array($page, ["edit.php"])) {
+			Asset::script("backend.js");
+			Asset::style("backend.css");
+		}
+	}
+
+	/**
+	 *
+	 * The code that runs during plugin activation.
 	 *
 	 * @since    1.0.0
 	 */
@@ -56,7 +76,6 @@ class Plugin extends Application
 	/**
 	 *
 	 * The code that runs during plugin deactivation.
-	 * This action is documented in controller/class-awesomecoder-deactivator.php
 	 *
 	 * @since    1.0.0
 	 */
