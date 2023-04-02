@@ -194,7 +194,7 @@ class Application extends Container implements ApplicationContract, CachesConfig
         if (in_array($page, ["toplevel_page_plagiarism"])) {
             Asset::script("backend.js");
             Asset::style("backend.css");
-            add_action('admin_notices', fn () => pl_resource());
+            // add_action('admin_notices', fn () => pl_resource());
         } else {
             Asset::style("plagiarism.css");
         }
@@ -372,34 +372,6 @@ class Application extends Container implements ApplicationContract, CachesConfig
     {
         return $this->basePath . DIRECTORY_SEPARATOR . 'config' . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
     }
-
-    /**
-     * Get the path to the database directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function databasePath($path = '')
-    {
-        return ($this->databasePath ?: $this->basePath . DIRECTORY_SEPARATOR . 'database') . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
-    }
-
-    /**
-     * Set the database directory.
-     *
-     * @param  string  $path
-     * @return $this
-     */
-    public function useDatabasePath($path)
-    {
-        $this->databasePath = $path;
-
-        $this->instance('path.database', $path);
-
-        return $this;
-    }
-
-
 
     /**
      * Get the path to the environment file directory.

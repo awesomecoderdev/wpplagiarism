@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect } from "react";
-import Dashboard from "./components/Dashboard";
 import { AnimatePresence } from "framer-motion";
+import Layout from "./components/Layout";
 
 const Plugin = () => {
 	return (
 		<Fragment>
 			<AnimatePresence>
-				<Dashboard />
+				<Layout />
 			</AnimatePresence>
 		</Fragment>
 	);
