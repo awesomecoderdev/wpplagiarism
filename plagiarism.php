@@ -67,3 +67,27 @@ register_deactivation_hook(__FILE__, [AwesomeCoder\Plugin\Plagiarism\Core\Plugin
  * @package    Awesomecoder
  */
 new AwesomeCoder\Plugin\Plagiarism\Core\Plugin();
+
+
+function plagiarism_percentage($columns)
+{
+    // Add a new column called "Custom Option" with a heading of "Custom Option"
+    $columns['plagiarism'] = __('Plagiarism', "wp-plagiarism");
+    // $columns['plagiarism'] = json_encode($columns);
+    return $columns;
+}
+
+
+add_filter('manage_posts_columns', 'plagiarism_percentage');
+
+
+function plagiarism_percentage_date($col, $post_id)
+{
+    if ($col == 'plagiarism') {
+        // echo get_post_meta($post_id, 'custom_option', true);
+        $plagiarism = rand(10, 99);
+        $percentage = 100 - $plagiarism;
+        echo "<span class=\"plagiarism-percentage\" id=\"plagiarismPercentage$post_id\">$percentage</span><div class=\"plagiarism-container\"><div class=\"plagiarism-indicator plagiarism-red\" style=\"--width:$percentage%\"></div><div class=\"plagiarism-indicator plagiarism-green\" style=\"width:60%\"></div></div><script>function animateValue(e,n,t,a){let i=null,l=m=>{i||(i=m);let o=Math.min((m-i)/a,1);e.innerHTML=Math.floor(o*(t+n)+n)+\"%\",o<1&&window.requestAnimationFrame(l)};window.requestAnimationFrame(l)}animateValue(document.getElementById(\"plagiarismPercentage$post_id\"),0,$percentage,500);</script>";
+    }
+}
+add_action('manage_posts_custom_column', 'plagiarism_percentage_date', 10, 2);
