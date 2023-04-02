@@ -25,7 +25,9 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use AwesomeCoder\Foundation\Exception\NotFoundHttpException;
 use AwesomeCoder\Foundation\Exception\HttpException;
-
+use AwesomeCoder\Plugin\Wp\AdminPage;
+use AwesomeCoder\Plugin\Wp\Asset;
+use AwesomeCoder\Plugin\Wp\Menu;
 
 class Application extends Container implements ApplicationContract, CachesConfiguration
 {
@@ -102,34 +104,6 @@ class Application extends Container implements ApplicationContract, CachesConfig
     protected $deferredServices = [];
 
     /**
-     * The custom application path defined by the developer.
-     *
-     * @var string
-     */
-    protected $appPath;
-
-    /**
-     * The custom database path defined by the developer.
-     *
-     * @var string
-     */
-    protected $databasePath;
-
-    /**
-     * The custom language file path defined by the developer.
-     *
-     * @var string
-     */
-    protected $langPath;
-
-    /**
-     * The custom storage path defined by the developer.
-     *
-     * @var string
-     */
-    protected $storagePath;
-
-    /**
      * The custom environment path defined by the developer.
      *
      * @var string
@@ -204,14 +178,39 @@ class Application extends Container implements ApplicationContract, CachesConfig
 
         $this->instance(Container::class, $this);
         $this->singleton(Mix::class);
+        add_action('admin_enqueue_scripts', [$this, "scripts"], 999999);
+        add_action('admin_menu', [$this, "admin_menu"], 999999);
+    }
 
-        $this->singleton(PackageManifest::class, function () {
-            return new PackageManifest(
-                new Filesystem,
-                $this->basePath(),
-                $this->getCachedPackagesPath()
-            );
-        });
+
+    /**
+     *
+     * The code that runs during plugin activation.
+     *
+     * @since    1.0.0
+     */
+    public function scripts($page)
+    {
+        if (in_array($page, ["toplevel_page_plagiarism"])) {
+            Asset::script("backend.js");
+            Asset::style("backend.css");
+            add_action('admin_notices', fn () => pl_resource());
+        } else {
+            Asset::style("plagiarism.css");
+        }
+    }
+
+
+    /**
+     *
+     * The code that runs during plugin activation.
+     *
+     * @since    1.0.0
+     */
+    public function admin_menu()
+    {
+        $icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZmlsbDojYTdhYWFkIj48cGF0aCBkPSJNOSA5aDZ2Nkg5eiI+PC9wYXRoPjxwYXRoIGQ9Ik0yMCA2YzAtMS4xMDMtLjg5Ny0yLTItMmgtMlYyaC0ydjJoLTRWMkg4djJINmMtMS4xMDMgMC0yIC44OTctMiAydjJIMnYyaDJ2NEgydjJoMnYyYzAgMS4xMDMuODk3IDIgMiAyaDJ2Mmgydi0yaDR2Mmgydi0yaDJjMS4xMDMgMCAyLS44OTcgMi0ydi0yaDJ2LTJoLTJ2LTRoMlY4aC0yVjZ6TTYgMThWNmgxMmwuMDAyIDEySDZ6Ij48L3BhdGg+PC9zdmc+";
+        Menu::register(new Menu(new AdminPage(__("Wp Plagiarism", 'wp-plagiarism'), fn () => pl_resource()), 'plagiarism', __("Wp Plagiarism", 'wp-plagiarism'), "manage_options", $icon, 50));
     }
 
     /**
@@ -313,22 +312,6 @@ class Application extends Container implements ApplicationContract, CachesConfig
      */
     protected function bindPathsInContainer()
     {
-        // $this->instance('path', $this->path());
-        // $this->instance('path.base', $this->basePath());
-        // $this->instance('path.config', $this->configPath());
-        // $this->instance('path.public', $this->publicPath());
-        // $this->instance('path.storage', $this->storagePath());
-        // $this->instance('path.database', $this->databasePath());
-        // $this->instance('path.resources', $this->resourcePath());
-        // $this->instance('path.bootstrap', $this->bootstrapPath());
-
-        // $this->useLangPath(value(function () {
-        //     if (is_dir($directory = $this->resourcePath('lang'))) {
-        //         return $directory;
-        //     }
-
-        //     return $this->basePath('lang');
-        // }));
     }
 
     /**
@@ -339,9 +322,7 @@ class Application extends Container implements ApplicationContract, CachesConfig
      */
     public function path($path = '')
     {
-        $appPath = $this->appPath ?: $this->basePath . DIRECTORY_SEPARATOR . 'app';
-
-        return $appPath . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
+        return PLAGIARISM_PATH . $path;
     }
 
     /**
@@ -418,94 +399,7 @@ class Application extends Container implements ApplicationContract, CachesConfig
         return $this;
     }
 
-    /**
-     * Get the path to the language files.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function langPath($path = '')
-    {
-        return $this->langPath . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
-    }
 
-    /**
-     * Set the language file directory.
-     *
-     * @param  string  $path
-     * @return $this
-     */
-    public function useLangPath($path)
-    {
-        $this->langPath = $path;
-
-        $this->instance('path.lang', $path);
-
-        return $this;
-    }
-
-    /**
-     * Get the path to the public / web directory.
-     *
-     * @return string
-     */
-    public function publicPath()
-    {
-        return $this->basePath . DIRECTORY_SEPARATOR . 'public';
-    }
-
-    /**
-     * Get the path to the storage directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function storagePath($path = '')
-    {
-        return ($this->storagePath ?: $this->basePath . DIRECTORY_SEPARATOR . 'storage')
-            . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
-    }
-
-    /**
-     * Set the storage directory.
-     *
-     * @param  string  $path
-     * @return $this
-     */
-    public function useStoragePath($path)
-    {
-        $this->storagePath = $path;
-
-        $this->instance('path.storage', $path);
-
-        return $this;
-    }
-
-    /**
-     * Get the path to the resources directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function resourcePath($path = '')
-    {
-        return $this->basePath . DIRECTORY_SEPARATOR . 'resources' . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
-    }
-
-    /**
-     * Get the path to the views directory.
-     *
-     * This method returns the first configured path in the array of view paths.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function viewPath($path = '')
-    {
-        $basePath = $this['config']->get('view.paths')[0];
-
-        return rtrim($basePath, DIRECTORY_SEPARATOR) . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
-    }
 
     /**
      * Get the path to the environment file directory.

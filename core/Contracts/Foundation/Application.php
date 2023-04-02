@@ -38,30 +38,6 @@ interface Application extends Container
     public function configPath($path = '');
 
     /**
-     * Get the path to the database directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function databasePath($path = '');
-
-    /**
-     * Get the path to the resources directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function resourcePath($path = '');
-
-    /**
-     * Get the path to the storage directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function storagePath($path = '');
-
-    /**
      * Get or check the current application environment.
      *
      * @param  string|array  ...$environments
