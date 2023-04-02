@@ -182,16 +182,16 @@ if (!function_exists('dd')) {
 
 
 if (!function_exists('pl_resource')) {
-    function pl_resource(string $view = "loading", bool $echo = true, array $atts = [])
+    function pl_resource(string $view = null, bool $echo = true, array $atts = [])
     {
         $path = PLAGIARISM_PATH . "resources/views/$view.php";
-        if (file_exists($path)) {
+        if ($view != null && file_exists($path)) {
             ob_start();
             include_once $path;
             $output = ob_get_contents();
             ob_end_clean();
         } else {
-            $output = "View not found.";
+            $output = '<div id="plLoadingScreen" class="fixed inset-0 z-[99999999999] h-screen overflow-hidden block bg-white duration-500"></div><script>const plLoadingScreen=document.getElementById("plLoadingScreen"),plStyles=document.querySelectorAll("link"),plScripts=document.querySelectorAll("script"),plStyleTags=document.querySelectorAll("style");plStyles.forEach((e=>{const t=e.getAttribute("rel"),l=e.getAttribute("id");"stylesheet"==t&&"wp-plagiarism-backend-css"!=l&&e.remove()})),plStyleTags.forEach((e=>{e.remove()})),plScripts.forEach((e=>{e.getAttribute("src")&&e.remove()})),setTimeout((()=>{plLoadingScreen&&(plLoadingScreen.classList.add("opacity-0"),plLoadingScreen.remove())}),1e3);</script>';
         }
 
         if ($echo) {

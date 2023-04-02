@@ -949,6 +949,26 @@ select{
   --tw-border-opacity: 1;
   border-top-color: rgb(168 85 247 / var(--tw-border-opacity));
 }
+.border-b-primary-700{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(3 105 161 / var(--tw-border-opacity));
+}
+.border-t-teal-500{
+  --tw-border-opacity: 1;
+  border-top-color: rgb(20 184 166 / var(--tw-border-opacity));
+}
+.border-b-primary-500{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(14 165 233 / var(--tw-border-opacity));
+}
+.border-b-pink-500{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(236 72 153 / var(--tw-border-opacity));
+}
+.border-b-sky-500{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(14 165 233 / var(--tw-border-opacity));
+}
 .border-opacity-25{
   --tw-border-opacity: 0.25;
 }
@@ -990,10 +1010,6 @@ select{
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.bg-zinc-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(244 244 245 / var(--tw-bg-opacity));
 }
 .bg-zinc-400\/25{
   background-color: rgb(161 161 170 / 0.25);
